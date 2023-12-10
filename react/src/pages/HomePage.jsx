@@ -1,6 +1,9 @@
 import { mainPic } from "../assets/images"
 import Header from "../components/Header"
 import Hero from "../components/HomePage/Hero"
+import Intro from "../components/HomePage/Intro"
+import Location from "../components/HomePage/Location"
+import Partnership from "../components/HomePage/Partnership"
 
 const HomePage = () => {
   return (
@@ -10,6 +13,9 @@ const HomePage = () => {
         </div>
         <Header />
         <Hero />
+        <Intro />
+        <Partnership />
+        <Location />
     </>
   )
 }
