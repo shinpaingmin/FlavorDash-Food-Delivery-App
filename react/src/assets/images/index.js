@@ -4,6 +4,8 @@ import pizza from './pizza.jpg';
 import burger from './burger.jpg';
 import dumpling from './dumpling.jpg';
 import noodle from './noodle.jpg';
+import restaurant from './restaurant.jpg';
+import delivery from './delivery-man.jpg';
 
 export {
     hero1,
@@ -12,4 +14,6 @@ export {
     burger,
     dumpling,
     noodle,
+    restaurant,
+    delivery
 }
