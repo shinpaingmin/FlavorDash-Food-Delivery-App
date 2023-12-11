@@ -1,4 +1,5 @@
 import { mainPic } from "../assets/images"
+import Footer from "../components/Footer"
 import Header from "../components/Header"
 import Hero from "../components/HomePage/Hero"
 import Intro from "../components/HomePage/Intro"
@@ -16,6 +17,7 @@ const HomePage = () => {
         <Intro />
         <Partnership />
         <Location />
+        <Footer />
     </>
   )
 }
