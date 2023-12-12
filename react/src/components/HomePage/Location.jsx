@@ -15,7 +15,7 @@ const Location = () => {
 
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}>
-        <div className="px-8 h-96 w-full">
+        <div className="px-2 md:px-8 h-96 w-full">
             <Map zoom={12} center={{ lat: 16.8508, lng: 96.1156 }}
                     mapId={import.meta.env.VITE_GOOGLE_MAP_ID}>
 

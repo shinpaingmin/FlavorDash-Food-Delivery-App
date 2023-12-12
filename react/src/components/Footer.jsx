@@ -6,11 +6,11 @@ import SocialMedia from "./SocialMedia";
 
 const Footer = () => {
   return (
-    <div className="mt-40 w-full min-h-80 bg-orange  p-8">
-        <div className="grid grid-cols-4 gap-8">
-            <div>
+    <div className="mt-20 md:mt-40 w-full min-h-80 bg-orange  p-8">
+        <div className="block md:grid md:grid-cols-4 md:gap-8">
+            <div className="max-md:mb-5">
                 <h1 className="text-3xl font-bold mb-4">Contact Us</h1>
-                <ul className="list-unstyled">
+                <ul className="list-none">
                     <li className="flex items-center mb-3">
                         <FaLocationDot className="mr-2" /> No.123 Main Street, Yangon, Myanmar
                     </li>
@@ -41,9 +41,9 @@ const Footer = () => {
                     </li>
                 </ul>
             </div>
-            <div>
+            <div className="max-md:mb-5">
                 <h1 className="text-2xl font-bold mb-4">Popular Places</h1>
-                <ul className="list-unstyled">
+                <ul className="list-none">
                     <li className="mb-5"><Link> Hlaing Township </Link></li>
                     <li className="mb-5"><Link> Insein Township </Link></li>
                     <li className="mb-5"><Link> Mayangon Township </Link></li>
@@ -51,9 +51,9 @@ const Footer = () => {
                     <li className="mb-5"><Link> Sanchaung Township </Link></li>
                 </ul>
             </div>
-            <div>
+            <div className="max-md:mb-5">
                 <h1 className="text-2xl font-bold mb-4">Info Links</h1>
-                <ul className="list-unstyled">
+                <ul className="list-none">
                     <li className="mb-5"><Link> Get Help </Link></li>
                     <li className="mb-5"><Link> Buy Gift Cards </Link></li>
                     <li className="mb-5"><Link> Add Your Restaurant </Link></li>
@@ -61,8 +61,8 @@ const Footer = () => {
                     <li className="mb-5"><Link> Promotion Vounchers </Link></li>
                 </ul>
             </div>
-            <div>
-                <ul className="list-unstyled">
+            <div className="max-md:mb-5">
+                <ul className="list-none">
                     <li className="mb-5"><Link> Restaurants Near Me </Link></li>
                     <li className="mb-5"><Link> Privacy Policy </Link></li>
                     <li className="mb-5"><Link> Terms & Conditions </Link></li>

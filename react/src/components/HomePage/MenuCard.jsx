@@ -23,9 +23,10 @@ const MenuCard = ({ imgSrc, title, desc, Icon, lazyLoadingHash, calories, price 
         <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ ease: "easeInOut", duration: 0.5 }}
-            className={`max-w-sm bg-white border border-gray-200  rounded-lg shadow cursor-pointer hover:shadow-md`} >
+            className={`max-w-sm bg-white border border-gray-200 max-md:mb-8
+                        rounded-lg shadow cursor-pointer hover:shadow-md`} >
 
-            <div className="w-full h-48 object-cover">
+            <div className="w-full min-h-48 object-cover">
                 {
                     imageLoaded ? (
                         <img src={imgSrc} alt="Pizza" className="w-full h-full rounded-t-lg" />

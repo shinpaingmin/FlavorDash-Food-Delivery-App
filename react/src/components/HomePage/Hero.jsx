@@ -6,16 +6,17 @@ import { menu } from "../../constants/menuData";
 const Hero = () => {
   return (
     <>
-        <section className="px-8 pt-12 pb-24  opacity-9 relative">
+        <section className="px-2 md:px-8 pt-32 md:pt-12 pb-72 md:pb-24
+                             opacity-9 relative">
             <div className="flex justify-center w-full mb-16">
-                <div className="w-1/2 ">
-                    <h1 className="text-5xl mb-10 text-center font-medium">Find Restaurants Near You!</h1>
+                <div className="w-full md:w-1/2 ">
+                    <h1 className="text-4xl md:text-5xl mb-10 text-center font-medium">Find Restaurants Near You!</h1>
                     <Searchbar />
                 </div>
             </div>
 
         </section>
-        <div className="grid grid-cols-4 gap-10 px-8">
+        <div className="block md:grid md:grid-cols-4 md:gap-10 px-8">
             {
                 menu.map((item) => (
                     <MenuCard  key={item.id}
