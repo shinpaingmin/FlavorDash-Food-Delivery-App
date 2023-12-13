@@ -5,7 +5,7 @@ const PartnershipCard = ( { imgSrc, imgOrder, containerOrder, desc, children } )
   return (
     <div className="block md:grid md:grid-cols-2
                      px-2 md:px-8 my-20 md:my-40">
-        <div className={`w-full h-72 md:h-96 object-cover ${imgOrder}`}>
+        <div className={`w-full min-h-72 md:h-96 object-cover ${imgOrder}`}>
             <img src={imgSrc} alt="" className="w-full h-full" />
         </div>
         <div className={`max-md:mt-4 px-4 ${containerOrder}`}>

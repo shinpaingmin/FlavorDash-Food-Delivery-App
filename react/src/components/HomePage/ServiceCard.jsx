@@ -4,7 +4,7 @@ const ServiceCard = ({ Icon, size, title }) => {
   return (
     <motion.div className="grid place-items-center
                     border border-transparent
-                    hover:border-gray-200 hover:shadow-sm cursor-pointer pt-5"
+                    hover:border-gray-200 hover:shadow-sm cursor-pointer pt-5 max-lg:mb-8"
             whileHover={{ y: -10 }}
                   >
 

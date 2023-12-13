@@ -15,7 +15,7 @@ const HomePage = () => {
     <main className={`${open && "stop-scrolling"}`}>
         <div className="w-full md:h-[50vh] h-[100vh] absolute z-[-10] top-0 left-0
                         overflow-hidden max-md:object-cover">
-            <img src={mainPic} alt="food" className="w-full max-md:h-full"/>
+            <img src={mainPic} alt="food" className="w-full max-md:h-full hidden md:block"/>
         </div>
         <Header open={open} setOpen={setOpen} />
         <Hero />

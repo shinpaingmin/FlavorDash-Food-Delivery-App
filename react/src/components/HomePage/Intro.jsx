@@ -13,7 +13,7 @@ const Intro = () => {
             <p className="text-slate-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
             <p className="text-slate-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
         </div>
-        <div className="block md:grid md:grid-cols-3 md:gap-20">
+        <div className="block lg:grid lg:grid-cols-3 lg:gap-20">
             <ServiceCard Icon={FaTruckFast} size={40}
                         title="Fast Delivery" desc="something..." />
             <ServiceCard Icon={ MdTimer } size={40}
