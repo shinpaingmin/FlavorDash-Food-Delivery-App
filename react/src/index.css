@@ -2,10 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    overflow-y: scroll;
+}
+
 @layer utilities {
     .hamburger {
-        position: relative;
-        top: 5px;
+        position: fixed;
+        top: 25px;
         right: 20px;
         cursor: pointer;
         width: 30px;
@@ -74,12 +78,12 @@
 
 
     .stop-scrolling {
-        @apply h-screen overflow-hidden;
+        @apply overflow-hidden;
 
     }
 
     .overlay-show {
-        @apply block fixed top-0 left-0 w-full h-screen z-[99];
+        @apply block fixed top-0 left-0 w-full h-screen z-[90];
 
         background: rgba(0, 0, 0, 0.5);
     }
