@@ -17,10 +17,10 @@ const Searchbar = () => {
 
         </div>
 
-        <button type="submit" className="flex items-center px-4  py-4 md:py-2
+        <a href="feed" className="flex items-center px-4  py-4 md:py-2
                                         bg-orange text-white rounded-md max-md:w-max">
             <IoFastFoodSharp size={20} className="mr-2" /> <span className="max-md:text-sm">Find Food</span>
-        </button>
+        </a>
     </form>
   )
 }
