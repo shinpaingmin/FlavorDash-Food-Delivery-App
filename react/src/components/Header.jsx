@@ -33,7 +33,7 @@ const Header = ({ open, setOpen }) => {
                     </Button>
                 </li>
                 <li className='ml-5'>
-                    <Button bgColor="bg-white" textColor="text-orange" border="border-none">
+                    <Button bgColor="bg-white" textColor="text-orange" border="border">
                         <FaPlus className='mr-2' /> Sign up
                     </Button>
                 </li>
