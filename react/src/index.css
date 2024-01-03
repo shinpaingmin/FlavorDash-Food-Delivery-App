@@ -98,4 +98,28 @@ body {
 
         background: rgba(0, 0, 0, 0.5);
     }
+
+    .custom-container:hover input ~ .custom-radio {
+        background-color: #ccc;
+    }
+
+    .custom-container input:checked ~ .custom-radio {
+        @apply bg-orange;
+    }
+
+    .custom-radio::after {
+        content: "";
+        position: absolute;
+        display: none;
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+
+    .custom-container input:checked ~ .custom-radio:after {
+        display: block;
+    }
 }
