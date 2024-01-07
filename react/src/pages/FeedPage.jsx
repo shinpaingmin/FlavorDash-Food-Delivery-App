@@ -1,17 +1,23 @@
 import { useState } from "react"
 import { cuisines } from "../constants/cuisineData";
-import { FaStar } from "react-icons/fa";
+
 import Filter from "../components/FeedPage/Filter";
 import Searchbar from "../components/FeedPage/Searchbar";
 import { sortOptions } from "../constants/sortData";
+import StoreCard from "../components/FeedPage/StoreCard";
 
-import { motion } from 'framer-motion';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+
 
 export default function FeedPage() {
     const [option, setOption] = useState("relevant");
     const [category, setCategory] = useState("all");
 
-    const [scale, setScale] = useState(false);
+
 
     return (
         <div className="flex px-8 pt-16 border-t border-t-gray-200 ">
@@ -56,24 +62,42 @@ export default function FeedPage() {
                 <div className="mt-10">
                     <h1 className="text-3xl mb-5">Order it again</h1>
 
-                    <motion.div className="w-80 h-64 border shadow rounded-md cursor-pointer"
-                                onMouseEnter={() => setScale(true)}
-                                onMouseLeave={() => setScale(false)}
+                    <Swiper
+                            slidesPerView={3}
+                            spaceBetween={15}
+                            navigation
+                            modules={[Navigation]}
                     >
-                        <div className="w-full h-40 overflow-hidden">
-                            <img
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLeIZ8lcZUns6_RvE2_3pLT3hqoXGw8hclg&usqp=CAU" alt="kfc" className={`w-full h-full object-cover object-center rounded-t-md transition-all duration-500 ${scale ? "scale-110" : ""}`} />
-                        </div>
-                        <div className="p-3">
-                            <div className="flex items-center">
-                            <h3>KFC (Parami)</h3>
-                        <div className="flex">
-                        <FaStar color="#ff9529" /> <FaStar /> <FaStar /> <FaStar />
-                        </div>
-                            </div>
-                        </div>
-                    </motion.div>
-
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide><SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <StoreCard />
+                        </SwiperSlide>
+                    </Swiper>
 
 
                 </div>
