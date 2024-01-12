@@ -1,18 +1,21 @@
 import { useState } from "react"
 
-import { FaStar, FaRegClock } from "react-icons/fa";
-import { MdOutlineDeliveryDining } from "react-icons/md";
+import { FaStar, FaRegClock, FaShippingFast, FaRegHeart } from "react-icons/fa";
 import { motion } from 'framer-motion';
-
-
 
 const StoreCard = () => {
     const [scale, setScale] = useState(false);
   return (
-    <motion.div className="w-80 min-h-64 border shadow rounded-md cursor-pointer"
+    <motion.div className="relative w-80 min-h-64 border shadow rounded-md cursor-pointer"
                                 onMouseEnter={() => setScale(true)}
                                 onMouseLeave={() => setScale(false)}
     >
+        <div className="absolute top-2 right-2
+            w-8 h-8 rounded-full bg-white z-20 grid place-items-center hover:scale-110 transition-all"
+
+        >
+                <FaRegHeart className="text-orange" />
+        </div>
         <div className="w-full h-40 overflow-hidden">
             <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLeIZ8lcZUns6_RvE2_3pLT3hqoXGw8hclg&usqp=CAU" alt="kfc" className={`w-full h-full object-cover object-center rounded-t-md transition-all duration-500 ${scale ? "scale-110" : ""}`} />
@@ -39,7 +42,7 @@ const StoreCard = () => {
                 </div>
 
                 <div className="flex items-center text-sm">
-                    <MdOutlineDeliveryDining size={20} />
+                    <FaShippingFast size={18} />
                     <span className="ml-1">1000 MMK</span>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { cuisines } from "../constants/cuisineData";
 
 import Filter from "../components/FeedPage/Filter";
@@ -7,17 +7,13 @@ import { sortOptions } from "../constants/sortData";
 import StoreCard from "../components/FeedPage/StoreCard";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper";
+import SwiperNavButtons from "../components/FeedPage/SwiperNavButtons";
 
 import 'swiper/css';
-import 'swiper/css/navigation';
-
 
 export default function FeedPage() {
     const [option, setOption] = useState("relevant");
     const [category, setCategory] = useState("all");
-
-
 
     return (
         <div className="flex px-8 pt-16 border-t border-t-gray-200 ">
@@ -62,42 +58,45 @@ export default function FeedPage() {
                 <div className="mt-10">
                     <h1 className="text-3xl mb-5">Order it again</h1>
 
-                    <Swiper
-                            slidesPerView={3}
-                            spaceBetween={15}
-                            navigation
-                            modules={[Navigation]}
-                    >
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide><SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                    </Swiper>
+
+                        <Swiper
+                                slidesPerView={3}
+                                spaceBetween={50}
+
+                        >
+
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide><SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <StoreCard />
+                            </SwiperSlide>
+
+                            <SwiperNavButtons />
+                        </Swiper>
 
 
                 </div>
