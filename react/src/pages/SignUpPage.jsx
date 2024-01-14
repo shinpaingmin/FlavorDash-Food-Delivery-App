@@ -1,16 +1,30 @@
+import { FaRegUser } from "react-icons/fa";
 import { MdAlternateEmail } from "react-icons/md";
+import { FiPhone } from "react-icons/fi";
 import { GoKey } from "react-icons/go";
+import { IoShieldCheckmark } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import SocialMedia from "../components/SocialMedia";
 import { FaGoogle, FaFacebookF, FaGithub } from "react-icons/fa";
 
-const LoginPage = () => {
+const SignUpPage = () => {
   return (
     <div className="px-8 pt-12 border-t border-t-gray-200 ">
-        <h1 className="font-bold text-3xl text-center mb-8">Log In</h1>
-        <div className="max-w-[500px] min-h-[500px] m-auto shadow-lg border border-gray-300 py-6 px-8 rounded-md">
+        <h1 className="font-bold text-3xl text-center mb-8">Sign Up</h1>
+        <div className="max-w-[500px] min-h-[750px] m-auto shadow-lg border border-gray-300 py-6 px-8 rounded-md">
 
             <form action="" className="mb-5">
+                <div className="mb-5">
+                    <label htmlFor="email">Username</label>
+                    <div className="flex items-center border-2 rounded-md p-2.5 border-gray-300 mt-3
+                        focus-within:border-2 focus-within:border-black">
+
+                        <FaRegUser className="text-gray-500 mr-2 focus:text-black" />
+                        <input type="text" className="flex-1 focus:outline-none" id="email"
+                            placeholder="Enter your username" />
+                    </div>
+                </div>
+
                 <div className="mb-5">
                     <label htmlFor="email">Email address</label>
                     <div className="flex items-center border-2 rounded-md p-2.5 border-gray-300 mt-3
@@ -19,6 +33,17 @@ const LoginPage = () => {
                         <MdAlternateEmail className="text-gray-500 mr-2 focus:text-black" />
                         <input type="text" className="flex-1 focus:outline-none" id="email"
                             placeholder="Enter your email address" />
+                    </div>
+                </div>
+
+                <div className="mb-5">
+                    <label htmlFor="password">Phone Number</label>
+                    <div className="flex items-center border-2 rounded-md p-2.5 border-gray-300 mt-3
+                        focus-within:border-2 focus-within:border-black">
+
+                        <FiPhone className="text-gray-500 mr-2 focus:text-black" />
+                        <input type="number" className="flex-1 focus:outline-none" id="password"
+                            placeholder="Enter your phone number" />
                     </div>
                 </div>
 
@@ -33,26 +58,33 @@ const LoginPage = () => {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between mb-5">
-                    <div className="flex items-center">
-                        <input type="checkbox" id="rememberMe" className="w-3 h-3 mr-2"/>
-                        <label htmlFor="rememberMe" className="text-sm ">Remember me</label>
-                    </div>
-                    <div>
-                        <Link className="text-sm underline">Forgot password?</Link>
+                <div className="mb-5">
+                    <label htmlFor="password">Confirm password</label>
+                    <div className="flex items-center border-2 rounded-md p-2.5 border-gray-300 mt-3
+                        focus-within:border-2 focus-within:border-black">
+
+                        <IoShieldCheckmark className="text-gray-500 mr-2 focus:text-black" />
+                        <input type="password" className="flex-1 focus:outline-none" id="password"
+                            placeholder="Confirm your password" />
                     </div>
                 </div>
 
-                <button className="w-full bg-orange text-white py-3 text-center rounded-md hover:opacity-90">Login</button>
+                <div className="px-6 mb-5 text-sm text-center">
+                    <p>
+                        By signing up, you accept our <Link className="underline">Terms of Service</Link> and <Link className="underline">Privacy Policy</Link>
+                    </p>
+                </div>
+
+                <button className="w-full bg-orange text-white py-3 text-center rounded-md hover:opacity-90">Sign up</button>
             </form>
 
             <p className="text-center text-sm mb-5">
-                You don&apos;t have an account? <Link to='signup' className="underline">Signup</Link>
+                Already existing an account? <Link to='login' className="underline">Login</Link>
             </p>
 
             <div className="mb-5 flex items-center justify-between">
                 <div className="h-[1px] w-1/3 bg-slate-300"></div>
-                <p className="text-sm">Login with</p>
+                <p className="text-sm">Sign up with</p>
                 <div className="h-[1px] w-1/3 bg-slate-300"></div>
             </div>
 
@@ -75,4 +107,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default SignUpPage

@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import NotFound from './pages/NotFound';
 import FeedPage from './pages/FeedPage';
 import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={ <HomePage /> } />
             <Route path="feed" element={ <FeedPage /> } />
             <Route path="login" element={ <LoginPage /> } />
+            <Route path="signup" element={ <SignUpPage /> } />
             <Route path="*" element={ <NotFound /> } />
         </Routes>
     <Footer />
