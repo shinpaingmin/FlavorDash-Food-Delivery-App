@@ -11,7 +11,7 @@ const SignUpPage = () => {
   return (
     <div className="px-8 pt-12 border-t border-t-gray-200 ">
         <h1 className="font-bold text-3xl text-center mb-8">Sign Up</h1>
-        <div className="max-w-[500px] min-h-[750px] m-auto shadow-lg border border-gray-300 py-6 px-8 rounded-md">
+        <div className="max-w-[500px] min-h-[750px] m-auto  border border-gray-300 py-6 px-8 rounded-md">
 
             <form action="" className="mb-5">
                 <div className="mb-5">
@@ -79,7 +79,7 @@ const SignUpPage = () => {
             </form>
 
             <p className="text-center text-sm mb-5">
-                Already existing an account? <Link to='login' className="underline">Login</Link>
+                Already existing an account? <Link to='/login' className="underline">Login</Link>
             </p>
 
             <div className="mb-5 flex items-center justify-between">

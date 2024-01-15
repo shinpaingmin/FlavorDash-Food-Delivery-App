@@ -8,7 +8,7 @@ const LoginPage = () => {
   return (
     <div className="px-8 pt-12 border-t border-t-gray-200 ">
         <h1 className="font-bold text-3xl text-center mb-8">Log In</h1>
-        <div className="max-w-[500px] min-h-[500px] m-auto shadow-lg border border-gray-300 py-6 px-8 rounded-md">
+        <div className="max-w-[500px] min-h-[500px] m-auto border border-gray-300 py-6 px-8 rounded-md">
 
             <form action="" className="mb-5">
                 <div className="mb-5">
@@ -47,7 +47,7 @@ const LoginPage = () => {
             </form>
 
             <p className="text-center text-sm mb-5">
-                You don&apos;t have an account? <Link to='signup' className="underline">Signup</Link>
+                You don&apos;t have an account? <Link to='/signup' className="underline">Signup</Link>
             </p>
 
             <div className="mb-5 flex items-center justify-between">

@@ -28,12 +28,12 @@ const Header = ({ open, setOpen }) => {
             </Link>
             <ul className='hidden md:flex list-none'>
                 <li className=''>
-                    <Button bgColor="bg-orange" textColor="text-white" border="border-none" to="login">
+                    <Button bgColor="bg-orange" textColor="text-white" border="border-none" to="/login">
                         <FaUser className='mr-2' /> Log in
                     </Button>
                 </li>
                 <li className='ml-5'>
-                    <Button bgColor="bg-white" textColor="text-orange" border="border" to="signup">
+                    <Button bgColor="bg-white" textColor="text-orange" border="border" to="/signup">
                         <FaPlus className='mr-2' /> Sign up
                     </Button>
                 </li>
