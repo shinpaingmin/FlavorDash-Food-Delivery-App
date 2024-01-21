@@ -145,4 +145,20 @@ scrollbar-width: none;  /* Firefox */
         from {transform: scale(0)}
         to {transform: scale(1)}
     }
+
+    .hoverEffect::before {
+        content: '';
+        @apply absolute w-0 h-[3px] bg-black bottom-0 left-0;
+        transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .hoverEffect:hover::before {
+        width: 100%;
+    }
+
+    .active::before {
+        content: '';
+        @apply absolute w-full h-[3px] bg-black bottom-0 left-0;
+        transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
 }
