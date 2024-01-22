@@ -1,9 +1,11 @@
 import { Link } from 'react-scroll';
 import { FaRegHeart, FaStar, FaShippingFast, FaClock, FaShoppingCart } from "react-icons/fa";
+import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { CiLocationOn, CiClock2 } from "react-icons/ci";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoCartOutline } from "react-icons/io5";
+import MenuCard from '../components/MenuPage/MenuCard';
 
 const MenuPage = () => {
   return (
@@ -54,7 +56,9 @@ const MenuPage = () => {
                         placeholder="Search for your favourite in menu" />
                 </div>
 
+                    <IoIosArrowDropleftCircle className='text-gray-700 mr-3' size={32}  />
                 <div className='overflow-x-auto flex items-center hideScrollbar'>
+
                     <Link
                     className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer'
                     activeClass='active'
@@ -62,7 +66,7 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Popular
                     </Link>
 
@@ -74,7 +78,7 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Burger
                     </Link>
 
@@ -86,7 +90,7 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Chicken
                     </Link>
 
@@ -98,7 +102,7 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Drink
                     </Link>
 
@@ -109,7 +113,7 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Drink
                     </Link>
 
@@ -120,7 +124,7 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Drink
                     </Link>
 
@@ -131,7 +135,7 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Drink
                     </Link>
 
@@ -142,7 +146,7 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Drink
                     </Link>
                     <Link
@@ -152,68 +156,67 @@ const MenuPage = () => {
                     spy={true}
                     smooth={true}
                     duration={500}
-                    offset={-100}>
+                    offset={-180}>
                         Drink
                     </Link>
 
                 </div>
-
+                <IoIosArrowDroprightCircle className='text-gray-700 ml-3' size={32}  />
             </div>
 
-            <div className=' mb-3' id='popular'>
+            <div className='mb-12' id='popular'>
                 <h1 className='mb-4 text-2xl font-bold'>Popular Now</h1>
                 <div className='grid grid-cols-3 gap-3'>
-                    <div className='hover:shadow-lg'>
-                        <div className='w-80 h-48 overflow-hidden relative'>
-                            <img src="https://content.jdmagicbox.com/comp/navi-mumbai/m3/022pxx22.xx22.210907121530.r8m3/catalogue/kfc-airoli-sector-6-navi-mumbai-kfc-dfq5als5zn.jpg" alt="kfc"
-                            className='w-full h-full object-cover object-center rounded-md' />
-                            <div className="absolute top-2 right-2  cursor-pointer
-                                w-8 h-8 rounded-full bg-white z-[1] grid place-items-center hover:scale-110 transition-all"
+                    <MenuCard imgSrc="https://content.jdmagicbox.com/comp/navi-mumbai/m3/022pxx22.xx22.210907121530.r8m3/catalogue/kfc-airoli-sector-6-navi-mumbai-kfc-dfq5als5zn.jpg"
+                        imgName="kfc"
+                        title="Spicy chicken set-A"
+                        price="MMK 2000"
+                        Icon={FaShoppingCart}
+                    />
+                    <MenuCard imgSrc="https://content.jdmagicbox.com/comp/navi-mumbai/m3/022pxx22.xx22.210907121530.r8m3/catalogue/kfc-airoli-sector-6-navi-mumbai-kfc-dfq5als5zn.jpg"
+                        imgName="kfc"
+                        title="Spicy chicken set-B"
+                        price="MMK 2000"
+                        Icon={FaShoppingCart}
+                    />
+                    <MenuCard imgSrc="https://content.jdmagicbox.com/comp/navi-mumbai/m3/022pxx22.xx22.210907121530.r8m3/catalogue/kfc-airoli-sector-6-navi-mumbai-kfc-dfq5als5zn.jpg"
+                        imgName="kfc"
+                        title="Spicy chicken set-C"
+                        price="MMK 2000"
+                        Icon={FaShoppingCart}
+                    />
 
-                            >
-                                    <FaShoppingCart className="text-orange" />
-                            </div>
-                        </div>
-                        <h2 className='mt-2 font-semibold'>Spicy chicken set-A</h2>
-                        <p className='text-gray-700 font-semibold text-sm mt-2'>MMK 2000</p>
-                    </div>
-                    <div className='hover:shadow-lg'>
-                        <div className='w-80 h-48 overflow-hidden relative'>
-                            <img src="https://content.jdmagicbox.com/comp/navi-mumbai/m3/022pxx22.xx22.210907121530.r8m3/catalogue/kfc-airoli-sector-6-navi-mumbai-kfc-dfq5als5zn.jpg" alt="kfc"
-                            className='w-full h-full object-cover object-center rounded-md' />
-                            <div className="absolute top-2 right-2  cursor-pointer
-                                w-8 h-8 rounded-full bg-white z-[1] grid place-items-center hover:scale-110 transition-all"
-
-                            >
-                                    <FaShoppingCart className="text-orange" />
-                            </div>
-                        </div>
-                        <h2 className='mt-2 font-semibold'>Spicy chicken set-B</h2>
-                        <p className='text-gray-700 font-semibold text-sm mt-2'>MMK 2000</p>
-                    </div>
-                    <div className='hover:shadow-lg bg-red-800'>
-                        <div className='w-80 h-48 overflow-hidden relative'>
-                            <img src="https://content.jdmagicbox.com/comp/navi-mumbai/m3/022pxx22.xx22.210907121530.r8m3/catalogue/kfc-airoli-sector-6-navi-mumbai-kfc-dfq5als5zn.jpg" alt="kfc"
-                            className='w-full h-full object-cover object-center rounded-md' />
-                            <div className="absolute top-2 right-2  cursor-pointer
-                                w-8 h-8 rounded-full bg-white z-[1] grid place-items-center hover:scale-110 transition-all"
-
-                            >
-                                    <FaShoppingCart className="text-orange" />
-                            </div>
-                        </div>
-                        <h2 className='mt-2 font-semibold'>Spicy chicken set-C</h2>
-                        <p className='text-gray-700 font-semibold text-sm mt-2'>MMK 2000</p>
-                    </div>
                 </div>
             </div>
 
-            <div className='w-full h-40 bg-red-400 mb-3' id="burger"> </div>
+            <div className='mb-12' id="burger">
+                <h1 className='mb-4 text-2xl font-bold'>Burger</h1>
+                <div className='grid grid-cols-3 gap-3'>
+                    <MenuCard imgSrc="https://www.noracooks.com/wp-content/uploads/2023/04/veggie-burgers-1-2.jpg"
+                        imgName="kfc"
+                        title="Spicy chicken set-A"
+                        price="MMK 2000"
+                        Icon={FaShoppingCart}
+                    />
+                    <MenuCard imgSrc="https://www.noracooks.com/wp-content/uploads/2023/04/veggie-burgers-1-2.jpg"
+                        imgName="kfc"
+                        title="Spicy chicken set-B"
+                        price="MMK 2000"
+                        Icon={FaShoppingCart}
+                    />
+                    <MenuCard imgSrc="https://www.noracooks.com/wp-content/uploads/2023/04/veggie-burgers-1-2.jpg"
+                        imgName="kfc"
+                        title="Spicy chicken set-C"
+                        price="MMK 2000"
+                        Icon={FaShoppingCart}
+                    />
+                </div>
+            </div>
             <div className='w-full h-40 bg-gray-400 mb-3' id='chicken'> </div>
             <div className='w-full h-40 bg-blue-400' id='drink' > </div>
         </div>
         <div className="w-1/4 border border-slate-300
-            min-h-96 self-start rounded-md sticky top-[80px] p-4">
+            h-[500px] self-start rounded-md sticky top-[80px] p-4 overflow-auto hideScrollbar">
                 <h1 className="text-xl font-bold">My Orders</h1>
                 <div className="mt-5">
                     <p className="text-sm mb-2 font-bold text-gray-700">Delivery address</p>
@@ -225,6 +228,9 @@ const MenuPage = () => {
                         <p className="text-sm">4 kms</p>
                     </div>
                 </div>
+                <div className="w-full h-48 bg-gray-300 mb-2"></div>
+                <div className="w-full h-48 bg-gray-300 mb-2"></div>
+                <div className="w-full h-48 bg-gray-300 mb-2"></div>
         </div>
     </div>
   )
