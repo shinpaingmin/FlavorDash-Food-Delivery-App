@@ -6,7 +6,7 @@ import {
     InfoWindow
 } from "@vis.gl/react-google-maps";
 import { useState } from "react";
-import { locations } from "../../constants/mapData";
+import { locations } from "../../../constants/mapData";
 
 
 const Location = () => {

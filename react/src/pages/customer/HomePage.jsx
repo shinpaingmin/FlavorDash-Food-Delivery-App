@@ -1,8 +1,8 @@
 import { mainPic } from "../../assets/images"
-import Hero from "../../components/HomePage/Hero"
-import Intro from "../../components/HomePage/Intro"
-import Location from "../../components/HomePage/Location"
-import Partnership from "../../components/HomePage/Partnership"
+import Hero from "../../components/customer/HomePage/Hero"
+import Intro from "../../components/customer/HomePage/Intro"
+import Location from "../../components/customer/HomePage/Location"
+import Partnership from "../../components/customer/HomePage/Partnership"
 
 const HomePage = () => {
 

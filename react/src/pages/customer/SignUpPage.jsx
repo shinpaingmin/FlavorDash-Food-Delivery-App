@@ -4,7 +4,7 @@ import { FiPhone } from "react-icons/fi";
 import { GoKey } from "react-icons/go";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-import SocialMedia from "../../components/SocialMedia";
+import SocialMedia from "../../components/customer/SocialMedia";
 import { FaGoogle, FaFacebookF, FaGithub } from "react-icons/fa";
 
 const SignUpPage = () => {

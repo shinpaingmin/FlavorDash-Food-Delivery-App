@@ -5,7 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { CiLocationOn, CiClock2 } from "react-icons/ci";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiCoupon3Fill } from "react-icons/ri";
-import MenuCard from '../../components/MenuPage/MenuCard';
+import MenuCard from '../../components/customer/MenuPage/MenuCard';
 import { useEffect, useRef, useState } from 'react';
 
 const MenuPage = () => {

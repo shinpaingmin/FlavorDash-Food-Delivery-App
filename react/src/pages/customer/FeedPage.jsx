@@ -1,13 +1,13 @@
 import { useRef, useState } from "react"
 import { cuisines } from "../../constants/cuisineData";
 
-import Filter from "../../components/FeedPage/Filter";
-import Searchbar from "../../components/FeedPage/Searchbar";
+import Filter from "../../components/customer/FeedPage/Filter";
+import Searchbar from "../../components/customer/FeedPage/Searchbar";
 import { sortOptions } from "../../constants/sortData";
-import StoreCard from "../../components/FeedPage/StoreCard";
+import StoreCard from "../../components/customer/FeedPage/StoreCard";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperNavButtons from "../../components/FeedPage/SwiperNavButtons";
+import SwiperNavButtons from "../../components/customer/FeedPage/SwiperNavButtons";
 
 import 'swiper/css';
 

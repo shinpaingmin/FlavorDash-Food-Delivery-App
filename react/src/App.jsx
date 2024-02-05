@@ -1,8 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
 import HomePage from './pages/customer/HomePage';
 import NotFound from './pages/customer/NotFound';
 import FeedPage from './pages/customer/FeedPage';
@@ -10,51 +8,48 @@ import LoginPage from './pages/customer/LoginPage';
 import SignUpPage from './pages/customer/SignUpPage';
 import MenuPage from "./pages/customer/MenuPage";
 
-import AdminHomePage from './pages/restaurant/HomePage';
+import RestaurantDashboard from './pages/restaurant/HomePage';
 
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { themeSettings } from "./theme";
+import CustomerLayout from './layouts/CustomerLayout';
+import RestaurantLayout from './layouts/RestaurantLayout';
 
 
 function App() {
 
     const mode = useSelector((state) => state.global.mode);
-    console.log(mode)
 
     const theme = useMemo(() => {
         return createTheme(themeSettings(mode))
     }, [mode]);
-    console.log(theme)
 
-    const [open, setOpen] = useState(false);
+    return (
+        <>
+            <BrowserRouter>
+                <ThemeProvider theme={theme}>
 
-    useEffect(() => {
-        open && document.body.classList.add('stop-scrolling');
-        !open && document.body.classList.remove('stop-scrolling');
-    }, [open])
+                    <Routes>
+                        <Route element={<CustomerLayout />}>
+                            <Route path="/" element={ <HomePage /> } />
+                            <Route path="feed" element={ <FeedPage /> } />
+                            <Route path="login" element={ <LoginPage /> } />
+                            <Route path="signup" element={ <SignUpPage /> } />
+                            <Route path="menu" element={ <MenuPage /> } />
+                        </Route>
 
-  return (
-    <>
-        <BrowserRouter>
-            <ThemeProvider theme={theme}>
-            <Header open={open} setOpen={setOpen} />
-                <Routes>
-                    <Route path="/" element={ <HomePage /> } />
-                    <Route path="feed" element={ <FeedPage /> } />
-                    <Route path="login" element={ <LoginPage /> } />
-                    <Route path="signup" element={ <SignUpPage /> } />
-                    <Route path="menu" element={ <MenuPage /> } />
+                        <Route element={<RestaurantLayout />}>
+                            <Route path="/restaurant/dashboard" element={ <RestaurantDashboard /> } />
+                        </Route>
+                        <Route path="*" element={ <NotFound /> } />
+                    </Routes>
 
-                    <Route path="/admin/home" element={ <AdminHomePage /> } />
-                    <Route path="*" element={ <NotFound /> } />
-                </Routes>
-            <Footer />
-            </ThemeProvider>
-        </BrowserRouter>
-    </>
-  )
+                </ThemeProvider>
+            </BrowserRouter>
+        </>
+    )
 }
 
 export default App

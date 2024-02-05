@@ -1,11 +1,11 @@
 
 
-const AdminHomePage = () => {
+const RestaurantDashboard = () => {
 
 
     return (
-        <div>AdminHomePage</div>
+        <div>RestaurantDashboard</div>
     )
 }
 
-export default AdminHomePage
+export default RestaurantDashboard

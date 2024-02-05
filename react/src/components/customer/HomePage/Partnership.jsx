@@ -1,4 +1,4 @@
-import { delivery, restaurant } from "../../assets/images"
+import { delivery, restaurant } from "../../../assets/images"
 import PartnershipCard from "./PartnershipCard";
 
 

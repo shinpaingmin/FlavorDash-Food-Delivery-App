@@ -1,6 +1,6 @@
 import Searchbar from "../Searchbar"
 import MenuCard from "./MenuCard"
-import { menu } from "../../constants/menuData";
+import { menu } from "../../../constants/menuData";
 
 
 const Hero = () => {

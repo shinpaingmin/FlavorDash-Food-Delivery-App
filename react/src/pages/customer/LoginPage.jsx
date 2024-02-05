@@ -1,7 +1,7 @@
 import { MdAlternateEmail } from "react-icons/md";
 import { GoKey } from "react-icons/go";
 import { Link } from 'react-router-dom';
-import SocialMedia from "../../components/SocialMedia";
+import SocialMedia from "../../components/customer/SocialMedia";
 import { FaGoogle, FaFacebookF, FaGithub } from "react-icons/fa";
 
 const LoginPage = () => {
