@@ -9,6 +9,7 @@ import SignUpPage from './pages/customer/SignUpPage';
 import MenuPage from "./pages/customer/MenuPage";
 
 import RestaurantDashboard from './pages/restaurant/HomePage';
+import ProductsPage from './pages/restaurant/ProductsPage';
 
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useMemo } from "react";
@@ -16,6 +17,7 @@ import { useSelector } from "react-redux";
 import { themeSettings } from "./theme";
 import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
+
 
 
 function App() {
@@ -41,7 +43,9 @@ function App() {
                         </Route>
 
                         <Route element={<RestaurantLayout />}>
-                            <Route path="/restaurant/dashboard" element={ <RestaurantDashboard /> } />
+
+                            <Route path="/dashboard" element={ <RestaurantDashboard /> } />
+                            <Route path="/products" element={ <ProductsPage /> } />
                         </Route>
                         <Route path="*" element={ <NotFound /> } />
                     </Routes>

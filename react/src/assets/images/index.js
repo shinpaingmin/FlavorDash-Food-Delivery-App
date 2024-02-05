@@ -6,6 +6,7 @@ import dumpling from './dumpling.jpg';
 import noodle from './noodle.jpg';
 import restaurant from './restaurant.jpg';
 import delivery from './delivery-man.jpg';
+import profileImg from './profile.jpg';
 
 export {
     hero1,
@@ -15,5 +16,6 @@ export {
     dumpling,
     noodle,
     restaurant,
-    delivery
+    delivery,
+    profileImg
 }
