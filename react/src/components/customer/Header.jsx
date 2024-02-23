@@ -22,10 +22,10 @@ const Header = ({ open, setOpen }) => {
     const handleOpenCart = () => {
         if(!openCart) {
             setOpenCart(true);
-            // document.body.classList.add('stop-scrolling');
+            document.body.classList.add('stop-scrolling');
         } else {
             setOpenCart(false);
-            // document.body.classList.remove('stop-scrolling');
+            document.body.classList.remove('stop-scrolling');
         }
     }
 

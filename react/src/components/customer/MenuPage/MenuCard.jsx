@@ -1,6 +1,8 @@
-const MenuCard = ({ imgSrc, imgName, title, price, Icon }) => {
+const MenuCard = ({ imgSrc, imgName, title, price, Icon, setIsMenuBoxOpen }) => {
   return (
-    <div className='w-80 hover:shadow-lg rounded-md cursor-pointer border border-slate-300'>
+    <div className='w-full md:w-80 hover:shadow-lg rounded-md cursor-pointer border border-slate-300'
+        onClick={setIsMenuBoxOpen}
+    >
         <div className='w-full h-48 overflow-hidden relative'>
             <img src={imgSrc} alt={imgName}
             className='w-full h-full object-cover object-center rounded-t-md bg-gray-300' />

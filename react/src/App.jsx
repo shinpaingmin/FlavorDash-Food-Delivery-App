@@ -1,5 +1,4 @@
 import { BrowserRouter } from 'react-router-dom';
-import { useEffect, useState } from "react";
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/customer/HomePage';
 import NotFound from './pages/customer/NotFound';
@@ -10,6 +9,13 @@ import MenuPage from "./pages/customer/MenuPage";
 
 import RestaurantDashboard from './pages/restaurant/HomePage';
 import ProductsPage from './pages/restaurant/ProductsPage';
+import CustomersPage from './pages/restaurant/CustomersPage';
+// import TransactionsPage from './pages/restaurant/TransactionsPage';
+import GeographyPage from './pages/restaurant/GeographyPage';
+import OverviewPage from './pages/restaurant/OverviewPage';
+import DailyPage from './pages/restaurant/DailyPage';
+import BreakdownPage from './pages/restaurant/BreakdownPage';
+import AdminPage from './pages/restaurant/AdminPage';
 
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useMemo } from "react";
@@ -17,6 +23,9 @@ import { useSelector } from "react-redux";
 import { themeSettings } from "./theme";
 import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
+
+
+
 
 
 
@@ -43,9 +52,15 @@ function App() {
                         </Route>
 
                         <Route element={<RestaurantLayout />}>
-
                             <Route path="/dashboard" element={ <RestaurantDashboard /> } />
                             <Route path="/products" element={ <ProductsPage /> } />
+                            <Route path="/customers" element={ <CustomersPage /> } />
+                            {/* <Route path="/transactions" element={ <TransactionsPage /> } /> */}
+                            <Route path="/geography" element={ <GeographyPage /> } />
+                            <Route path="/overview" element={ <OverviewPage /> } />
+                            <Route path="/daily" element={ <DailyPage /> } />
+                            <Route path="/breakdown" element={ <BreakdownPage /> } />
+                            <Route path="/admin" element={ <AdminPage /> } />
                         </Route>
                         <Route path="*" element={ <NotFound /> } />
                     </Routes>

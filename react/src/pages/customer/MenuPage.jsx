@@ -7,12 +7,24 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiCoupon3Fill } from "react-icons/ri";
 import MenuCard from '../../components/customer/MenuPage/MenuCard';
 import { useEffect, useRef, useState } from 'react';
+import MenuDetailModalBox from '../../components/customer/MenuPage/MenuDetailModalBox';
 
 const MenuPage = () => {
+    const [isMenuBoxOpen, _setIsMenuBoxOpen] = useState(false);
     const [activeArr , setActiveArr] = useState(null);
     const linkList = useRef(null);
     const rightArr = useRef(null);
     const leftArr = useRef(null);
+
+    const setIsMenuBoxOpen = () => {
+        if(isMenuBoxOpen) {
+            _setIsMenuBoxOpen(!isMenuBoxOpen);
+            document.body.classList.remove("stop-scrolling");
+        } else {
+            _setIsMenuBoxOpen(!isMenuBoxOpen);
+            document.body.classList.add("stop-scrolling");
+        }
+    }
 
     const handleArrowsDisplay = () => {
         if(linkList.current.scrollLeft > 0) {
@@ -52,8 +64,8 @@ const MenuPage = () => {
 
 
   return (
-    <div className="flex flex-initial justify-between px-8 pt-8 border-t border-t-gray-200">
-        <div className="w-3/4 mr-4">
+    <div className="flex justify-between px-4 lg:px-8 pt-8 border-t border-t-gray-200 max-w-[1519.2px]">
+        <div className="w-full lg:w-3/4 mr-4">
             <div className="w-full h-80 mb-4 relative">
                 <img src="https://kfc.com.mm/wp-content/uploads/2023/06/Brand-Focus_5_Update.jpg"
                     alt="hero image"
@@ -90,154 +102,157 @@ const MenuPage = () => {
                 <p className="ml-1">1000MMK</p>
             </div>
 
-            <div className="flex items-center py-4 sticky top-[76px] z-[2] bg-white mb-8">
+            <div className="block lg:flex items-center py-4 sticky top-[76px] z-[2] bg-white lg:mb-8">
 
-                <div className="flex w-64 h-12 mr-12 bg-white items-center flex-shrink-0
-                            rounded-md border border-slate-300 md:p-2 max-md:mb-14
+                <div className="flex w-full lg:w-64 h-12 mr-12 bg-white items-center flex-shrink-0
+                            rounded-md border border-slate-300 md:p-2 max-md:mb-6
                             focus-within:border-black">
                     <input type="text" className="px-2 text-sm border-none focus:outline-none focus:ring-0 flex-1"
                         placeholder="Search for your favourite in menu" />
                 </div>
 
-                <div onClick={scrollRight} ref={leftArr} className='hidden'>
-                    <IoIosArrowDropleftCircle
-                        className='text-gray-700 mr-3 cursor-pointer'
-                        size={32}
-                    />
-                </div>
-                <div className='overflow-x-auto flex items-center hideScrollbar scroll-smooth' ref={linkList} onScroll={handleArrowsDisplay}>
+                <div className='flex lg:w-[72%]'>
+                    <div onClick={scrollRight} ref={leftArr} className='hidden'>
+                        <IoIosArrowDropleftCircle
+                            className='text-gray-700 mr-3 cursor-pointer'
+                            size={32}
+                        />
+                    </div>
+                    <div className='overflow-x-scroll flex items-center hideScrollbar scroll-smooth' ref={linkList} onScroll={handleArrowsDisplay}>
 
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="popular"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Popular
-                    </Link>
-
-
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="burger"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Burger
-                    </Link>
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="popular"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Popular
+                        </Link>
 
 
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="chicken"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Chicken
-                    </Link>
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="burger"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Burger
+                        </Link>
 
 
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="drink"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Drink
-                    </Link>
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="chicken"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Chicken
+                        </Link>
 
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="drink"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Hta min
-                    </Link>
 
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="drink"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Mont Hin khar
-                    </Link>
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="drink"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Drink
+                        </Link>
 
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="drink"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Kyar san kyaw
-                    </Link>
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="drink"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Hta min
+                        </Link>
 
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="drink"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        C hta min
-                    </Link>
-                    <Link
-                    className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="drink"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Dan pout
-                    </Link>
-                    <Link
-                    className='font-semibold text-gray-700 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
-                    activeClass='active'
-                    to="drink"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    offset={-180}>
-                        Yay khl chaung
-                    </Link>
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="drink"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Mont Hin khar
+                        </Link>
 
-                </div>
-                <div
-                    onClick={scrollLeft}
-                    ref={rightArr}
-                    className='text-gray-700 ml-3 cursor-pointer'
-                >
-                    <IoIosArrowDroprightCircle
-                        size={32}
-                    />
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="drink"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Kyar san kyaw
+                        </Link>
+
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="drink"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            C hta min
+                        </Link>
+                        <Link
+                        className='font-semibold text-gray-700 mr-12 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="drink"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Dan pout
+                        </Link>
+                        <Link
+                        className='font-semibold text-gray-700 hoverEffect pb-1 relative cursor-pointer whitespace-nowrap'
+                        activeClass='active'
+                        to="drink"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                        offset={-180}>
+                            Yay khl chaung
+                        </Link>
+
+                    </div>
+                    <div
+                        onClick={scrollLeft}
+                        ref={rightArr}
+                        className='text-gray-700 ml-3 cursor-pointer'
+                    >
+                        <IoIosArrowDroprightCircle
+                            size={32}
+                        />
+                    </div>
                 </div>
             </div>
 
             <div className='mb-12' id='popular'>
                 <h1 className='mb-4 text-2xl font-bold'>Popular Now</h1>
-                <div className='grid grid-cols-3 gap-3'>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
                     <MenuCard imgSrc="https://content.jdmagicbox.com/comp/navi-mumbai/m3/022pxx22.xx22.210907121530.r8m3/catalogue/kfc-airoli-sector-6-navi-mumbai-kfc-dfq5als5zn.jpg"
                         imgName="kfc"
                         title="Spicy chicken set-A"
                         price="MMK 2000"
                         Icon={FaShoppingCart}
+                        setIsMenuBoxOpen={setIsMenuBoxOpen}
                     />
                     <MenuCard imgSrc="https://content.jdmagicbox.com/comp/navi-mumbai/m3/022pxx22.xx22.210907121530.r8m3/catalogue/kfc-airoli-sector-6-navi-mumbai-kfc-dfq5als5zn.jpg"
                         imgName="kfc"
@@ -253,6 +268,7 @@ const MenuPage = () => {
                     />
 
                 </div>
+                {isMenuBoxOpen && <MenuDetailModalBox setIsMenuBoxOpen={setIsMenuBoxOpen} />}
             </div>
 
             <div className='mb-12' id="burger">
@@ -281,7 +297,7 @@ const MenuPage = () => {
             <div className='w-full h-40 bg-gray-400 mb-3' id='chicken'> </div>
             <div className='w-full h-40 bg-blue-400' id='drink' > </div>
         </div>
-        <div className="w-1/4 border border-slate-300
+        <div className="w-1/4 border border-slate-300 hidden lg:block
             h-[500px] self-start rounded-md sticky top-[80px] p-4 overflow-auto hideScrollbar">
                 <h1 className="text-xl font-bold">My Orders</h1>
                 <div className="mt-5">

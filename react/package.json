@@ -18,6 +18,7 @@
     "@nivo/bar": "^0.84.0",
     "@nivo/core": "^0.84.0",
     "@nivo/geo": "^0.84.0",
+    "@nivo/line": "^0.84.0",
     "@nivo/pie": "^0.84.0",
     "@reduxjs/toolkit": "^2.1.0",
     "@vis.gl/react-google-maps": "^0.4.1",
