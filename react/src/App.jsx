@@ -6,6 +6,7 @@ import FeedPage from './pages/customer/FeedPage';
 import LoginPage from './pages/customer/LoginPage';
 import SignUpPage from './pages/customer/SignUpPage';
 import MenuPage from "./pages/customer/MenuPage";
+import CheckoutPage from './pages/customer/CheckoutPage';
 
 import RestaurantDashboard from './pages/restaurant/HomePage';
 import ProductsPage from './pages/restaurant/ProductsPage';
@@ -24,11 +25,6 @@ import { themeSettings } from "./theme";
 import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
 
-
-
-
-
-
 function App() {
 
     const mode = useSelector((state) => state.global.mode);
@@ -45,10 +41,11 @@ function App() {
                     <Routes>
                         <Route element={<CustomerLayout />}>
                             <Route path="/" element={ <HomePage /> } />
-                            <Route path="feed" element={ <FeedPage /> } />
-                            <Route path="login" element={ <LoginPage /> } />
-                            <Route path="signup" element={ <SignUpPage /> } />
-                            <Route path="menu" element={ <MenuPage /> } />
+                            <Route path="/feed" element={ <FeedPage /> } />
+                            <Route path="/login" element={ <LoginPage /> } />
+                            <Route path="/signup" element={ <SignUpPage /> } />
+                            <Route path="/menu" element={ <MenuPage /> } />
+                            <Route path="/checkout" element={ <CheckoutPage /> } />
                         </Route>
 
                         <Route element={<RestaurantLayout />}>
