@@ -4,10 +4,15 @@ import OrderBtn from "../../components/customer/CheckoutPage/OrderBtn";
 
 const CheckoutPage = () => {
     return (
-        <div className="flex px-4 lg:px-8 pt-8 border-t border-t-gray-200 max-w-[1519.2px]">
-            <div className="w-[60%] shrink-0">
-                <div className="relative mb-6 p-4 shadow rounded-md  ">
-                    <button className="absolute top-5 right-4">Change</button>
+        <div className="flex flex-col-reverse lg:flex-row px-4 lg:px-8 pt-8 border-t border-t-gray-200 max-w-[1519.2px]">
+            <div className="w-full lg:w-[60%] shrink-0">
+                <div className="relative lg:mb-6 lg:p-4 py-2 lg:shadow lg:hover:shadow-lg mb-12 rounded-md  ">
+                    <button
+                        className="absolute top-5 right-4 text-sm text-orange
+                     hover:text-white hover:bg-orange rounded-full px-2 py-1 font-semibold"
+                    >
+                        Change
+                    </button>
                     <h1 className="text-gray-700 text-2xl font-bold">
                         Delivery address
                     </h1>
@@ -30,7 +35,7 @@ const CheckoutPage = () => {
                     </div>
                 </div>
 
-                <div className=" mb-6 p-4 shadow rounded-md  ">
+                <div className=" lg:mb-6 lg:p-4 py-2 lg:shadow lg:hover:shadow-lg mb-12 rounded-md  ">
                     <h1 className="text-gray-700 text-2xl font-bold mb-6">
                         Delivery time
                     </h1>
@@ -46,8 +51,13 @@ const CheckoutPage = () => {
                     </div>
                 </div>
 
-                <div className="relative p-4 shadow rounded-md mb-6  ">
-                    <button className="absolute top-5 right-4">Edit</button>
+                <div className="relative lg:p-4 py-2 lg:shadow lg:hover:shadow-lg mb-12 rounded-md lg:mb-6  ">
+                    <button
+                        className="absolute top-5 right-4 text-orange
+                     hover:text-white hover:bg-orange rounded-full px-4 font-semibold"
+                    >
+                        Edit
+                    </button>
                     <h1 className="text-gray-700 text-2xl font-bold mb-6">
                         Personal Details
                     </h1>
@@ -56,7 +66,7 @@ const CheckoutPage = () => {
                     <p>+959 794219842</p>
                 </div>
 
-                <div className="p-4 shadow rounded-md mb-4 ">
+                <div className="lg:p-4 py-2 lg:shadow lg:hover:shadow-lg mb-12 rounded-md lg:mb-6 ">
                     <h1 className="text-gray-700 text-2xl font-bold mb-6">
                         Tip your rider
                     </h1>
@@ -85,7 +95,7 @@ const CheckoutPage = () => {
                 <OrderBtn />
             </div>
 
-            <div className="ml-12 p-4 shadow flex-auto sticky top-[80px] self-start">
+            <div className="lg:ml-12 lg:p-4 py-2 lg:shadow lg:hover:shadow-lg max-lg:mb-12 flex-auto lg:sticky lg:top-[80px] lg:self-start">
                 <h1 className="text-gray-700 text-2xl font-bold mb-2">
                     Your order slip
                 </h1>

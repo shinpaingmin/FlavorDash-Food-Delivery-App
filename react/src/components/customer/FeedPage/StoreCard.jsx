@@ -8,7 +8,7 @@ const StoreCard = () => {
     const [scale, setScale] = useState(false);
     const navigate = useNavigate();
   return (
-    <motion.div className="relative w-80 min-h-64 border shadow rounded-md cursor-pointer"
+    <motion.div className="relative w-full md:w-80 min-h-64 border shadow rounded-md cursor-pointer"
                                 onMouseEnter={() => setScale(true)}
                                 onMouseLeave={() => setScale(false)}
                 onClick={() => navigate("/menu")}

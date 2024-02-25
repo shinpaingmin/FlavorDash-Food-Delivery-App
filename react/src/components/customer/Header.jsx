@@ -39,19 +39,19 @@ const Header = ({ open, setOpen }) => {
             <Link className='flex items-center' to="/">
                 <FaTruckFast size={40} className='text-orange mr-2 md:mr-4' />
                 <div>
-                    <h1 className='text-xl md:text-2xl font-bold text-orange'>FlavorDash</h1>
-                    <small className='max-md:text-xs md:uppercase text-orange'>Delicious bites, deliver right!</small>
+                    <h1 className='text-2xl font-bold text-orange'>FlavorDash</h1>
+                    <small className='md:uppercase text-orange'>Delicious bites, deliver right!</small>
                 </div>
             </Link>
             {
-                loggedIn && <div className='flex items-center'>
+                loggedIn && <div className='hidden lg:flex items-center'>
                     <FaLocationDot size={22} className='text-orange' />
                     <p className='ml-2'>Hlaing, Yangon</p>
                 </div>
             }
             {
                 loggedIn ? (
-                    <ul className='hidden md:flex items-center list-none'>
+                    <ul className='hidden lg:flex items-center list-none'>
                         <li className='flex items-center'>
                             <FaRegUser />
                             <p className='ml-2'>Shin Paing Min</p>
@@ -69,7 +69,7 @@ const Header = ({ open, setOpen }) => {
                         </li>
                     </ul>
                 ) : (
-                    <ul className='hidden md:flex list-none'>
+                    <ul className='hidden lg:flex list-none'>
                         <li className=''>
                             <Button bgColor="bg-orange" textColor="text-white" border="border-none" to="/login">
                                 <FaUser className='mr-2' /> Log in

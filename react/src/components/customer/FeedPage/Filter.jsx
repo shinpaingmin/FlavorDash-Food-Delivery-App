@@ -1,12 +1,12 @@
 
 
-const Filter = ({ category, setCategory, id, name }) => {
+const Filter = ({ category, setCategory, id, name, customClass=null }) => {
   return (
     <>
 
 
-                <label key={id} className="custom-container mb-3 block w-max
-                        relative capitalize pl-9 cursor-pointer"
+                <label key={id} className={`${customClass} custom-container mb-3 block w-max
+                        relative capitalize pl-9 cursor-pointer`}
                 > { name }
 
                     <input type="radio" id={name} value={name}
