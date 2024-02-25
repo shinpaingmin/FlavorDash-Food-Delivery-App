@@ -2,13 +2,16 @@ import { useState } from "react"
 
 import { FaStar, FaRegClock, FaShippingFast, FaRegHeart } from "react-icons/fa";
 import { motion } from 'framer-motion';
+import { useNavigate } from "react-router-dom";
 
 const StoreCard = () => {
     const [scale, setScale] = useState(false);
+    const navigate = useNavigate();
   return (
     <motion.div className="relative w-80 min-h-64 border shadow rounded-md cursor-pointer"
                                 onMouseEnter={() => setScale(true)}
                                 onMouseLeave={() => setScale(false)}
+                onClick={() => navigate("/menu")}
     >
         <div className="absolute top-2 right-2
             w-8 h-8 rounded-full bg-white z-20 grid place-items-center hover:scale-110 transition-all"
