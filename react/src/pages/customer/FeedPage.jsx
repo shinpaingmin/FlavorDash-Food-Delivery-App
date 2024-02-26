@@ -18,11 +18,12 @@ export default function FeedPage() {
     const [isToggleOptions, _setIsToggleOptions] = useState(false);
 
     const setIsToggleOptions = () => {
-        _setIsToggleOptions(!isToggleOptions);
         if(isToggleOptions) {
-            document.body.classList.add("stop-scrolling");
-        } else {
+            _setIsToggleOptions(!isToggleOptions);
             document.body.classList.remove("stop-scrolling");
+        } else {
+            _setIsToggleOptions(!isToggleOptions);
+            document.body.classList.add("stop-scrolling");
         }
     }
 

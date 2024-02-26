@@ -7,6 +7,7 @@ import LoginPage from './pages/customer/LoginPage';
 import SignUpPage from './pages/customer/SignUpPage';
 import MenuPage from "./pages/customer/MenuPage";
 import CheckoutPage from './pages/customer/CheckoutPage';
+import OrderedPage from './pages/customer/OrderedPage';
 
 import RestaurantDashboard from './pages/restaurant/HomePage';
 import ProductsPage from './pages/restaurant/ProductsPage';
@@ -24,6 +25,7 @@ import { useSelector } from "react-redux";
 import { themeSettings } from "./theme";
 import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
+
 
 function App() {
 
@@ -46,6 +48,7 @@ function App() {
                             <Route path="/signup" element={ <SignUpPage /> } />
                             <Route path="/menu" element={ <MenuPage /> } />
                             <Route path="/checkout" element={ <CheckoutPage /> } />
+                            <Route path="/ordered items" element={ <OrderedPage /> } />
                         </Route>
 
                         <Route element={<RestaurantLayout />}>

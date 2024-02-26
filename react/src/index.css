@@ -107,7 +107,7 @@ scrollbar-width: none;  /* Firefox */
 
 
     .stop-scrolling {
-        @apply overflow-hidden;
+        @apply overflow-hidden h-screen;
 
     }
 

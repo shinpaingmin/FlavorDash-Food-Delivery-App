@@ -4,10 +4,10 @@ const MenuDetailModalBox = ({ setIsMenuBoxOpen }) => {
     const [selectedVar, setSelectedVar] = useState("");
     return (
         <div
-            className="fixed top-0 left-0 w-full h-full z-10
+            className="fixed top-0 left-0 w-full h-full z-[9999]
                 bg-black/50 flex items-center justify-center"
         >
-            <div className="animate w-[90%] lg:w-[40%] h-[650px] bg-[#fefefe] relative rounded-xl overflow-x-scroll">
+            <div className="animate w-[90%] lg:w-[40%] h-[650px] bg-[#fefefe] relative rounded-xl overflow-y-scroll">
                 <div className="w-full h-[300px] overflow-hidden">
                     <img
                         src="https://images.deliveryhero.io/image/fd-mm/Products/1950995.jpg??width=500"
