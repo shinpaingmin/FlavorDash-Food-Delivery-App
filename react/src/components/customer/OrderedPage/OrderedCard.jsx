@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import MoreDetailsDropdownMenu from "./MoreDetailsDropdownMenu";
 
-const OrderedCard = () => {
+const OrderedCard = ({ setIsFeedbackModalOpen }) => {
     const [scale, setScale] = useState(false);
     const [isMoreDetailsOpen, setIsMoreDetailsOpen] = useState(false);
 
@@ -37,7 +37,7 @@ const OrderedCard = () => {
                 />
             </div>
             {
-                isMoreDetailsOpen && <MoreDetailsDropdownMenu />
+                isMoreDetailsOpen && <MoreDetailsDropdownMenu setIsFeedbackModalOpen={setIsFeedbackModalOpen} />
             }
             <div className="p-3">
                 <div className="flex items-center justify-between">

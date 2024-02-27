@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaHeart, FaStar, FaInfoCircle } from "react-icons/fa";
 
-const MoreDetailsDropdownMenu = () => {
+const MoreDetailsDropdownMenu = ({ setIsFeedbackModalOpen }) => {
     return (
         <div className="animate2 bg-white absolute top-2 right-2 mt-10 z-[1] w-40 h-40 px-4 py-1 rounded-md">
             <ul className="flex flex-col justify-evenly h-full">
@@ -19,6 +19,7 @@ const MoreDetailsDropdownMenu = () => {
                     <button
                         className="font-semibold ml-2 hover:text-gray-700"
                         type="button"
+                        onClick={setIsFeedbackModalOpen}
                     >
                         Give feedback
                     </button>
