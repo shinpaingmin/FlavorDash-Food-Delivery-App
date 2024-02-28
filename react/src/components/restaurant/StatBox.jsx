@@ -37,7 +37,7 @@ const StatBox = ({ title, value, increase, icon, description }) => {
                 {value}
             </Typography>
 
-            <FlexBetween gap="1rem">
+            {/* <FlexBetween gap="1rem">
                 <Typography
                     variant="h5"
                     fontStyle="italic"
@@ -50,7 +50,7 @@ const StatBox = ({ title, value, increase, icon, description }) => {
                 <Typography>
                     {description}
                 </Typography>
-            </FlexBetween>
+            </FlexBetween> */}
         </Box>
     )
 }

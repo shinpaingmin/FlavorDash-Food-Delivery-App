@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
-import FeedbackBtn from "./FeedbackBtn";
+import SubmitBtn from "./SubmitBtn";
 
 const FeedbackModalBox = ({ setIsFeedbackModalOpen }) => {
     const [selectedRatingStars, setSelectedRatingStars] = useState('');
@@ -9,7 +9,7 @@ const FeedbackModalBox = ({ setIsFeedbackModalOpen }) => {
             className="fixed top-0 left-0 w-full h-full z-[9999]
                 bg-black/50 flex items-center justify-center"
         >
-            <div className="animate w-[90%] lg:w-[40%] h-[650px] bg-[#fefefe] relative rounded-xl overflow-y-scroll px-4 pb-4">
+            <div className="animate w-[90%] lg:w-[40%] h-[650px] bg-[#fefefe] relative rounded-xl overflow-y-scroll px-8 pt-8 pb-4">
                 <span
                     className="font-bold text-3xl cursor-pointer absolute top-2.5 right-5"
                     onClick={setIsFeedbackModalOpen}
@@ -21,7 +21,7 @@ const FeedbackModalBox = ({ setIsFeedbackModalOpen }) => {
                     Feedback
                 </h1>
                 <p className="mt-2 text-gray-600 font-semibold">
-                    KFC Myanmar(Hlaing)
+                    KFC Myanmar(Parami)
                 </p>
                 <p className="mt-2 text-gray-600 font-semibold text-sm">
                     Your email address will not be published. Required fields are marked as *
@@ -73,7 +73,7 @@ const FeedbackModalBox = ({ setIsFeedbackModalOpen }) => {
 
 
                 <div className="grid place-items-center mt-12 ">
-                    <FeedbackBtn />
+                    <SubmitBtn btnTitle="Submit feedback" />
                 </div>
 
             </div>

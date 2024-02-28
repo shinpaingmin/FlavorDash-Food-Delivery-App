@@ -2,16 +2,19 @@ import { Link } from 'react-router-dom';
 import { FaUser, FaPlus, FaRegUser, FaRegHeart, FaGlobe } from "react-icons/fa";
 import { FaTruckFast, FaLocationDot  } from "react-icons/fa6";
 import { IoCartOutline } from "react-icons/io5";
+import { IoIosArrowDown } from "react-icons/io";
 import Button from "./Button";
 import HamburgerMenu from './HamburgerMenu';
 import { useState } from 'react';
 import ShoppingCart from './ShoppingCart';
+import DropdownMenu from './DropdownMenu';
 
 const Header = ({ open, setOpen }) => {
 
     const [scroll, _setScroll] = useState(false);
     const [loggedIn ,setLoggedIn] = useState(true);
     const [openCart, setOpenCart] = useState(false);
+    const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
 
     const setScroll = () => {
         window.scrollY > 0 ? _setScroll(true) : _setScroll(false);
@@ -28,9 +31,6 @@ const Header = ({ open, setOpen }) => {
             document.body.classList.remove('stop-scrolling');
         }
     }
-
-
-
 
     return (
         <>
@@ -52,9 +52,15 @@ const Header = ({ open, setOpen }) => {
             {
                 loggedIn ? (
                     <ul className='hidden lg:flex items-center list-none'>
-                        <li className='flex items-center'>
+                        <li className='flex items-center relative cursor-pointer' onClick={() => setIsDropdownMenuOpen(!isDropdownMenuOpen)}>
                             <FaRegUser />
                             <p className='ml-2'>Shin Paing Min</p>
+                            <button type='button'>
+                                <IoIosArrowDown />
+                            </button>
+                            {
+                                isDropdownMenuOpen && <DropdownMenu />
+                            }
                         </li>
                         <li className='ml-8 flex items-center'>
                             <FaGlobe size={20} className='' />

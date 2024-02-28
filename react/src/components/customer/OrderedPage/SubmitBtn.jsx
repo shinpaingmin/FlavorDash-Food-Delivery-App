@@ -1,9 +1,9 @@
-const FeedbackBtn = () => {
+const SubmitBtn = ({ btnTitle }) => {
     return (
         <button className="px-4 py-2 bg-orange text-white rounded-md w-[60%] hover:bg-orange/95">
-            Submit feedback
+            { btnTitle }
         </button>
     );
 };
 
-export default FeedbackBtn;
+export default SubmitBtn;

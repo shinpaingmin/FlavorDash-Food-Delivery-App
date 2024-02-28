@@ -3,7 +3,7 @@ import { ImBin } from "react-icons/im";
 const ShoppingCart = ({ handleOpenCart }) => {
     return (
         <div
-            className="fixed top-0 left-0 w-full h-full z-10
+            className="fixed top-0 left-0 w-full h-full z-[9999]
             bg-black/50 flex items-center justify-center"
         >
             <div className="animate w-[500px] h-[450px] bg-[#fefefe] relative   px-6 py-4">

@@ -1,10 +1,14 @@
-import { useState } from "react"
+import { useState } from "react";
 import { FaStar, FaRegClock, FaShippingFast, FaRegHeart } from "react-icons/fa";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import MoreDetailsDropdownMenu from "./MoreDetailsDropdownMenu";
 
-const OrderedCard = ({ setIsFeedbackModalOpen }) => {
+const OrderedCard = ({
+    setIsFeedbackModalOpen,
+    setIsReorderModalOpen,
+    setIsStoreInfoModalOpen,
+}) => {
     const [scale, setScale] = useState(false);
     const [isMoreDetailsOpen, setIsMoreDetailsOpen] = useState(false);
 
@@ -36,39 +40,24 @@ const OrderedCard = ({ setIsFeedbackModalOpen }) => {
                     }`}
                 />
             </div>
-            {
-                isMoreDetailsOpen && <MoreDetailsDropdownMenu setIsFeedbackModalOpen={setIsFeedbackModalOpen} />
-            }
+            {isMoreDetailsOpen && (
+                <MoreDetailsDropdownMenu
+                    setIsReorderModalOpen={setIsReorderModalOpen}
+                    setIsFeedbackModalOpen={setIsFeedbackModalOpen}
+                    setIsStoreInfoModalOpen={setIsStoreInfoModalOpen}
+                />
+            )}
             <div className="p-3">
                 <div className="flex items-center justify-between">
-                    <h3>KFC (Parami)</h3>
-                    <div className="flex items-center">
-                        <FaStar color="#ff9529" />
-                        <span className="ml-2">4</span>
-                        <span>(500+)</span>
-                    </div>
+                    <h3 className="text-gray-700 font-semibold">KFC (Parami)</h3>
+                    <h3 className="text-gray-700 font-semibold">17,000 MMK</h3>
                 </div>
 
-                <ul className="flex list-disc list-inside my-2">
-                    <li className="capitalize mr-3 text-sm">
-                        <span className="ml-[-10px]">fried chicken</span>
-                    </li>
-                    <li className="capitalize mr-3 text-sm">
-                        <span className="ml-[-10px]">fast food</span>
-                    </li>
-                </ul>
+                <p className="text-gray-600 font-semibold text-sm my-2">Delivered on Wed, May 13, 2:00 PM</p>
+                <p className="text-gray-600 font-semibold text-sm my-2">Order ID: #fd239i2</p>
 
-                <div className="flex items-center">
-                    <div className="flex items-center text-sm mr-3">
-                        <FaRegClock size={15} />
-                        <span className="ml-1">35min</span>
-                    </div>
-
-                    <div className="flex items-center text-sm">
-                        <FaShippingFast size={18} />
-                        <span className="ml-1">1000 MMK</span>
-                    </div>
-                </div>
+                <p className="text-gray-600 font-semibold text-sm my-2">4 x Fried chicken (spicy)</p>
+                <p className="text-gray-600 font-semibold text-sm my-2">2 x Hamburger</p>
             </div>
         </motion.div>
     );
