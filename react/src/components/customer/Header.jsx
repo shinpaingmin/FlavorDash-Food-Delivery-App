@@ -22,6 +22,10 @@ const Header = ({ open, setOpen }) => {
 
     window.addEventListener("scroll", setScroll);
 
+    // window.addEventListener("click", function() {
+    //     setIsDropdownMenuOpen(false);
+    // })
+
     const handleOpenCart = () => {
         if(!openCart) {
             setOpenCart(true);

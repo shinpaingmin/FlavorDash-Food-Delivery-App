@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MenuItemController;
+use App\Http\Controllers\Api\UserAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::post('/signup', [UserAuthController::class, 'signup']);
+Route::post('/login', [UserAuthController::class, 'login']);
+
+Route::controller(MenuItemController::class)->group(function() {
+    Route::get('/items', 'index');
+});
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
