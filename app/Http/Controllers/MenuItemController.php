@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MenuItemController extends Controller
 {
@@ -73,7 +74,7 @@ class MenuItemController extends Controller
     {
         $menu_item = MenuItem::find($id);
 
-        if(is_null($product)) {
+        if(is_null($menu_item)) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Item is not found.'
@@ -135,5 +136,30 @@ class MenuItemController extends Controller
             'status' => 'success',
             'message' => 'Item is deleted successfully.'
         ], 200);
+    }
+
+    /**
+     * Search by a item name
+     * @param str $name
+     * @return \Illuminate\Http\Response
+     */
+    public function search($name) {
+        $products = MenuItem::where('name', 'like', '%'.$name.'%')
+                            ->latest()->get();
+
+        if(is_null($products->first())) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'No item found'
+            ], 200);
+        }
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Items are retrieved successfully.',
+            'data' => $products
+        ];
+
+        return response()->json($response, 200);
     }
 }
