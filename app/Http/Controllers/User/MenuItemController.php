@@ -110,7 +110,7 @@ class MenuItemController extends Controller
         }
 
         // if success
-        $menu_item = MenuItem::update([
+        $menu_item = MenuItem::where('id', $id)->update([
             'name' => $request->name,
             'price' => $request->price,
             'quantity' => $request->quantity,

@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MenuItem extends Model
+class TotalEarn extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'restaurant_id',
-        'category_id',
-        'name',
-        'price',
-        'quantity',
+        'user_id',
+        'total_amount',
+        'calculated_total_amount',
         'updated_at'
     ];
 }

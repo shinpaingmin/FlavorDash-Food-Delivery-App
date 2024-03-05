@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MenuItem extends Model
+class ReviewLike extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'restaurant_id',
-        'category_id',
-        'name',
-        'price',
-        'quantity',
+        'user_id',
+        'review_id',
+        'react_type',
         'updated_at'
     ];
 }

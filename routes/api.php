@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\MenuItemController;
-use App\Http\Controllers\Api\UserAuthController;
+use App\Http\Controllers\User\MenuItemController;
+use App\Http\Controllers\Auth\UserAuthController;
 
 /*
 |--------------------------------------------------------------------------

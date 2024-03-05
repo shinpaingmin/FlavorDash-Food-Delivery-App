@@ -5,6 +5,10 @@ https://laravel.com/docs/10.x/passport#passport-or-sanctum
 
 https://www.allphptricks.com/laravel-10-rest-api-using-passport-authentication/
 
+php artisan make:model Models/NewModel -m
+
+php artisan make:controller MyControllers/NewModelController -r
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
