@@ -10,9 +10,9 @@ class TotalEarnTransaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'total_earn_id',
-        'transactions',
-        'total_remainings',
+        'user_id',
+        'amount',
+        'type',
         'updated_at'
     ];
 }

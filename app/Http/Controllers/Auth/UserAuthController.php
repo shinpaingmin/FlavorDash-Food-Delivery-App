@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,14 +11,9 @@ use Illuminate\Support\Facades\Validator;
 class UserAuthController extends Controller
 {
     public function signup(Request $request) {
-        // sign up validation
-        $validate = Validator::make($request->all(), [
-            'name' => 'required|string|max:50',
-            'email' => 'required|string|email:rfc,dns|max:100|unique:users,email',
-            'password' => 'required|string|min:8|confirmed'
-        ]);
+        // signup validation
+        $validate = $this->validation($request, 'signup');
 
-        // if sign up fails
         if($validate->fails()) {
             return response()->json([
                 'status' => 'failed',
@@ -32,19 +27,12 @@ class UserAuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'role' => $request->role
         ]);
 
-        // Store token and user in data array
-        $data['token'] = $user->createToken($request->email)->accessToken;
-        $data['user'] = $user;
-
-        // response array
-        $response = [
-            'status' => 'success',
-            'message' => 'User is created successfully.',
-            'data' => $data,
-        ];
+        // res data
+        $response = $this->resData($user, $request, 'signup');
 
         // response with json obj
         return response()->json($response, 201); // 201 = created successfully
@@ -52,18 +40,16 @@ class UserAuthController extends Controller
 
     public function login(Request $request) {
         // login validation
-        $validate = Validator::make($request->all(), [
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+        $validate = $this->validation($request);
 
         if($validate->fails()) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Validation Error!',
                 'data' => $validate->errors(),
-            ], 422);
+            ], 422);    // 422 = validation failed
         }
+
 
         // Check email exists
         $user = User::where('email', $request->email)->first();
@@ -76,15 +62,8 @@ class UserAuthController extends Controller
             ], 401);    // 401 = invalid credentials
         }
 
-        // if login success
-        $data['token'] = $user->createToken($request->email)->accessToken;
-        $data['user'] = $user;
-
-        $response = [
-            'status' => 'success',
-            'message' => 'User is logged in successfully.',
-            'data' => $data,
-        ];
+        // res data
+        $response = $this->resData($user, $request);
 
         return response()->json($response, 200); // 200 = request success
     }
@@ -97,5 +76,44 @@ class UserAuthController extends Controller
             'status' => 'success',
             'message' => 'User is logged out successfully.'
         ], 200); // 200 = request success
+    }
+
+    /* private functions */
+    // validation function
+    private function validation($request, $type='login') {
+        // login/signup validation
+        $rules = [
+            'email' => 'required|string|email:rfc,dns|max:100|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string'
+        ];
+
+        if($type === 'signup') {
+            $rules['name'] = 'required|string|max:50';
+        }
+
+        return $validate = Validator::make($request->all(), $rules);
+
+
+    }
+
+    // return response data fn
+    private function resData($user, $request, $type='login') {
+        // Store token and user in data array
+        $data['token'] = $user->createToken($request->email, [$request->role])->accessToken;
+        $data['user'] = $user;
+
+        // response array
+        $response = [
+            'status' => 'success',
+            'message' => 'User is logged in successfully!',
+            'data' => $data,
+        ];
+
+        if($type === 'signup') {
+            $response['message'] = 'User is created successfully!';
+        }
+
+        return $response;
     }
 }

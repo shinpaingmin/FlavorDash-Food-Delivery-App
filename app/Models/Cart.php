@@ -12,7 +12,6 @@ class Cart extends Model
     protected $fillable = [
         'user_id',
         'promo_code_id',
-        'total_price',
         'updated_at'
     ];
 }

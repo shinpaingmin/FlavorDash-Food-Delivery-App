@@ -24,15 +24,17 @@ Route::controller(UserAuthController::class)->group(function() {
 });
 
 // Public routes of product
-Route::controller(MenuItemController::class)->group(function() {
-    Route::get('/products', 'index');
-    Route::get('/products/{id}', 'show');
-    Route::get('/products/search/{name}', 'search');
+Route::middleware(['auth:api', 'scope:admin'])->group(function() {
+    Route::controller(MenuItemController::class)->group(function() {
+        Route::get('/products', 'index');
+        Route::get('/products/{id}', 'show');
+        Route::get('/products/search/{name}', 'search');
+    });
 });
 
 
 // Protected routes of product and logout
-Route::middleware('auth:api')->group(function() {
+Route::middleware(['auth:api', 'scope:user'])->group(function() {
     Route::post('/logout', [UserAuthController::class, 'logout']);
 
     Route::controller(MenuItemController::class)->group(function() {

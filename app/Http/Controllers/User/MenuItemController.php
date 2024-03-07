@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class MenuItemController extends Controller
@@ -109,12 +110,16 @@ class MenuItemController extends Controller
             ], 422);
         }
 
-        // if success
-        $menu_item = MenuItem::where('id', $id)->update([
-            'name' => $request->name,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-        ]);
+        $menu_item = MenuItem::find($id);
+
+        if(is_null($menu_item)) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'No item found'
+            ], 200);
+        }
+
+        $menu_item->update($request->all());
 
         $response = [
             'status' => 'success',
@@ -130,6 +135,15 @@ class MenuItemController extends Controller
      */
     public function destroy($id)
     {
+        $menu_item = MenuItem::find($id);
+
+        if(is_null($menu_item)) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Item not found'
+            ], 200);
+        }
+
         MenuItem::destroy($id);
 
         return response()->json([

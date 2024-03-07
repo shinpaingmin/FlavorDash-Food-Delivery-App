@@ -37,17 +37,6 @@ const SignUpPage = () => {
                 </div>
 
                 <div className="mb-5">
-                    <label htmlFor="password">Phone Number</label>
-                    <div className="flex items-center border-2 rounded-md p-2.5 border-gray-300 mt-3
-                        focus-within:border-2 focus-within:border-black">
-
-                        <FiPhone className="text-gray-500 mr-2 focus:text-black" />
-                        <input type="number" className="flex-1 focus:outline-none" id="password"
-                            placeholder="Enter your phone number" />
-                    </div>
-                </div>
-
-                <div className="mb-5">
                     <label htmlFor="password">Password</label>
                     <div className="flex items-center border-2 rounded-md p-2.5 border-gray-300 mt-3
                         focus-within:border-2 focus-within:border-black">

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('total_earn_transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('total_earn_id');
-            $table->float('transactions', 10, 2)->default(0);
-            $table->float('total_remainings', 10, 2)->default(0);
+            $table->unsignedBigInteger('user_id');
+            $table->float('amount', 10, 2)->default(0);
+            $table->enum('type', ['withdrawal', 'deposit']);
             $table->timestamps();
 
-            $table->foreign('total_earn_id')->references('id')->on('total_earns')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

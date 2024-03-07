@@ -8,6 +8,7 @@ import SignUpPage from './pages/customer/SignUpPage';
 import MenuPage from "./pages/customer/MenuPage";
 import CheckoutPage from './pages/customer/CheckoutPage';
 import OrderedPage from './pages/customer/OrderedPage';
+import RestaurantSignUpPage from './pages/customer/RestaurantSignUpPage';
 
 import RestaurantDashboard from './pages/restaurant/HomePage';
 import ProductsPage from './pages/restaurant/ProductsPage';
@@ -27,6 +28,7 @@ import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
 
 
+
 function App() {
 
     const mode = useSelector((state) => state.global.mode);
@@ -41,6 +43,7 @@ function App() {
                 <ThemeProvider theme={theme}>
 
                     <Routes>
+
                         <Route element={<CustomerLayout />}>
                             <Route path="/" element={ <HomePage /> } />
                             <Route path="/feed" element={ <FeedPage /> } />
@@ -49,6 +52,7 @@ function App() {
                             <Route path="/menu" element={ <MenuPage /> } />
                             <Route path="/checkout" element={ <CheckoutPage /> } />
                             <Route path="/ordered items" element={ <OrderedPage /> } />
+                            <Route path="/restaurant/signup" element={<RestaurantSignUpPage />} />
                         </Route>
 
                         <Route element={<RestaurantLayout />}>

@@ -16,7 +16,6 @@ class Order extends Model
         'delivery_detail_id',
         'promo_code_id',
         'order_code',
-        'total_price',
         'order_status',
         'payment_status',
         'updated_at'

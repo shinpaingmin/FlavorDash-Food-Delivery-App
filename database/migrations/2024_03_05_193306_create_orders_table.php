@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('delivery_detail_id');
             $table->unsignedBigInteger('promo_code_id');
             $table->string('order_code', 100)->unique();
-            $table->float('total_price', 7, 2)->default(0);
             $table->enum('order_status', ['pending', 'success', 'reject'])->default('pending');
             $table->enum('payment_status', ['pending', 'success'])->default('pending');
             $table->timestamps();
