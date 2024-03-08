@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\User\MenuItemController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\User\MenuItemController;
+use App\Http\Controllers\User\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,8 @@ use App\Http\Controllers\Auth\UserAuthController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('/restaurants/ordered', [RestaurantController::class, 'index']);
 
 // Public routes of authentication
 Route::controller(UserAuthController::class)->group(function() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use Carbon\Carbon;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -119,7 +120,10 @@ class MenuItemController extends Controller
             ], 200);
         }
 
-        $menu_item->update($request->all());
+        $data = $request->all();
+        $data['updated_at'] = Carbon::now();
+
+        $menu_item->update($data);
 
         $response = [
             'status' => 'success',

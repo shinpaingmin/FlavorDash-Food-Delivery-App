@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use Carbon\Carbon;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,22 +17,32 @@ class RestaurantController extends Controller
     public function index()
     {
         // retrieving all the restaurants
-        $stores = Restaurant::latest()->get();
+        // $stores = Restaurant::latest()->get();
 
-        if(is_null($stores->first())) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'No stores found!',
-            ], 200);
-        }
+        // if(is_null($stores->first())) {
+        //     return response()->json([
+        //         'status' => 'failed',
+        //         'message' => 'No stores found!',
+        //     ], 200);
+        // }
 
-        $response = [
+        // $response = [
+        //     'status' => 'success',
+        //     'message' => 'Stores retrieved successfully!',
+        //     'data' => $stores
+        // ];
+
+        // return response()->json($response, 200);
+        return response()->json([
             'status' => 'success',
-            'message' => 'Stores retrieved successfully!',
-            'data' => $stores
-        ];
-
-        return response()->json($response, 200);
+            'message' => 'retrieved successfully',
+            'data' => [
+                "name" => "kfc restaurant",
+                "township" => "hlaing",
+                "rating" => "4.5",
+                "price" => "100-500"
+            ]
+            ]);
     }
 
     /**
@@ -108,7 +119,10 @@ class RestaurantController extends Controller
             ], 200);
         }
 
-        $store->update($request->all());
+        $data = $request->all();
+        $data['updated_at'] = Carbon::now();
+
+        $store->update($data);
 
         $response = [
             'status' => 'success',
@@ -142,6 +156,7 @@ class RestaurantController extends Controller
         ], 200);
     }
 
+    // search function by name
     public function search($name) {
         $stores = Restaurant::where('name', 'like', '%' . $name . '%')->latest()->get();
 

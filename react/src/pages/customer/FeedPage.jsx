@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { cuisines } from "../../constants/cuisineData";
+import { useGetRestaurantsByOrderedQuery } from "../../services";
+
 import { LuSettings2 } from "react-icons/lu";
 import Filter from "../../components/customer/FeedPage/Filter";
 import Searchbar from "../../components/customer/FeedPage/Searchbar";
@@ -16,6 +18,10 @@ export default function FeedPage() {
     const [option, setOption] = useState("relevant");
     const [category, setCategory] = useState("all");
     const [isToggleOptions, _setIsToggleOptions] = useState(false);
+
+    const { data, error, isLoading } = useGetRestaurantsByOrderedQuery();
+
+    console.log(data);
 
     const setIsToggleOptions = () => {
         if(isToggleOptions) {
