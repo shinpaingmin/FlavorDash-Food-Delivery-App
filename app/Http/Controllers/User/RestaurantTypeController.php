@@ -16,7 +16,7 @@ class RestaurantTypeController extends Controller
     public function index()
     {
         // retrieving all the restaurant types
-        $types = RestaurantType::latest()->get();
+        $types = RestaurantType::orderBy('type', 'asc')->get();
 
         if(is_null($types->first())) {
             return response()->json([
@@ -169,8 +169,7 @@ class RestaurantTypeController extends Controller
     // validation function
     private function validation($request, $id=null) {
         return $validate = Validator::make($request->all(), [
-            'restaurant_id' => 'required|integer',
-            'type' => 'required|string|unique:restaurant_types,type,' . $id,
+            'type' => 'required|string|min:5|max:100|unique:restaurant_types,type,' . $id,
         ]);
     }
 }

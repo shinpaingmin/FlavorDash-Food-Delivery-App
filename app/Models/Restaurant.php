@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\RestaurantTownship;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Restaurant extends Model
 {
@@ -11,12 +12,24 @@ class Restaurant extends Model
 
     protected $fillable = [
         'user_id',
+        'restaurant_type_id',
+        'restaurant_township_id',
         'name',
         'address',
+        'lat',
+        'long',
         'phone',
-        'starting_price',
-        'ending_price',
+        'pricing',
+        'opening_time',
+        'closing_time',
+        'from_day',
+        'to_day',
         'image',
+        'closed',
         'updated_at'
     ];
+
+    public function township() {
+        return $this->belongsTo(RestaurantTownship::class);
+    }
 }

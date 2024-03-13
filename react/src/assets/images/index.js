@@ -7,6 +7,7 @@ import noodle from './noodle.jpg';
 import restaurant from './restaurant.jpg';
 import delivery from './delivery-man.jpg';
 import profileImg from './profile.jpg';
+import emailSentImg from './email_sent.jpg';
 
 export {
     hero1,
@@ -17,5 +18,6 @@ export {
     noodle,
     restaurant,
     delivery,
-    profileImg
+    profileImg,
+    emailSentImg
 }

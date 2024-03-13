@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('menu_sizes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('menu_item_id');
             $table->enum('size', ['XS', 'S', 'N', 'L', 'XL', 'XXL']);
             $table->timestamps();
-
-            $table->foreign('menu_item_id')->references('id')->on('menu_items')->onDelete('cascade');
         });
     }
 

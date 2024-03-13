@@ -14,35 +14,28 @@ class RestaurantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($search)
     {
         // retrieving all the restaurants
-        // $stores = Restaurant::latest()->get();
+        $stores = Restaurant::select('restaurants.*', 'restaurant_townships.township')
+                                ->leftJoin('restaurant_townships', 'restaurant_townships.id', 'restaurants.restaurant_township_id')
+                                ->where('restaurant_townships.township', 'like', '%' . $search . '%')
+                                ->get();
 
-        // if(is_null($stores->first())) {
-        //     return response()->json([
-        //         'status' => 'failed',
-        //         'message' => 'No stores found!',
-        //     ], 200);
-        // }
+        if(is_null($stores->first())) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'No stores found!',
+            ], 200);
+        }
 
-        // $response = [
-        //     'status' => 'success',
-        //     'message' => 'Stores retrieved successfully!',
-        //     'data' => $stores
-        // ];
-
-        // return response()->json($response, 200);
-        return response()->json([
+        $response = [
             'status' => 'success',
-            'message' => 'retrieved successfully',
-            'data' => [
-                "name" => "kfc restaurant",
-                "township" => "hlaing",
-                "rating" => "4.5",
-                "price" => "100-500"
-            ]
-            ]);
+            'message' => 'Stores retrieved successfully!',
+            'data' => $stores
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**

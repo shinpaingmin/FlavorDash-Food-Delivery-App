@@ -5,6 +5,7 @@ import NotFound from './pages/customer/NotFound';
 import FeedPage from './pages/customer/FeedPage';
 import LoginPage from './pages/customer/LoginPage';
 import SignUpPage from './pages/customer/SignUpPage';
+import EmailVerifyPage from './pages/customer/EmailVerifyPage';
 import MenuPage from "./pages/customer/MenuPage";
 import CheckoutPage from './pages/customer/CheckoutPage';
 import OrderedPage from './pages/customer/OrderedPage';
@@ -26,6 +27,8 @@ import { useSelector } from "react-redux";
 import { themeSettings } from "./theme";
 import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
+import CategoryPage from './pages/restaurant/CategoryPage';
+import GuestLayout from './layouts/GuestLayout';
 
 
 
@@ -44,20 +47,30 @@ function App() {
 
                     <Routes>
 
-                        <Route element={<CustomerLayout />}>
+                        {/* Only for guests  */}
+                        <Route element={<GuestLayout />}>
                             <Route path="/" element={ <HomePage /> } />
-                            <Route path="/feed" element={ <FeedPage /> } />
                             <Route path="/login" element={ <LoginPage /> } />
                             <Route path="/signup" element={ <SignUpPage /> } />
+                            <Route path="/feed/new" element={ <FeedPage /> } />
+                        </Route>
+
+                        {/* Only for cusomers  */}
+                        <Route element={<CustomerLayout />}>
+                            <Route path="/feed" element={ <FeedPage /> } />
+                            <Route path="/email/verify" element={ <EmailVerifyPage /> } />
                             <Route path="/menu" element={ <MenuPage /> } />
                             <Route path="/checkout" element={ <CheckoutPage /> } />
                             <Route path="/ordered items" element={ <OrderedPage /> } />
                             <Route path="/restaurant/signup" element={<RestaurantSignUpPage />} />
                         </Route>
 
+                        {/* Only for restaurant owners/admins  */}
                         <Route element={<RestaurantLayout />}>
                             <Route path="/dashboard" element={ <RestaurantDashboard /> } />
                             <Route path="/products" element={ <ProductsPage /> } />
+                            <Route path="/categories" element={ <CategoryPage /> } />
+                            <Route path="/categories/create" element={ <CategoryPage /> } />
                             <Route path="/customers" element={ <CustomersPage /> } />
                             {/* <Route path="/transactions" element={ <TransactionsPage /> } /> */}
                             <Route path="/geography" element={ <GeographyPage /> } />

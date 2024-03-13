@@ -1,4 +1,5 @@
 # React + Vite
+how to get data from rtk query from anywhere
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

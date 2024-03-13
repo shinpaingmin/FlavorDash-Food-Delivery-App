@@ -1,20 +1,28 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { FaUser, FaPlus, FaRegUser, FaRegHeart, FaGlobe } from "react-icons/fa";
 import { FaTruckFast, FaLocationDot  } from "react-icons/fa6";
 import { IoCartOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import Button from "./Button";
 import HamburgerMenu from './HamburgerMenu';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ShoppingCart from './ShoppingCart';
 import DropdownMenu from './DropdownMenu';
+import { useLogoutMutation } from '../../services';
 
 const Header = ({ open, setOpen }) => {
 
     const [scroll, _setScroll] = useState(false);
-    const [loggedIn ,setLoggedIn] = useState(true);
+    const [loggedIn ,setLoggedIn] = useState(localStorage.getItem('token'));
     const [openCart, setOpenCart] = useState(false);
     const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
+    const menuDropdown = useRef();
+    const [logout, {isSuccess}] = useLogoutMutation();
+
+    if(isSuccess) {
+        localStorage.clear();
+        return <Navigate to="/login" />
+    }
 
     const setScroll = () => {
         window.scrollY > 0 ? _setScroll(true) : _setScroll(false);
@@ -22,9 +30,14 @@ const Header = ({ open, setOpen }) => {
 
     window.addEventListener("scroll", setScroll);
 
-    // window.addEventListener("click", function() {
-    //     setIsDropdownMenuOpen(false);
-    // })
+    // dropdown close
+    window.addEventListener("click", function(e) {
+        if(isDropdownMenuOpen) {
+            if(!menuDropdown.current.contains(e.target)) {
+                setIsDropdownMenuOpen(false);
+            }
+        }
+    })
 
     const handleOpenCart = () => {
         if(!openCart) {
@@ -56,14 +69,14 @@ const Header = ({ open, setOpen }) => {
             {
                 loggedIn ? (
                     <ul className='hidden lg:flex items-center list-none'>
-                        <li className='flex items-center relative cursor-pointer' onClick={() => setIsDropdownMenuOpen(!isDropdownMenuOpen)}>
+                        <li ref={menuDropdown}  className='flex items-center relative cursor-pointer' onClick={() => setIsDropdownMenuOpen(!isDropdownMenuOpen)}>
                             <FaRegUser />
                             <p className='ml-2'>Shin Paing Min</p>
                             <button type='button'>
                                 <IoIosArrowDown />
                             </button>
                             {
-                                isDropdownMenuOpen && <DropdownMenu />
+                                isDropdownMenuOpen && <DropdownMenu logout={logout} />
                             }
                         </li>
                         <li className='ml-8 flex items-center'>

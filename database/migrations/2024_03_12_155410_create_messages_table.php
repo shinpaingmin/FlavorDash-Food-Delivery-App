@@ -11,19 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restaurants', function (Blueprint $table) {
+
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name', 150)->unique();
-            $table->longText('address')->unique();
-            $table->string('phone', 15)->unique();
-            $table->float('starting_price', 7, 2)->default(0);
-            $table->float('ending_price', 7, 2)->default(0);
-            $table->string('image')->unique();
+            $table->text('message');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
     }
 
     /**
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('restaurants');
+        Schema::dropIfExists('messages');
     }
 };

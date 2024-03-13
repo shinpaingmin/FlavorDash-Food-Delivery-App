@@ -27,6 +27,7 @@ import {
     TrendingUpOutlined,
     PieChartOutlined,
     ChevronRightOutlined,
+    CategoryOutlined,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -39,12 +40,20 @@ const navItems = [
         icon: <HomeOutlined />,
     },
     {
-        text: "Client Facing",
+        text: "Products",
         icon: null,
     },
     {
         text: "Products",
         icon: <ShoppingCartOutlined />,
+    },
+    {
+        text: "Categories",
+        icon: <CategoryOutlined />,
+    },
+    {
+        text: "Client Facing",
+        icon: null,
     },
     {
         text: "Customers",

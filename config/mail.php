@@ -14,6 +14,7 @@ return [
     */
 
     'default' => env('MAIL_MAILER', 'smtp'),
+    // 'default' => 'mailgun',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,8 +83,11 @@ return [
         'failover' => [
             'transport' => 'failover',
             'mailers' => [
-                'smtp',
-                'log',
+                // 'smtp',
+                // 'log',
+                'mailgun',
+                'postmark',
+                'sendmail'
             ],
         ],
     ],
@@ -100,9 +104,14 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS'),
+        'name' => env('MAIL_FROM_NAME', 'testing'),
     ],
+
+    // 'reply_to' => [
+    //     'address' => 'shinpaingmin@gmail.com',
+    //     'name' => 'App Name'
+    // ],
 
     /*
     |--------------------------------------------------------------------------

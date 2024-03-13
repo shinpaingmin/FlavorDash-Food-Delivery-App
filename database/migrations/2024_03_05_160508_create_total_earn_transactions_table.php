@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('total_earn_transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->float('amount', 10, 2)->default(0);
+            $table->integer('amount')->default(0);
             $table->enum('type', ['withdrawal', 'deposit']);
             $table->timestamps();
 

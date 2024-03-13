@@ -6,7 +6,7 @@ import SocialMedia from "./SocialMedia";
 
 const Footer = () => {
   return (
-    <div className="mt-20 w-full min-h-80 bg-orange  p-8">
+    <div className="mt-32 w-full min-h-80 bg-orange  p-8">
         <div className="block md:grid md:grid-cols-2 md:gap-8 lg:grid-cols-4 lg:gap-8">
             <div className="max-md:mb-5">
                 <h1 className="text-3xl font-bold mb-4">Contact Us</h1>

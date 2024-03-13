@@ -3,12 +3,15 @@ import Hero from "../../components/customer/HomePage/Hero"
 import Intro from "../../components/customer/HomePage/Intro"
 import Location from "../../components/customer/HomePage/Location"
 import Partnership from "../../components/customer/HomePage/Partnership"
+import { useGetRestaurantTownshipsQuery } from "../../services"
 
 const HomePage = () => {
+   const {data: townships, isError, error} = useGetRestaurantTownshipsQuery();
 
+    console.log(townships?.data);
+    console.log(error);
 
-
-  return (
+    return (
     <>
         <div className="w-full md:h-[50vh] absolute z-[-10] top-0 left-0
                         overflow-hidden max-md:object-cover">
@@ -21,7 +24,7 @@ const HomePage = () => {
         <Location />
 
     </>
-  )
+    )
 }
 
 export default HomePage

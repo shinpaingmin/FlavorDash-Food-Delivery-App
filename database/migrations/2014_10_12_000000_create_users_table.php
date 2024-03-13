@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['user', 'admin', 'superAdmin', 'rider']); /* user = customer, admin = restaurant owner,
-                                                                            superAdmin = flavordash website admin, deli = 'delivery riders'*/
+            $table->enum('role', ['user', 'admin', 'superAdmin', 'rider', 'banned']); /* user = customer, admin = restaurant owner,
+                                                                            superAdmin = flavordash website admin, deli = 'delivery riders'
+                                                                            banned = users/admin/deli banned by superadmin */
             $table->string('image')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();

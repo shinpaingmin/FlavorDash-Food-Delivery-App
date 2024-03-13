@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cuisines } from "../../constants/cuisineData";
-import { useGetRestaurantsByOrderedQuery } from "../../services";
+import {
+    useGetAllRestaurantsQuery,
+    useGetRestaurantsByOrderedQuery,
+} from "../../services";
 
 import { LuSettings2 } from "react-icons/lu";
 import Filter from "../../components/customer/FeedPage/Filter";
@@ -13,28 +16,95 @@ import SwiperNavButtons from "../../components/customer/FeedPage/SwiperNavButton
 
 import "swiper/css";
 import ToggleFiltersMenu from "../../components/customer/MenuPage/ToggleFiltersMenu";
+import toast, { Toaster } from "react-hot-toast";
+import { Navigate, useSearchParams } from "react-router-dom";
 
 export default function FeedPage() {
     const [option, setOption] = useState("relevant");
     const [category, setCategory] = useState("all");
     const [isToggleOptions, _setIsToggleOptions] = useState(false);
+    const [queryParameters, setQueryParameters] = useSearchParams();
+    const [searchValue, setSearchValue] = useState(
+        queryParameters.get("searchTownship")?.trim() ||
+            localStorage.getItem("searchTownship")
+    );
+    const [inputValue, setInputValue] = useState("");
 
-    const { data, error, isLoading } = useGetRestaurantsByOrderedQuery();
+    const {
+        data: stores = [],
+        isError,
+        error,
+        isLoading,
+    } = useGetAllRestaurantsQuery(searchValue);
 
-    console.log(data);
+    useEffect(() => {
+        if(isError) {
+            if(error?.status == 401) {
+                localStorage.clear();
+                return <Navigate to="/login" />
+            }
+        }
+    }, [isError])
+
+
+    useEffect(() => {
+        // return from email verification link
+        if (queryParameters.get("status") === "emailVerified") {
+            toast.success("Email verified successfully!", {
+                position: "bottom-right",
+                style: {
+                    padding: "10px",
+                    backgroundColor: "#bbf7d0",
+                },
+            });
+
+            setQueryParameters({
+                "status": ""
+            }) // clear params
+        }
+
+        if (queryParameters.get("searchTownship")) {
+            const modifiedValue = queryParameters.get("searchTownship").trim(); // same as replace("%20", " ")
+            localStorage.setItem("searchTownship", modifiedValue);
+
+        } else {
+            const searchTownship = localStorage.getItem("searchTownship");
+            setQueryParameters({
+                searchTownship,
+            });
+
+        }
+    }, []);
 
     const setIsToggleOptions = () => {
-        if(isToggleOptions) {
+        if (isToggleOptions) {
             _setIsToggleOptions(!isToggleOptions);
             document.body.classList.remove("stop-scrolling");
         } else {
             _setIsToggleOptions(!isToggleOptions);
             document.body.classList.add("stop-scrolling");
         }
-    }
+    };
+
+    // listen for enter key search bar
+    const onEnter = (e) => {
+        if (e.key === "Enter") {
+            setSearchValue(inputValue);
+            setQueryParameters({
+                searchTownship: inputValue,
+            });
+            localStorage.setItem("searchTownship", inputValue);
+
+        }
+    };
+
+    const onChange = (value) => {
+        setInputValue(value);
+    };
 
     return (
         <div className="flex px-4 md:px-8 pt-16 border-t border-t-gray-200 ">
+            {<Toaster />}
             <div
                 className="hidden md:block w-1/4 sticky top-[100px]
                              shadow-sm h-[550px] overflow-y-scroll"
@@ -68,7 +138,12 @@ export default function FeedPage() {
 
             <div className="w-full md:w-3/4 md:pl-5">
                 <div className="flex items-center justify-between max-md:mb-14">
-                    <Searchbar />
+                    <Searchbar
+                        onChange={onChange}
+                        inputValue={inputValue}
+                        searchValue={searchValue}
+                        onEnter={onEnter}
+                    />
                     <button
                         type="button"
                         className="block md:hidden flex-auto ml-3"
@@ -77,18 +152,18 @@ export default function FeedPage() {
                         <LuSettings2 size={24} className="text-gray-700" />
                     </button>
 
-                    {
-                        isToggleOptions && <ToggleFiltersMenu
-                                                sortOptions={sortOptions}
-                                                cuisines={cuisines}
-                                                Filter={Filter}
-                                                category={category}
-                                                setCategory={setCategory}
-                                                option={option}
-                                                setOption={setOption}
-                                                setIsToggleOptions={setIsToggleOptions}
-                                            />
-                    }
+                    {isToggleOptions && (
+                        <ToggleFiltersMenu
+                            sortOptions={sortOptions}
+                            cuisines={cuisines}
+                            Filter={Filter}
+                            category={category}
+                            setCategory={setCategory}
+                            option={option}
+                            setOption={setOption}
+                            setIsToggleOptions={setIsToggleOptions}
+                        />
+                    )}
                 </div>
 
                 <div className="mt-10">
@@ -117,29 +192,27 @@ export default function FeedPage() {
                         <SwiperSlide>
                             <StoreCard />
                         </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <StoreCard />
-                        </SwiperSlide>
-
                         <SwiperNavButtons />
                     </Swiper>
                 </div>
+
+                <div className="mt-10">
+                <h1 className="text-3xl mb-5">All restaurants</h1>
+                {
+                    isLoading && <div>Loading ...</div>
+                }
+                {
+                    stores?.data?.map((store) => (
+                        <StoreCard key={store.id} {...store} />
+                    ))
+                }
+                {
+                    !stores?.data && <div>No products</div>
+                }
             </div>
+            </div>
+
+
         </div>
     );
 }

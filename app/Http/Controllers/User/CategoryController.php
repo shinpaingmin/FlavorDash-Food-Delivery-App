@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -12,7 +14,23 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        // Retrieving categories
+        $categories = Category::latest()->get();
+
+        if(is_null($categories->first())) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'No category found'
+            ], 200);
+        }
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Categories retrieved successfully!',
+            'data' => $categories
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -20,7 +38,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // store categories into db
+
+        $validate = $this->validation($request);
+
+        if($validate->fails()) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Validation Error'
+            ], 422);
+        }
+
+        $category = Category::create($request->all());
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Category was created successfully!',
+            'data' => $category
+        ];
+
+        return response()->json($response, 201);
     }
 
     /**
@@ -45,5 +82,13 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    // private functions
+    private function validation($request) {
+        return $validate = Validator::make($request->all(), [
+            'name' => 'required|min:4|max:100|unique:categories,name'
+        ]);
+
     }
 }

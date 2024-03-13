@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 
 class UserAuthController extends Controller
@@ -28,11 +29,13 @@ class UserAuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => 'user'
         ]);
 
         // res data
         $response = $this->resData($user, $request, 'signup');
+
+        $user->sendEmailVerificationNotification();
 
         // response with json obj
         return response()->json($response, 201); // 201 = created successfully
@@ -63,6 +66,7 @@ class UserAuthController extends Controller
         }
 
         // res data
+        $request->role = "user";
         $response = $this->resData($user, $request);
 
         return response()->json($response, 200); // 200 = request success
@@ -83,13 +87,14 @@ class UserAuthController extends Controller
     private function validation($request, $type='login') {
         // login/signup validation
         $rules = [
-            'email' => 'required|string|email:rfc,dns|max:100|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string'
+            'email' => 'required|string|email:rfc,dns|min:15|max:100',
+            'password' => 'required|string|min:8|max:50',
         ];
 
         if($type === 'signup') {
             $rules['name'] = 'required|string|max:50';
+            $rules['email'] = 'required|string|email:rfc,dns|max:100|unique:users,email';
+            $rules['password'] = 'required|string|min:8|max:50|confirmed';
         }
 
         return $validate = Validator::make($request->all(), $rules);

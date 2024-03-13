@@ -15,14 +15,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('menu_size_id');
             $table->string('name', 150);
-            $table->float('price', 7, 2)->default(0);
+            $table->integer('price')->default(0);
             $table->integer('quantity')->default(0);
-            $table->string('image')->unique();
+            $table->string('image')->unique()->nullable();
             $table->timestamps();
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('menu_size_id')->references('id')->on('menu_sizes')->onDelete('cascade');
         });
     }
 

@@ -16,7 +16,7 @@ class RestaurantTownshipController extends Controller
     public function index()
     {
         // retrieving all the restaurant townships
-        $townships = RestaurantTownship::latest()->get();
+        $townships = RestaurantTownship::orderBy('township', 'asc')->get();
 
         if(is_null($townships->first())) {
             return response()->json([
@@ -169,8 +169,7 @@ class RestaurantTownshipController extends Controller
     // validation function
     private function validation($request, $id=null) {
         return $validate = Validator::make($request->all(), [
-            'restaurant_id' => 'required|integer',
-            'township' => 'required|string|unique:restaurant_townships,township,' . $id,
+            'township' => 'required|string|min:5|max:100|unique:restaurant_townships,township,' . $id,
         ]);
     }
 }

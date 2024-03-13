@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('min_kilometer')->default(0);
             $table->integer('max_kilometer')->default(0);
-            $table->float('delivery_fee', 4, 2)->default(0);
+            $table->integer('delivery_fee')->default(0);
             $table->float('duration', 3, 1)->default(0);
             $table->timestamps();
         });

@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('restaurant_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('restaurant_id');
             $table->string('type', 100)->unique();
             $table->timestamps();
 
-            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
         });
     }
 
