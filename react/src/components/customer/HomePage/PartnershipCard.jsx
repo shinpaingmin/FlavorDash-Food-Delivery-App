@@ -1,7 +1,7 @@
 import Button from "../Button"
 import { FaArrowRight } from "react-icons/fa";
 
-const PartnershipCard = ( { imgSrc, imgOrder, containerOrder, desc, children } ) => {
+const PartnershipCard = ( { imgSrc, imgOrder, containerOrder, desc, children, href } ) => {
   return (
     <div className="block md:grid md:grid-cols-2
                      px-2 md:px-8 my-20 md:my-40">
@@ -16,7 +16,9 @@ const PartnershipCard = ( { imgSrc, imgOrder, containerOrder, desc, children } )
             <p className="mb-8">{ desc }</p>
             <Button bgColor="bg-orange"
                     textColor="text-white"
-                    border="">
+                    border=""
+                    href={href}
+                    >
                 Register <FaArrowRight className="ml-2 animate-pulse"/>
             </Button>
         </div>

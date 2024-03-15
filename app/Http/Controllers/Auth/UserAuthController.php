@@ -35,7 +35,7 @@ class UserAuthController extends Controller
         // res data
         $response = $this->resData($user, $request, 'signup');
 
-        $user->sendEmailVerificationNotification();
+        // $user->sendEmailVerificationNotification(); // Although implemented queuing, it still delays process so temporarily commented
 
         // response with json obj
         return response()->json($response, 201); // 201 = created successfully
@@ -66,7 +66,6 @@ class UserAuthController extends Controller
         }
 
         // res data
-        $request->role = "user";
         $response = $this->resData($user, $request);
 
         return response()->json($response, 200); // 200 = request success
@@ -74,7 +73,8 @@ class UserAuthController extends Controller
 
     public function logout(Request $request) {
         // delete tokens associated with logged in user
-        auth()->user()->tokens()->delete();
+        $user = $request->user();
+        $user->tokens()->delete();
 
         return response()->json([
             'status' => 'success',
@@ -105,7 +105,7 @@ class UserAuthController extends Controller
     // return response data fn
     private function resData($user, $request, $type='login') {
         // Store token and user in data array
-        $data['token'] = $user->createToken($request->email, [$request->role])->accessToken;
+        $data['token'] = $user->createToken($request->email, ["user"])->accessToken;
         $data['user'] = $user;
 
         // response array

@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Models\Message;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\SendVerificationEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -58,6 +59,10 @@ class User extends Authenticatable
     public function messages()
     {
     return $this->hasMany(Message::class);
+    }
+
+    public function sendEmailVerificationNotification() {
+        $this->notify(new SendVerificationEmail);
     }
 
 }

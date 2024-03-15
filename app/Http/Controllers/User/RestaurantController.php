@@ -17,10 +17,19 @@ class RestaurantController extends Controller
     public function index($search)
     {
         // retrieving all the restaurants
-        $stores = Restaurant::select('restaurants.*', 'restaurant_townships.township')
-                                ->leftJoin('restaurant_townships', 'restaurant_townships.id', 'restaurants.restaurant_township_id')
-                                ->where('restaurant_townships.township', 'like', '%' . $search . '%')
-                                ->get();
+        // $stores = Restaurant::select('restaurants.*', 'restaurant_townships.township')
+        //                         ->leftJoin('restaurant_townships', 'restaurant_townships.id', 'restaurants.restaurant_township_id')
+        //                         ->where('restaurant_townships.township', 'like', '%' . $search . '%')
+        //                         ->get();
+
+        $stores = Restaurant::with('restaurant_township', 'restaurant_type')
+                            ->withCount('reviews')
+                            ->withAvg('reviews', 'rating_star')
+                            ->whereHas('restaurant_township', function($query) use ($search) {
+                                $query->where('township', 'like', '%' . $search . '%');
+                            })
+                            ->select('restaurants.name', 'restaurants.pricing')
+                            ->get();
 
         if(is_null($stores->first())) {
             return response()->json([
@@ -28,6 +37,11 @@ class RestaurantController extends Controller
                 'message' => 'No stores found!',
             ], 200);
         }
+
+        // $stores->each(function($store) {
+        //     $store->review_count = $store->reviews()->count();
+        //     $store->average_rating = $store->reviews()->avg('rating');
+        // });
 
         $response = [
             'status' => 'success',

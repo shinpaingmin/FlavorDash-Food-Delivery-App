@@ -108,10 +108,7 @@ return [
         'name' => env('MAIL_FROM_NAME', 'testing'),
     ],
 
-    // 'reply_to' => [
-    //     'address' => 'shinpaingmin@gmail.com',
-    //     'name' => 'App Name'
-    // ],
+
 
     /*
     |--------------------------------------------------------------------------

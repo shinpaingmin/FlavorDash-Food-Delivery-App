@@ -16,8 +16,8 @@ return [
 
     'mailgun' => [
         'transport' => 'mailgun',
-        'domain' => env('MAILGUN_DOMAIN', 'andboxe75850eef69d4bd09980110a579f1e20.mailgun.org'),
-        'secret' => env('MAILGUN_SECRET', '7b14268fc9d32490d784ec25925f4514-b02bcf9f-fc951799'),
+        'domain' => env('MAILGUN_DOMAIN'),
+        'secret' => env('MAILGUN_SECRET'),
         'endpoint' => 'api.mailgun.net',
         'scheme' => 'https',
 ],

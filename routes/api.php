@@ -26,7 +26,7 @@ use App\Http\Controllers\User\RestaurantTownshipController;
 // Public routes of user authentication
 Route::controller(UserAuthController::class)->group(function() {
     Route::post('/signup', 'signup');
-    Route::post('/login', 'login');
+    Route::post('/login', 'login')->name('login');
 });
 
 // Email verification routes
@@ -37,7 +37,7 @@ Route::controller(VerificationController::class)->group(function() {
 
 Route::post('/restaurant/signup', [AdminAuthController::class, 'store']);
 
-// Restaurants routes
+// Restaurants routes for both public and private routes
 Route::controller(RestaurantController::class)->group(function() {
     // Route::get('/restaurants/ordered', [RestaurantController::class, 'index']);
     Route::get('/restaurants/{search}', 'index');

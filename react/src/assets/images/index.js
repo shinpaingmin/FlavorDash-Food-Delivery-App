@@ -8,6 +8,7 @@ import restaurant from './restaurant.jpg';
 import delivery from './delivery-man.jpg';
 import profileImg from './profile.jpg';
 import emailSentImg from './email_sent.jpg';
+import noStoreFound from './no-restaurant-found.png';
 
 export {
     hero1,
@@ -19,5 +20,6 @@ export {
     restaurant,
     delivery,
     profileImg,
-    emailSentImg
+    emailSentImg,
+    noStoreFound
 }

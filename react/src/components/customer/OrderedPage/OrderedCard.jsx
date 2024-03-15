@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaStar, FaRegClock, FaShippingFast, FaRegHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
@@ -8,9 +8,11 @@ const OrderedCard = ({
     setIsFeedbackModalOpen,
     setIsReorderModalOpen,
     setIsStoreInfoModalOpen,
+    setActiveMoreDetailsOpen,
+    activeMoreDetailsOpen,
+    id
 }) => {
     const [scale, setScale] = useState(false);
-    const [isMoreDetailsOpen, setIsMoreDetailsOpen] = useState(false);
 
     return (
         <motion.div
@@ -27,7 +29,7 @@ const OrderedCard = ({
             <div
                 className="absolute top-2 right-2 cursor-pointer
             w-8 h-8 rounded-full bg-white z-[1] grid place-items-center hover:scale-110 transition-all"
-                onClick={() => setIsMoreDetailsOpen(!isMoreDetailsOpen)}
+                onClick={() => setActiveMoreDetailsOpen(activeMoreDetailsOpen === id ? null : id)}
             >
                 <HiOutlineDotsHorizontal className="text-orange" />
             </div>
@@ -40,7 +42,7 @@ const OrderedCard = ({
                     }`}
                 />
             </div>
-            {isMoreDetailsOpen && (
+            {activeMoreDetailsOpen === id && (
                 <MoreDetailsDropdownMenu
                     setIsReorderModalOpen={setIsReorderModalOpen}
                     setIsFeedbackModalOpen={setIsFeedbackModalOpen}
@@ -49,15 +51,25 @@ const OrderedCard = ({
             )}
             <div className="p-3">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-gray-700 font-semibold">KFC (Parami)</h3>
+                    <h3 className="text-gray-700 font-semibold">
+                        KFC (Parami)
+                    </h3>
                     <h3 className="text-gray-700 font-semibold">17,000 MMK</h3>
                 </div>
 
-                <p className="text-gray-600 font-semibold text-sm my-2">Delivered on Wed, May 13, 2:00 PM</p>
-                <p className="text-gray-600 font-semibold text-sm my-2">Order ID: #fd239i2</p>
+                <p className="text-gray-600 font-semibold text-sm my-2">
+                    Delivered on Wed, May 13, 2:00 PM
+                </p>
+                <p className="text-gray-600 font-semibold text-sm my-2">
+                    Order ID: #fd239i2
+                </p>
 
-                <p className="text-gray-600 font-semibold text-sm my-2">4 x Fried chicken (spicy)</p>
-                <p className="text-gray-600 font-semibold text-sm my-2">2 x Hamburger</p>
+                <p className="text-gray-600 font-semibold text-sm my-2">
+                    4 x Fried chicken (spicy)
+                </p>
+                <p className="text-gray-600 font-semibold text-sm my-2">
+                    2 x Hamburger
+                </p>
             </div>
         </motion.div>
     );

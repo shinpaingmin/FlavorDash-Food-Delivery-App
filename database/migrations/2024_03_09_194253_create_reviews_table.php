@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('menu_item_id');
-            $table->float('rating_star', 2, 1);
+            $table->integer('rating_star');
             $table->longText('description');
             $table->timestamps();
 

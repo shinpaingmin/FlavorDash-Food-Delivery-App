@@ -55,7 +55,7 @@ const LoginPage = () => {
                 localStorage.setItem(`${prop}`, resData.data.user[prop]);
             }
 
-            navigate('/feed');
+            navigate('/feed?status=loggedIn');
 
         }
     }, [isError, isSuccess]);
@@ -87,6 +87,7 @@ const LoginPage = () => {
                                 id="email"
                                 placeholder="Enter your email address"
                                 required
+                                autoFocus
                                 value={data.email}
                                 onChange={(e) =>
                                     updateFields({ email: e.target.value })

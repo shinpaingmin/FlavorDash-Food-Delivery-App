@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('menu_sizes', function (Blueprint $table) {
             $table->id();
-            $table->enum('size', ['XS', 'S', 'N', 'L', 'XL', 'XXL']);
+            $table->string('size', 15);     //['XS', 'S', 'N', 'L', 'XL', 'XXL']
             $table->timestamps();
         });
     }

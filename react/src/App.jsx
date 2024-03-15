@@ -53,6 +53,7 @@ function App() {
                             <Route path="/login" element={ <LoginPage /> } />
                             <Route path="/signup" element={ <SignUpPage /> } />
                             <Route path="/feed/new" element={ <FeedPage /> } />
+                            <Route path="/restaurant/signup" element={<RestaurantSignUpPage />} />
                         </Route>
 
                         {/* Only for cusomers  */}
@@ -62,7 +63,6 @@ function App() {
                             <Route path="/menu" element={ <MenuPage /> } />
                             <Route path="/checkout" element={ <CheckoutPage /> } />
                             <Route path="/ordered items" element={ <OrderedPage /> } />
-                            <Route path="/restaurant/signup" element={<RestaurantSignUpPage />} />
                         </Route>
 
                         {/* Only for restaurant owners/admins  */}

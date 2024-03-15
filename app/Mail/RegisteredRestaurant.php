@@ -28,7 +28,7 @@ class RegisteredRestaurant extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            // from: new Address('shinpaingmin@gmail.com', 'flavordash'),   // migrated to global scope
+
             subject: 'Registration success!',
 
         );

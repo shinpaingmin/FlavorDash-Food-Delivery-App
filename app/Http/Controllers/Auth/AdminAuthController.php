@@ -69,7 +69,7 @@ class AdminAuthController extends Controller
             'closing_time' => $request->closing_time,
             'from_day' => $request->from_day,
             'to_day' => $request->to_day,
-            'image' => $image,
+            'image' => $fileName,
         ];
 
         $store = Restaurant::create($storeData);

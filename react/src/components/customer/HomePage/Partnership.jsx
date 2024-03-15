@@ -8,7 +8,9 @@ const Partnership = () => {
         <PartnershipCard imgSrc={restaurant}
                         imgOrder="order-1"
                         containerOrder="order-2"
-                        desc="Welcome, esteemed restaurant owners! Join our culinary community by registering your restaurant with us. By becoming a part of our food delivery platform, you unlock the opportunity to reach a broader audience and delight customers with your delectable dishes. Showcase your culinary expertise, expand your business, and elevate the dining experience for customers in the comfort of their homes.">
+                        desc="Welcome, esteemed restaurant owners! Join our culinary community by registering your restaurant with us. By becoming a part of our food delivery platform, you unlock the opportunity to reach a broader audience and delight customers with your delectable dishes. Showcase your culinary expertise, expand your business, and elevate the dining experience for customers in the comfort of their homes."
+                        href="/restaurant/signup"
+                        >
             <span className="text-orange">Partner</span> with <span className="text-orange">Us</span> anytime
         </PartnershipCard>
 

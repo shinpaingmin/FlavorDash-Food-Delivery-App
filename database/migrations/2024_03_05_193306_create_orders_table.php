@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('rider_id');
+            $table->unsignedBigInteger('rider_id')->nullabe();
             $table->unsignedBigInteger('payment_id');
             $table->unsignedBigInteger('delivery_detail_id');
-            $table->unsignedBigInteger('promo_code_id');
+            $table->unsignedBigInteger('promo_code_id')->nullable();
             $table->string('order_code', 100)->unique();
             $table->enum('order_status', ['pending', 'success', 'reject'])->default('pending');
             $table->enum('payment_status', ['pending', 'success'])->default('pending');

@@ -4,8 +4,12 @@ export const foodDeliveryWebApis = createApi({
     reducerPath: "foodDeliveryWebApis",
     baseQuery: fetchBaseQuery({
             baseUrl: "http://localhost:8000/api/",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
+            prepareHeaders: (headers) => {
+                let token = localStorage.getItem("token");
+                if(token) {
+                    headers.set('authorization', `Bearer ${token}`);
+                }
+                return headers;
             }
     }),
     tagTypes: ['User', 'Restaurants', 'RestaurantTypes', 'RestaurantTownships', 'Categories'],
@@ -29,7 +33,7 @@ export const foodDeliveryWebApis = createApi({
         logout: builder.mutation({
             query: () => ({
                 url: "logout",
-                method: "POST"
+                method: "POST",
             })
         }),
         checkEmailVerify: builder.query({
@@ -39,7 +43,10 @@ export const foodDeliveryWebApis = createApi({
             }),
         }),
         getRegenerateEmailVerify: builder.query({
-            query: () => "email/resend",
+            query: () => ({
+                url: "email/resend",
+                method: "GET",
+            }),
         }) ,
         addNewRestaurant: builder.mutation({
             query: (body) => ({
@@ -54,7 +61,10 @@ export const foodDeliveryWebApis = createApi({
 
         }),
         getAllRestaurants: builder.query({
-            query: (search) => `restaurants/${search}`
+            query: (search) => ({
+                url: `restaurants/${search}`,
+                method: "GET",
+            })
         }),
         getRestaurantTypes: builder.query({
             query: () => "restaurantTypes",

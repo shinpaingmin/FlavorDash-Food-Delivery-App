@@ -1,4 +1,9 @@
 # Resources
+https://redux-toolkit.js.org/rtk-query/usage/error-handling
+https://laracasts.com/discuss/channels/laravel/how-can-i-set-time-datatype-in-laravel-migration
+https://medium.com/geekculture/paypal-payment-gateway-integration-with-laravel-ebebc7ccf470
+https://arjunamrutiya.medium.com/unlock-seamless-authentication-a-step-by-step-guide-to-implementing-gmail-login-in-laravel-495806c5a420
+https://medium.com/@salahdrbas1/laravel-contact-form-send-email-using-gmail-smtp-laravel-10-b4dedff7f24a
 https://laracasts.com/discuss/channels/eloquent/using-laravels-eloquent-models-how-do-i-get-a-plain-left-join-result
 https://www.geeksforgeeks.org/program-distance-two-points-earth/
 https://www.folio3.com/mobile/blog/alternative-to-react-google-maps-with-search-functionality/

@@ -8,8 +8,6 @@ import { useGetRestaurantTownshipsQuery } from "../../services"
 const HomePage = () => {
    const {data: townships, isError, error} = useGetRestaurantTownshipsQuery();
 
-    console.log(townships?.data);
-    console.log(error);
 
     return (
     <>

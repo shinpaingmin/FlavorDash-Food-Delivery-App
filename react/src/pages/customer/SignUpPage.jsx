@@ -51,7 +51,7 @@ const SignUpPage = () => {
                 }
             })
         } else if(isSuccess) {
-            setData(INIT_DATA); // clear input fields
+            // setData(INIT_DATA); // clear input fields
 
             localStorage.setItem("token", resData?.data?.token);    // store token in local storage
 
@@ -59,16 +59,15 @@ const SignUpPage = () => {
                 localStorage.setItem(`${prop}`, resData.data.user[prop]);
             }
 
-            navigate('/feed');
+            navigate('/feed?status=signUp');
 
         }
     }, [isError, isSuccess]);
 
     return (
         <div className="px-8 pt-12 border-t border-t-gray-200 ">
-            {
-                (isError || isSuccess) && <Toaster />
-            }
+             <Toaster />
+
             <h1 className="font-bold text-3xl text-center">Sign Up</h1>
 
             {error?.status == "422" && (
@@ -91,6 +90,7 @@ const SignUpPage = () => {
                                 className="flex-1 focus:outline-none"
                                 id="username"
                                 required
+                                autoFocus
                                 placeholder="Enter your username"
                                 value={data.name}
                                 onChange={(e) =>

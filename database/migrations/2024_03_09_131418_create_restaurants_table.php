@@ -18,16 +18,15 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_township_id');
             $table->string('name', 150)->unique();
             $table->longText('address')->unique();
-            $table->float('lat', 6, 4)->unique(); // need rounded data
-            $table->float('long', 6, 4)->unique(); // need rounded data
+            $table->float('lat', 6, 4)->unique()->nullable(); // need rounded data
+            $table->float('long', 6, 4)->unique()->nullable(); // need rounded data
             $table->string('phone', 15)->unique();
             $table->enum('pricing', ['$', '$$', '$$$']);
-            $table->string('opening_time', 20);
-            $table->string('closing_time', 20);
-            $table->string('from_day', 20);
-            $table->string('to_day', 20);
+            $table->time('opening_time');       // 20:00:00
+            $table->time('closing_time');
+            $table->integer('from_day');    // 0 = Sunday, 1 = Monday, ...
+            $table->integer('to_day');
             $table->string('image')->unique()->nullable();
-            $table->enum('closed', ['0', '1'])->default('1'); // 0 = false, 1 = true
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

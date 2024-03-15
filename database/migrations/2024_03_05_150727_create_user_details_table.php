@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->longText('address');
+            $table->float('lat', 6, 4)->nullable();
+            $table->float('long', 6, 4)->nullable();
             $table->string('phone', 15);
-            $table->longText('detailed_address');
+            $table->longText('detailed_address')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

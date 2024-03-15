@@ -18,6 +18,7 @@ import "swiper/css";
 import ToggleFiltersMenu from "../../components/customer/MenuPage/ToggleFiltersMenu";
 import toast, { Toaster } from "react-hot-toast";
 import { Navigate, useSearchParams } from "react-router-dom";
+import { noStoreFound } from "../../assets/images";
 
 export default function FeedPage() {
     const [option, setOption] = useState("relevant");
@@ -38,43 +39,54 @@ export default function FeedPage() {
     } = useGetAllRestaurantsQuery(searchValue);
 
     useEffect(() => {
-        if(isError) {
-            if(error?.status == 401) {
+        if (isError) {
+            if (error?.status == 401 || error?.status == 403) {
                 localStorage.clear();
-                return <Navigate to="/login" />
+                return <Navigate to="/login" />;
             }
         }
-    }, [isError])
+    }, [isError]);
 
+    // success message box
+    function successBox(text) {
+        toast.success(text, {
+            position: "bottom-right",
+            style: {
+                padding: "10px",
+                backgroundColor: "#bbf7d0",
+            },
+        });
+
+        setQueryParameters({
+            status: "",
+        }); // clear params
+    }
 
     useEffect(() => {
         // return from email verification link
         if (queryParameters.get("status") === "emailVerified") {
-            toast.success("Email verified successfully!", {
-                position: "bottom-right",
-                style: {
-                    padding: "10px",
-                    backgroundColor: "#bbf7d0",
-                },
-            });
+            successBox("Email verified successfully!");
+        }
 
-            setQueryParameters({
-                "status": ""
-            }) // clear params
+        if (queryParameters.get("status") === "loggedIn") {
+            successBox("Logged in successfully!!");
+        }
+
+        if (queryParameters.get("status") === "signUp") {
+            successBox("User account created successfully!!");
         }
 
         if (queryParameters.get("searchTownship")) {
             const modifiedValue = queryParameters.get("searchTownship").trim(); // same as replace("%20", " ")
             localStorage.setItem("searchTownship", modifiedValue);
-
+            setSearchValue(modifiedValue);
         } else {
             const searchTownship = localStorage.getItem("searchTownship");
             setQueryParameters({
                 searchTownship,
             });
-
         }
-    }, []);
+    }, [queryParameters.get("searchTownship")]);
 
     const setIsToggleOptions = () => {
         if (isToggleOptions) {
@@ -89,12 +101,11 @@ export default function FeedPage() {
     // listen for enter key search bar
     const onEnter = (e) => {
         if (e.key === "Enter") {
-            setSearchValue(inputValue);
-            setQueryParameters({
-                searchTownship: inputValue,
-            });
-            localStorage.setItem("searchTownship", inputValue);
-
+            // setSearchValue(inputValue);
+            // setQueryParameters({
+            //     searchTownship: inputValue,
+            // });
+            // localStorage.setItem("searchTownship", inputValue);
         }
     };
 
@@ -166,7 +177,7 @@ export default function FeedPage() {
                     )}
                 </div>
 
-                <div className="mt-10">
+                {/* <div className="mt-10">
                     <h1 className="text-3xl mb-5">Order it again</h1>
 
                     <Swiper
@@ -194,25 +205,34 @@ export default function FeedPage() {
                         </SwiperSlide>
                         <SwiperNavButtons />
                     </Swiper>
-                </div>
+                </div> */}
 
                 <div className="mt-10">
-                <h1 className="text-3xl mb-5">All restaurants</h1>
-                {
-                    isLoading && <div>Loading ...</div>
-                }
-                {
-                    stores?.data?.map((store) => (
-                        <StoreCard key={store.id} {...store} />
-                    ))
-                }
-                {
-                    !stores?.data && <div>No products</div>
-                }
-            </div>
-            </div>
+                    <h1 className="text-3xl mb-5">All restaurants</h1>
 
 
+                    {
+                    isLoading ? (
+                        <div className="text-center text-2xl font-semibold text-gray-500">Loading ...</div>
+                    ) : (
+                        stores?.data ? (
+                            stores.data.map((store, i) => (
+                                <StoreCard key={i} {...store} />
+                            ))
+                        ) : (
+                            <div className="w-72 h-72 overflow-hidden mx-auto">
+                                <img
+                                    src={noStoreFound}
+                                    alt="no restaurant found"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        )
+                    )
+                    }
+
+                </div>
+            </div>
         </div>
     );
 }
