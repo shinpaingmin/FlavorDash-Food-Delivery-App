@@ -4,7 +4,14 @@ import { FaStar, FaRegClock, FaShippingFast, FaRegHeart } from "react-icons/fa";
 import { motion } from 'framer-motion';
 import { useNavigate } from "react-router-dom";
 
-const StoreCard = () => {
+const StoreCard = ({
+    image,
+    name,
+    reviews_avg_rating_star,
+    reviews_count,
+    restaurant_type: {type},
+    pricing
+}) => {
     const [scale, setScale] = useState(false);
     const navigate = useNavigate();
   return (
@@ -21,22 +28,22 @@ const StoreCard = () => {
         </div>
         <div className="w-full h-40 overflow-hidden">
             <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLeIZ8lcZUns6_RvE2_3pLT3hqoXGw8hclg&usqp=CAU" alt="kfc"
+                src={image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLeIZ8lcZUns6_RvE2_3pLT3hqoXGw8hclg&usqp=CAU"} alt={name}
                 className={`w-full h-full object-cover object-center rounded-t-md transition-all duration-500 ${scale ? "scale-110" : ""}`} />
         </div>
         <div className="p-3">
             <div className="flex items-center justify-between">
-                <h3>KFC (Parami)</h3>
+                <h3>{name}</h3>
                 <div className="flex items-center">
                     <FaStar color="#ff9529" />
-                    <span className="ml-2">4</span>
-                    <span>(500+)</span>
+                    <span className="ml-2">{reviews_avg_rating_star}</span>
+                    <span>({reviews_count})</span>
                 </div>
             </div>
 
             <ul className="flex list-disc list-inside my-2">
-                <li className="capitalize mr-3 text-sm"><span className="ml-[-10px]">fried chicken</span></li>
-                <li className="capitalize mr-3 text-sm"><span className="ml-[-10px]">fast food</span></li>
+                <li className="capitalize mr-3 text-sm"><span className="ml-[-10px]">{type}</span></li>
+                <li className="capitalize mr-3 text-sm"><span className="ml-[-10px]">{pricing}</span></li>
             </ul>
 
             <div className="flex items-center">

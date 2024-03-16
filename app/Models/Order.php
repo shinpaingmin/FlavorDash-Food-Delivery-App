@@ -13,11 +13,13 @@ class Order extends Model
         'user_id',
         'rider_id',
         'payment_id',
-        'delivery_detail_id',
         'promo_code_id',
+        'order_rejected_by_id',
         'order_code',
+        'delivery_fee',
         'order_status',
         'payment_status',
+        'rider_status',
         'updated_at'
     ];
 }

@@ -12,9 +12,11 @@ class MenuItem extends Model
     protected $fillable = [
         'restaurant_id',
         'category_id',
+        'menu_size_id',
         'name',
         'price',
         'quantity',
+        'image',
         'updated_at'
     ];
 }

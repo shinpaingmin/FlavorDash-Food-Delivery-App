@@ -1,5 +1,4 @@
 import { FaStore, FaPhoneAlt } from "react-icons/fa";
-import { FaLocationCrosshairs } from "react-icons/fa6";
 import {
     useGetRestaurantTownshipsQuery,
 } from "../../../services";
@@ -7,8 +6,6 @@ import {
 const RestaurantForm = ({
     storeName,
     storeAddress,
-    latitude,
-    longitude,
     township,
     storePhone,
     updateFields,
@@ -17,11 +14,7 @@ const RestaurantForm = ({
 
     const {
         data: townshipsData,
-        error,
-        isError,
         isLoading,
-        isFetching,
-        isSuccess
     } = useGetRestaurantTownshipsQuery();
 
 
@@ -83,63 +76,6 @@ const RestaurantForm = ({
                     </div>
 
                     <div className="mb-5">
-                        <label htmlFor="latitude">
-                            Enter your restaurant latitude
-                        </label>
-
-                        <div
-                            className="flex items-center border-2 rounded-md p-2.5 border-gray-300 mt-3
-                        focus-within:border-2 focus-within:border-black w-full"
-                        >
-                            <FaLocationCrosshairs className="text-gray-500 mr-2 focus:text-black" />
-                            <input
-                                type="number"
-                                name="latitude"
-                                className="w-full flex-1 focus:outline-none"
-                                id="latitude"
-                                placeholder="Enter your restuarnat latitude"
-                                required
-                                value={latitude}
-                                onChange={(e) =>
-                                    updateFields({ latitude: e.target.value })
-                                }
-                            />
-                        </div>
-                        {storeError?.data?.data?.latitude && (
-                            <div className="text-sm text-red-600 mt-2 text-justify">{storeError?.data?.data?.latitude}</div>
-                        )}
-                    </div>
-
-                    <div className="mb-5">
-                        <label htmlFor="longitude">
-                            Enter your restaurant longitude
-                        </label>
-
-                        <div
-                            className="flex items-center border-2 rounded-md p-2.5 border-gray-300 mt-3
-                        focus-within:border-2 focus-within:border-black w-full"
-                        >
-                            <FaLocationCrosshairs className="text-gray-500 mr-2 focus:text-black" />
-                            <input
-                                type="number"
-                                name="longitude"
-                                className="w-full flex-1 focus:outline-none"
-                                id="longitude"
-                                placeholder="Enter your restuarnat longitude"
-                                required
-                                value={longitude}
-                                onChange={(e) =>
-                                    updateFields({ longitude: e.target.value })
-                                }
-                            />
-                        </div>
-                        {storeError?.data?.data?.longitude && (
-                            <div className="text-sm text-red-600 mt-2 text-justify">{storeError?.data?.data?.longitude}</div>
-                        )}
-                    </div>
-
-
-                    <div className="mb-5">
                         <label htmlFor="township">
                             Select your restaurant township
                         </label>
@@ -154,15 +90,20 @@ const RestaurantForm = ({
                                 updateFields({ township: e.target.value })
                             }
                         >
-                            <option value="" selected>
-                                --- Select your restaurant township ---
+                            <option value="" selected disabled>
+                                {isLoading ? "Loading townships ...." : "--- Select your restaurant township ---"}
                             </option>
-                            {townshipsData &&
-                                townshipsData?.data?.map((i) => (
-                                    <option value={i.id} key={i.id}>
-                                        {i.township}
-                                    </option>
-                                ))}
+                            {
+                                townshipsData ? (
+                                    townshipsData?.data?.map((i) => (
+                                        <option value={i.id} key={i.id}>
+                                            {i.township}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option value="" disabled>No available townships</option>
+                                )
+                            }
                         </select>
                         {storeError?.data?.data?.township && (
                             <div className="text-sm text-red-600 mt-2 text-justify">{storeError?.data?.data?.township}</div>

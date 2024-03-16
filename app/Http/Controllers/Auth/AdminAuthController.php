@@ -51,9 +51,9 @@ class AdminAuthController extends Controller
 
         $userId = User::create($userData)->id;
 
-        $fileName = uniqid() . $request->image->getClientOriginalName();
+        // $fileName = uniqid() . $request->image->getClientOriginalName();
 
-        $image = $request->image->storeAs('public', $fileName);
+        // $image = $request->image->storeAs('public', $fileName);
 
         $storeData = [
             'user_id' => $userId,
@@ -69,7 +69,7 @@ class AdminAuthController extends Controller
             'closing_time' => $request->closing_time,
             'from_day' => $request->from_day,
             'to_day' => $request->to_day,
-            'image' => $fileName,
+            // 'image' => $fileName,
         ];
 
         $store = Restaurant::create($storeData);
@@ -116,17 +116,17 @@ class AdminAuthController extends Controller
             'password' => ['required', 'string', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed'],
             'storeName' => 'required|string|min:5|max:150|unique:restaurants,name',
             'storeAddress' => 'required|string|min:8|unique:restaurants,address',
-            'latitude' => 'required|decimal:2,4|unique:restaurants,lat',
-            'longitude' => 'required|decimal:2,4|unique:restaurants,long',
+            // 'latitude' => 'required|decimal:2,4|unique:restaurants,lat',
+            // 'longitude' => 'required|decimal:2,4|unique:restaurants,long',
             'township' => 'required|integer',
             'storePhone' => 'required|string|min:9|max:15|unique:restaurants,phone',
             'type' => 'required|integer',
             'pricing' => 'required|string',
-            'opening_time' => 'required|string|min:4|max:20',
-            'closing_time' => 'required|string|min:4|max:20',
-            'from_day' => 'required|string|min:4|max:20',
-            'to_day' => 'required|string|min:4|max:20',
-            'image' => ['required', File::image()->max(2048)]   // up to 2 MB
+            'opening_time' => 'required',
+            'closing_time' => 'required',
+            'from_day' => 'required|integer',
+            'to_day' => 'required|integer',
+            // 'image' => ['required', File::image()->max(2048)]   // up to 2 MB
         ]);
     }
 }

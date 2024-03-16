@@ -38,6 +38,8 @@ export default function FeedPage() {
         isLoading,
     } = useGetAllRestaurantsQuery(searchValue);
 
+    console.log(stores);
+
     useEffect(() => {
         if (isError) {
             if (error?.status == 401 || error?.status == 403) {

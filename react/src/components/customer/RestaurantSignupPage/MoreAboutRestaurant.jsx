@@ -13,8 +13,7 @@ const MoreAboutRestaurant = ({
 }) => {
     const {
         data: typesData,
-        error: typesError,
-        isLoading: typesIsLoading,
+        isLoading,
     } = useGetRestaurantTypesQuery();
 
     return (
@@ -38,16 +37,22 @@ const MoreAboutRestaurant = ({
                                 updateFields({ type: e.target.value })
                             }
                         >
-                            <option value="" selected>
-                                --- Select your restaurant type ---
+                            <option value="" selected disabled>
+                                {isLoading ? "Loading data ..." : "--- Select your restaurant type ---"}
                             </option>
 
-                            {typesData &&
-                                typesData?.data?.map((i) => (
-                                    <option value={i.id} key={i.id}>
-                                        {i.type}
-                                    </option>
-                                ))}
+                            {
+                                typesData ? (
+                                    typesData?.data?.map((i) => (
+                                        <option value={i.id} key={i.id}>
+                                            {i.type}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option value="" disabled>No restaurant type available</option>
+                                )
+
+                            }
                         </select>
                         {storeError?.data?.data?.type && (
                             <div className="text-sm text-red-600 mt-2 text-justify">
@@ -70,7 +75,7 @@ const MoreAboutRestaurant = ({
                                 focus:border-2 focus:border-black w-full block"
                             required
                         >
-                            <option value="" selected>
+                            <option value="" selected disabled>
                                 --- Select your restaurant price range ---
                             </option>
                             <option value="$">$</option>
@@ -142,16 +147,16 @@ const MoreAboutRestaurant = ({
                                 focus:border-2 focus:border-black w-full block"
                             required
                         >
-                            <option value="" selected>
+                            <option value="" selected disabled>
                                 --- Select your restaurant opening from ---
                             </option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                            <option value="Sunday">Sunday</option>
+                            <option value={0}>Sunday</option>
+                            <option value={1}>Monday</option>
+                            <option value={2}>Tuesday</option>
+                            <option value={3}>Wednesday</option>
+                            <option value={4}>Thursday</option>
+                            <option value={5}>Friday</option>
+                            <option value={6}>Saturday</option>
                         </select>
                         {storeError?.data?.data?.from_day && (
                             <div className="text-sm text-red-600 mt-2 text-justify">
@@ -174,16 +179,16 @@ const MoreAboutRestaurant = ({
                                 focus:border-2 focus:border-black w-full block"
                             required
                         >
-                            <option value="" selected>
+                            <option value="" selected disabled>
                                 --- Select your restaurant opening to ---
                             </option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                            <option value="Sunday">Sunday</option>
+                            <option value={0}>Sunday</option>
+                            <option value={1}>Monday</option>
+                            <option value={2}>Tuesday</option>
+                            <option value={3}>Wednesday</option>
+                            <option value={4}>Thursday</option>
+                            <option value={5}>Friday</option>
+                            <option value={6}>Saturday</option>
                         </select>
                         {storeError?.data?.data?.to_day && (
                             <div className="text-sm text-red-600 mt-2 text-justify">

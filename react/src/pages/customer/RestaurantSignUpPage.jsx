@@ -14,8 +14,6 @@ const INIT_DATA = {
     password_confirmation: "",
     storeName: "",
     storeAddress: "",
-    latitude: "",
-    longitude: "",
     township: "",
     storePhone: "",
     type: "",

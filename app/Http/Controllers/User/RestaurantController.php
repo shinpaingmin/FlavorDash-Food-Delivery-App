@@ -28,7 +28,6 @@ class RestaurantController extends Controller
                             ->whereHas('restaurant_township', function($query) use ($search) {
                                 $query->where('township', 'like', '%' . $search . '%');
                             })
-                            ->select('restaurants.name', 'restaurants.pricing')
                             ->get();
 
         if(is_null($stores->first())) {

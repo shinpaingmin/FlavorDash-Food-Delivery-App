@@ -16,18 +16,21 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('rider_id')->nullabe();
             $table->unsignedBigInteger('payment_id');
-            $table->unsignedBigInteger('delivery_detail_id');
             $table->unsignedBigInteger('promo_code_id')->nullable();
+            $table->unsignedBigInteger('order_rejected_by_id')->nullable();
             $table->string('order_code', 100)->unique();
-            $table->enum('order_status', ['pending', 'success', 'reject'])->default('pending');
+            $table->integer('delivery_fee');
+            $table->enum('order_status', ['pending', 'confirmed', 'success', 'reject'])->default('pending');    // confirmed = order accepted
             $table->enum('payment_status', ['pending', 'success'])->default('pending');
+            $table->enum('rider_status', ['pending', 'confirmed', 'success'])->default('pending');  /* confirmed = rider accepted order to take,
+                                                                                                        then assign rider_id above */
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('rider_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('payment_id')->references('id')->on('payment_details')->onDelete('cascade');
-            $table->foreign('delivery_detail_id')->references('id')->on('delivery_details')->onDelete('cascade');
             $table->foreign('promo_code_id')->references('id')->on('promo_codes')->onDelete('cascade');
+            $table->foreign('order_rejected_by_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -10,7 +10,6 @@ class MenuSize extends Model
     use HasFactory;
 
     protected $fillable = [
-        'menu_item_id',
         'size',
         'updated_at'
     ];

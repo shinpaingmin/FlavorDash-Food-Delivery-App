@@ -121,7 +121,7 @@ const Header = ({ open, setOpen }) => {
                                         </option>
                                     ))
                                 ) : (
-                                    <option value="">
+                                    <option value="" disabled>
                                         No available townships
                                     </option>
                                 )}
