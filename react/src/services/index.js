@@ -1,4 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { isRejectedWithValue } from "@reduxjs/toolkit";
+
+export const customMiddleware =
+  (api) => (next) => (action) => {
+    // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
+    if (isRejectedWithValue(action) && action.error.status === 401) {
+      console.error('Unauthorized access! Redirecting to login...')
+      localStorage.clear();
+    }
+
+    return next(action)
+  }
 
 export const foodDeliveryWebApis = createApi({
     reducerPath: "foodDeliveryWebApis",
@@ -10,7 +22,7 @@ export const foodDeliveryWebApis = createApi({
                     headers.set('authorization', `Bearer ${token}`);
                 }
                 return headers;
-            }
+            },
     }),
     tagTypes: ['User', 'Restaurants', 'RestaurantTypes', 'RestaurantTownships', 'Categories'],
     endpoints: (builder) => ({
@@ -21,7 +33,7 @@ export const foodDeliveryWebApis = createApi({
                 method: "POST",
                 body
             }),
-            invalidatesTags: ['User']
+            invalidatesTags: ['User'],
         }),
         loginAuth: builder.mutation({
             query: (body) => ({
