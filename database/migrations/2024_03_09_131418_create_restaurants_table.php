@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('restaurant_type_id');
             $table->unsignedBigInteger('restaurant_township_id');
+            $table->unsignedBigInteger('dietary_id')->nullable();
             $table->string('name', 150)->unique();
             $table->longText('address')->unique();
             $table->float('lat', 6, 4)->unique()->nullable(); // need rounded data
@@ -32,6 +33,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('restaurant_type_id')->references('id')->on('restaurant_types')->onDelete('cascade');
             $table->foreign('restaurant_township_id')->references('id')->on('restaurant_townships')->onDelete('cascade');
+            $table->foreign('dietary_id')->references('id')->on('dietaries')->onDelete('cascade');
         });
     }
 

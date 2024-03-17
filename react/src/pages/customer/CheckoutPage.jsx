@@ -4,9 +4,9 @@ import OrderBtn from "../../components/customer/CheckoutPage/OrderBtn";
 
 const CheckoutPage = () => {
     return (
-        <div className="flex flex-col-reverse lg:flex-row px-4 lg:px-8 pt-8 border-t border-t-gray-200 max-w-[1519.2px]">
+        <div className="flex flex-col-reverse lg:flex-row px-4 lg:px-8 pt-8 border-t border-t-gray-200 max-w-[1200px] mx-auto">
             <div className="w-full lg:w-[60%] shrink-0">
-                <div className="relative lg:mb-6 lg:p-4 py-2 lg:shadow lg:hover:shadow-lg mb-12 rounded-md  ">
+                <div className="relative lg:mb-6 lg:p-4 py-2 lg:shadow  mb-12 rounded-md  ">
                     <button
                         className="absolute top-5 right-4 text-sm text-orange
                      hover:text-white hover:bg-orange rounded-full px-2 py-1 font-semibold"
@@ -28,30 +28,16 @@ const CheckoutPage = () => {
                     <hr className="my-5" />
                     <div className="flex items-center">
                         <p className="mr-3">Contactless delivery</p>
-                        <label className="switch">
+                        <label className="switch ">
                             <input type="checkbox" />
-                            <span className="slider round"></span>
+                            <span className="slider round hover:bg-gray-400"></span>
                         </label>
                     </div>
                 </div>
 
-                <div className=" lg:mb-6 lg:p-4 py-2 lg:shadow lg:hover:shadow-lg mb-12 rounded-md  ">
-                    <h1 className="text-gray-700 text-2xl font-bold mb-6">
-                        Delivery time
-                    </h1>
-                    <div className="flex">
-                        <input
-                            type="date"
-                            className="border p-2 rounded-md border-gray-300 w-1/2"
-                        />
-                        <input
-                            type="time"
-                            className="border p-2 rounded-md border-gray-300 ml-3 flex-auto"
-                        />
-                    </div>
-                </div>
 
-                <div className="relative lg:p-4 py-2 lg:shadow lg:hover:shadow-lg mb-12 rounded-md lg:mb-6  ">
+
+                <div className="relative lg:p-4 py-2 lg:shadow  mb-12 rounded-md lg:mb-6  ">
                     <button
                         className="absolute top-5 right-4 text-orange
                      hover:text-white hover:bg-orange rounded-full px-4 font-semibold"
@@ -66,7 +52,7 @@ const CheckoutPage = () => {
                     <p>+959 794219842</p>
                 </div>
 
-                <div className="lg:p-4 py-2 lg:shadow lg:hover:shadow-lg mb-12 rounded-md lg:mb-6 ">
+                {/* <div className="lg:p-4 py-2 lg:shadow  mb-12 rounded-md lg:mb-6 ">
                     <h1 className="text-gray-700 text-2xl font-bold mb-6">
                         Tip your rider
                     </h1>
@@ -90,12 +76,12 @@ const CheckoutPage = () => {
                             Save it for the next order.
                         </label>
                     </div>
-                </div>
+                </div> */}
 
                 <OrderBtn />
             </div>
 
-            <div className="lg:ml-12 lg:p-4 py-2 lg:shadow lg:hover:shadow-lg max-lg:mb-12 flex-auto lg:sticky lg:top-[80px] lg:self-start">
+            <div className="lg:ml-12 lg:p-4 py-2 lg:shadow  max-lg:mb-12 flex-auto lg:sticky lg:top-[80px] lg:self-start">
                 <h1 className="text-gray-700 text-2xl font-bold mb-2">
                     Your order slip
                 </h1>

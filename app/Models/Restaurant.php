@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Review;
+use App\Models\Dietary;
+use App\Models\MenuItem;
 use App\Models\RestaurantType;
 use App\Models\RestaurantTownship;
 use Illuminate\Database\Eloquent\Model;
@@ -16,13 +18,14 @@ class Restaurant extends Model
         'user_id',
         'restaurant_type_id',
         'restaurant_township_id',
+        'dietary_id',
         'name',
         'address',
         'phone',
-        'pricing',
-        'opening_time',
+        'pricing',  // $, $$, $$$
+        'opening_time', // 20:00:00
         'closing_time',
-        'from_day',
+        'from_day', // 0, 1, 2, 3, ...
         'to_day',
         'image',
         'updated_at'
@@ -38,5 +41,13 @@ class Restaurant extends Model
 
     public function reviews() {
         return $this->hasMany(Review::class);
+    }
+
+    public function menu_items() {
+        return $this->hasMany(MenuItem::class);
+    }
+
+    public function dietary() {
+        return $this->belongsTo(Dietary::class);
     }
 }

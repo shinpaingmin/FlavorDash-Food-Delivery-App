@@ -117,7 +117,7 @@ const Header = ({ open, setOpen }) => {
                                             className="ml-2 capitalize"
                                             value={township.township}
                                         >
-                                            {township.township}
+                                            {township.township}, Yangon
                                         </option>
                                     ))
                                 ) : (

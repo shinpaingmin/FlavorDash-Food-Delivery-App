@@ -28,15 +28,15 @@ const CustomerLayout = () => {
     }
 
     useEffect(() => {
-        if (
-            isError?.status == 403 ||
-            isError?.status == 401 ||
-            resendError?.status == 403 ||
-            resendError?.status == 401
-        ) {
-            localStorage.clear();
-            return <Navigate to="/login" />;
-        }
+        // if (
+        //     isError?.status == 403 ||
+        //     isError?.status == 401 ||
+        //     resendError?.status == 403 ||
+        //     resendError?.status == 401
+        // ) {
+        //     localStorage.clear();
+        //     return <Navigate to="/login" />;
+        // }
 
         if (isSuccess && data?.status === "not verified") {
             setIsCloseVerifyBox(false);

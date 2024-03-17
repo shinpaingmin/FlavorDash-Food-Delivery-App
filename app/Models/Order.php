@@ -17,6 +17,7 @@ class Order extends Model
         'order_rejected_by_id',
         'order_code',
         'delivery_fee',
+        'contactless_delivery',
         'order_status',
         'payment_status',
         'rider_status',

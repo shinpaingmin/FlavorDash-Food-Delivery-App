@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_rejected_by_id')->nullable();
             $table->string('order_code', 100)->unique();
             $table->integer('delivery_fee');
+            $table->enum('contactless_delivery', [0, 1])->default(0);   // 0 = no, 1 = yes
             $table->enum('order_status', ['pending', 'confirmed', 'success', 'reject'])->default('pending');    // confirmed = order accepted
             $table->enum('payment_status', ['pending', 'success'])->default('pending');
             $table->enum('rider_status', ['pending', 'confirmed', 'success'])->default('pending');  /* confirmed = rider accepted order to take,

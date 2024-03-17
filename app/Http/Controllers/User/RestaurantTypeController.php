@@ -20,7 +20,7 @@ class RestaurantTypeController extends Controller
 
         if(is_null($types->first())) {
             return response()->json([
-                'status' => 'failed',
+                'status' => 'success',
                 'message' => 'No restaurant type found!',
             ], 200);
         }
@@ -45,7 +45,8 @@ class RestaurantTypeController extends Controller
         if($validate->fails()) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Validation Error'
+                'message' => 'Validation Error',
+                'data' => $validate->errros(),
             ], 422);
         }
 
@@ -95,7 +96,8 @@ class RestaurantTypeController extends Controller
         if($validate->fails()) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Validation Error'
+                'message' => 'Validation Error',
+                'data' => $validate->errros(),
             ], 422);
         }
 
@@ -169,7 +171,7 @@ class RestaurantTypeController extends Controller
     // validation function
     private function validation($request, $id=null) {
         return $validate = Validator::make($request->all(), [
-            'type' => 'required|string|min:5|max:100|unique:restaurant_types,type,' . $id,
+            'type' => 'required|string|min:4|max:100|unique:restaurant_types,type,' . $id,
         ]);
     }
 }

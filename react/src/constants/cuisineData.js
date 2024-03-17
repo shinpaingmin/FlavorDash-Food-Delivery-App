@@ -2,7 +2,6 @@ export const cuisines = [
     { id: 1, name: "all" },
     { id: 2, name: "asian" },
     { id: 3, name: "burmese" },
-    { id: 4, name: "chinese" },
     { id: 5, name: "european" },
     { id: 6, name: "japanese" },
     { id: 7, name: "korean" },

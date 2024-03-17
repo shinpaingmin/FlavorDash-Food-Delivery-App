@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { cuisines } from "../../constants/cuisineData";
 import {
-    useGetAllRestaurantsQuery,
-    useGetRestaurantsByOrderedQuery,
+    useGetAllRestaurantsQuery, useGetDietariesQuery, useGetRestaurantTypesQuery,
 } from "../../services";
 
 import { LuSettings2 } from "react-icons/lu";
@@ -19,17 +17,24 @@ import ToggleFiltersMenu from "../../components/customer/MenuPage/ToggleFiltersM
 import toast, { Toaster } from "react-hot-toast";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { noStoreFound } from "../../assets/images";
+import { FaRegStar, FaStar } from "react-icons/fa";
 
 export default function FeedPage() {
-    const [option, setOption] = useState("relevant");
-    const [category, setCategory] = useState("all");
     const [isToggleOptions, _setIsToggleOptions] = useState(false);
     const [queryParameters, setQueryParameters] = useSearchParams();
-    const [searchValue, setSearchValue] = useState(
-        queryParameters.get("searchTownship")?.trim() ||
-            localStorage.getItem("searchTownship")
-    );
+    const {data:types, isLoading: typesIsLoading} = useGetRestaurantTypesQuery();
+    const {data: dietaries, isLoading: dietariesIsLoading } = useGetDietariesQuery();
+    const [searchValue, setSearchValue] = useState({
+        searchTownship: "",
+        sortBy: "relevant",
+        filterByCuisine: "all",
+        filterByDietary: "",
+        filterByPrice: "",
+        filterByRating: "",
+        filterBySearch: "",
+    });
     const [inputValue, setInputValue] = useState("");
+
 
     const {
         data: stores = [],
@@ -38,11 +43,57 @@ export default function FeedPage() {
         isLoading,
     } = useGetAllRestaurantsQuery(searchValue);
 
-    console.log(stores);
+    const sortByHandler = (e) => {
+        setSearchValue(prev => ({
+            ...prev, sortBy: e.target.value,
+        }));
+    }
+
+    const filterByCuisineHandler = (e) => {
+        setSearchValue(prev => ({
+            ...prev, filterByCuisine: e.target.value,
+        }));
+    }
+
+    const filterByDietaryHandler= (value) => {
+        setSearchValue(prev => ({
+            ...prev, filterByDietary: value,
+        }));
+    }
+
+    const filterByPriceHandler = (value) => {
+        setSearchValue(prev => ({
+            ...prev, filterByPrice: value,
+        }));
+    }
+
+    const setSelectedRatingStars = (value) => {
+        setSearchValue(prev => ({
+            ...prev, filterByRating: value,
+        }));
+    }
+
+    const clearRatingStars = () => {
+        setSearchValue(prev => ({
+            ...prev, filterByRating: "",
+        }));
+    }
+
+    const clearAllFilters = () => {
+        setSearchValue(prev => ({
+            ...prev,
+            sortBy: "relevant",
+            filterByCuisine: "all",
+            filterByDietary: "",
+            filterByPrice: "",
+            filterByRating: "",
+            filterBySearch: "",
+        }));
+    }
 
     useEffect(() => {
         if (isError) {
-            if (error?.status == 401 || error?.status == 403) {
+            if (error?.status == 401 || error?.status == 403 || error?.status == 405) {
                 localStorage.clear();
                 return <Navigate to="/login" />;
             }
@@ -81,13 +132,19 @@ export default function FeedPage() {
         if (queryParameters.get("searchTownship")) {
             const modifiedValue = queryParameters.get("searchTownship").trim(); // same as replace("%20", " ")
             localStorage.setItem("searchTownship", modifiedValue);
-            setSearchValue(modifiedValue);
+            setSearchValue(prev => ({
+                ...prev, searchTownship: modifiedValue
+            }));
         } else {
             const searchTownship = localStorage.getItem("searchTownship");
             setQueryParameters({
                 searchTownship,
             });
+            setSearchValue(prev => ({
+                ...prev, searchTownship
+            }));
         }
+
     }, [queryParameters.get("searchTownship")]);
 
     const setIsToggleOptions = () => {
@@ -103,11 +160,7 @@ export default function FeedPage() {
     // listen for enter key search bar
     const onEnter = (e) => {
         if (e.key === "Enter") {
-            // setSearchValue(inputValue);
-            // setQueryParameters({
-            //     searchTownship: inputValue,
-            // });
-            // localStorage.setItem("searchTownship", inputValue);
+          //
         }
     };
 
@@ -128,25 +181,122 @@ export default function FeedPage() {
                     {sortOptions.map((sort) => (
                         <Filter
                             key={sort.id}
-                            category={option}
-                            setCategory={setOption}
+                            onClick={sortByHandler}
+                            activeOption={searchValue.sortBy}
                             {...sort}
                         />
                     ))}
                 </div>
 
-                <div>
+                <div className="mb-5">
                     <h1 className="mb-4 text-xl">Filter by Cuisines</h1>
-
-                    {cuisines.map((cuisine) => (
-                        <Filter
-                            key={cuisine.id}
-                            category={category}
-                            setCategory={setCategory}
-                            {...cuisine}
-                        />
-                    ))}
+                            <Filter
+                                key={0}
+                                onClick={filterByCuisineHandler}
+                                activeOption={searchValue.filterByCuisine}
+                                id={0}
+                                name="all"
+                            />
+                    {
+                        typesIsLoading ? (
+                            <div>Loading ...</div>
+                        ) : (
+                            types?.data ? (
+                                types.data.map((type) => (
+                                    <Filter
+                                        key={type.id}
+                                        onClick={filterByCuisineHandler}
+                                        activeOption={searchValue.filterByCuisine}
+                                        id={type.id}
+                                        name={type.type}
+                                    />
+                                ))
+                            ) : (
+                                <div>No data ...</div>
+                            )
+                        )
+                    }
                 </div>
+
+                <div className="mb-5">
+                    <h1 className="mb-4 text-xl">Filter by Dietaries</h1>
+
+                    {
+                        dietariesIsLoading ? (
+                            <div>Loading ...</div>
+                        ) : (
+                            dietaries?.data ? (
+                                dietaries.data.map((dietary) => (
+                                    <button type="button" key={dietary.id}
+                                    className={`capitalize px-3 py-1 border border-gray-400 mr-3
+                                     hover:bg-orange rounded-full ${searchValue.filterByDietary === dietary.id ? "bg-orange text-white" : "bg-white text-black"}`}
+                                    onClick={() => filterByDietaryHandler(searchValue.filterByDietary === dietary.id ? "" : dietary.id)}
+
+                                >{dietary.name}</button>
+                                ))
+                            ) : (
+                                <div>No data ...</div>
+                            )
+                        )
+                    }
+
+                </div>
+
+                <div className="mb-5">
+                    <h1 className="mb-4 text-xl">Filter by Price</h1>
+                    <button type="button"
+                        className={`capitalize px-3 py-1 border border-gray-400 mr-3
+                            hover:bg-orange rounded-full ${searchValue.filterByPrice === "$" ? "bg-orange text-white" : "bg-white text-black"}`}
+                        onClick={() => filterByPriceHandler(searchValue.filterByPrice === "$" ? "" : "$")}
+
+                    >$</button>
+
+                    <button type="button"
+                        className={`capitalize px-3 py-1 border border-gray-400 mr-3
+                            hover:bg-orange rounded-full ${searchValue.filterByPrice === "$$" ? "bg-orange text-white" : "bg-white text-black"}`}
+                        onClick={() => filterByPriceHandler(searchValue.filterByPrice === "$$" ? "" : "$$")}
+
+                    >$$</button>
+
+                    <button type="button"
+                        className={`capitalize px-3 py-1 border border-gray-400 mr-3
+                            hover:bg-orange rounded-full ${searchValue.filterByPrice === "$$$" ? "bg-orange text-white" : "bg-white text-black"}`}
+                        onClick={() => filterByPriceHandler(searchValue.filterByPrice === "$$$" ? "" : "$$$")}
+
+                    >$$$</button>
+                </div>
+
+                <div className="mb-5">
+                    <h1 className="mb-4 text-xl">Filter by Rating</h1>
+                    {
+                        !searchValue.filterByRating ? (
+                            <div className=" flex items-center">
+                                <FaRegStar color="#ff9529" size={20} className="mr-1 cursor-pointer" onClick={() => setSelectedRatingStars("1")} />
+                                <FaRegStar color="#ff9529" size={20} className="mr-1 cursor-pointer" onClick={() => setSelectedRatingStars("2")} />
+                                <FaRegStar color="#ff9529" size={20} className="mr-1 cursor-pointer" onClick={() => setSelectedRatingStars("3")} />
+                                <FaRegStar color="#ff9529" size={20} className="mr-1 cursor-pointer" onClick={() => setSelectedRatingStars("4")} />
+                                <FaRegStar color="#ff9529" size={20} className="mr-1 cursor-pointer" onClick={() => setSelectedRatingStars("5")} />
+                            </div>
+                        ) : (
+                            <div className="flex items-center">
+
+                                {
+                                    [...Array(5)].map((_ , i) => (
+                                        i < searchValue.filterByRating ? (
+                                            <FaStar color="#ff9529" size={20} className="mr-1 cursor-pointer" onClick={() => setSelectedRatingStars(i+1)} key={i} />
+                                        ) : (
+                                            <FaRegStar color="#ff9529" size={20} className="mr-1 cursor-pointer" onClick={() => setSelectedRatingStars(i+1)} key={i} />
+                                        )
+                                    ))
+                                }
+                            </div>
+
+                        )
+                    }
+                    <button className="mt-5 px-4 py-2 rounded-md text-white bg-orange w-3/4 hover:bg-orange/90" onClick={clearRatingStars}>Clear rating stars</button>
+
+                </div>
+                <button className="my-3 px-4 py-2 rounded-md text-white bg-orange w-3/4 hover:bg-orange/90" onClick={clearAllFilters}>Clear all filters</button>
             </div>
 
             <div className="w-full md:w-3/4 md:pl-5">
@@ -170,10 +320,8 @@ export default function FeedPage() {
                             sortOptions={sortOptions}
                             cuisines={cuisines}
                             Filter={Filter}
-                            category={category}
-                            setCategory={setCategory}
-                            option={option}
-                            setOption={setOption}
+                            sortByHandler={sortByHandler}
+                            filterByCuisineHandler={filterByCuisineHandler}
                             setIsToggleOptions={setIsToggleOptions}
                         />
                     )}
