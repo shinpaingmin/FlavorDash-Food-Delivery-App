@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Validator;
 
 class MenuItemController extends Controller
@@ -41,10 +42,16 @@ class MenuItemController extends Controller
     {
         // input validation
         $validate = Validator::make($request->all(), [
+            'restaurant_id' => 'required',
+            'category_id' => 'required',
             'name' => 'required|string',
             'price' => 'required|integer',
-            'quantity' => 'required|integer',
+            'image' => ['required', File::image()->max(2048)],
         ]);
+
+        if($request->quantity) {
+            $validate['quantity'] = 'required|integer';
+        }
 
         if($validate->fails()) {
             return response()->json([
@@ -54,11 +61,7 @@ class MenuItemController extends Controller
             ], 422);
         }
 
-        $menu_item = MenuItem::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-        ]);
+        $menu_item = MenuItem::create($request->all());
 
         $response = [
             'status' => 'success',

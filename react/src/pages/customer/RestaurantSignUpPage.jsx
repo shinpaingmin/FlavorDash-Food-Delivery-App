@@ -17,6 +17,7 @@ const INIT_DATA = {
     township: "",
     storePhone: "",
     type: "",
+    dietary: "",    // optional
     pricing: "",
     opening_time: "",
     closing_time: "",

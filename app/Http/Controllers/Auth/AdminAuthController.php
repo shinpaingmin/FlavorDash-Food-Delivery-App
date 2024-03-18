@@ -51,9 +51,9 @@ class AdminAuthController extends Controller
 
         $userId = User::create($userData)->id;
 
-        // $fileName = uniqid() . $request->image->getClientOriginalName();
+        $fileName = uniqid() . $request->image->getClientOriginalName();
 
-        // $image = $request->image->storeAs('public', $fileName);
+        $image = $request->image->storeAs('public', $fileName);
 
         $storeData = [
             'user_id' => $userId,
@@ -69,8 +69,12 @@ class AdminAuthController extends Controller
             'closing_time' => $request->closing_time,
             'from_day' => $request->from_day,
             'to_day' => $request->to_day,
-            // 'image' => $fileName,
+            'image' => $fileName,
         ];
+
+        if($request->dietary) {
+            $storeData['dietary_id'] = $request->dietary;
+        }
 
         $store = Restaurant::create($storeData);
 
@@ -126,7 +130,7 @@ class AdminAuthController extends Controller
             'closing_time' => 'required',
             'from_day' => 'required|integer',
             'to_day' => 'required|integer',
-            // 'image' => ['required', File::image()->max(2048)]   // up to 2 MB
+            'image' => ['required', File::image()->max(2048)]   // up to 2 MB
         ]);
     }
 }

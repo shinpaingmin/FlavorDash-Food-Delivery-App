@@ -13,7 +13,7 @@ const CustomerLayout = () => {
     const [open, setOpen] = useState(false);
     const [isCloseVerifyBox, setIsCloseVerifyBox] = useState(true);
     const [triggerQuery, setTriggerQuery] = useState(false);
-    const { data, isSuccess, isError } = useCheckEmailVerifyQuery();
+    const { data, isSuccess, isError, error } = useCheckEmailVerifyQuery();
     const { isSuccess: resendSuccess, isError: resendError } =
         useGetRegenerateEmailVerifyQuery(triggerQuery, {
             // skip if the link is not clicked
@@ -24,19 +24,21 @@ const CustomerLayout = () => {
         !localStorage.getItem("token") ||
         localStorage.getItem("role") !== "user"
     ) {
+        localStorage.clear();
         return <Navigate to="/login" />;
     }
 
     useEffect(() => {
-        // if (
-        //     isError?.status == 403 ||
-        //     isError?.status == 401 ||
-        //     resendError?.status == 403 ||
-        //     resendError?.status == 401
-        // ) {
-        //     localStorage.clear();
-        //     return <Navigate to="/login" />;
-        // }
+
+    }, [isError]);
+
+    useEffect(() => {
+        if (isError) {
+            if (error?.status == 401 || error?.status == 403 || error?.status == 405) {
+                localStorage.clear();
+                return <Navigate to="/login" />;
+            }
+        }
 
         if (isSuccess && data?.status === "not verified") {
             setIsCloseVerifyBox(false);
@@ -50,7 +52,7 @@ const CustomerLayout = () => {
 
         open && document.body.classList.add("stop-scrolling");
         !open && document.body.classList.remove("stop-scrolling");
-    }, [open, isSuccess, triggerQuery, isError, resendError]);
+    }, [open, isSuccess, triggerQuery, isError]);
 
     function onClick() {
         setTriggerQuery(true);

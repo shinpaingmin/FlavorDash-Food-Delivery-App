@@ -73,6 +73,7 @@ export const foodDeliveryWebApis = createApi({
             }),
             invalidatesTags: ["Restaurants"],
         }),
+
         getAllRestaurants: builder.query({
             query: ({
                 searchTownship,
@@ -84,7 +85,7 @@ export const foodDeliveryWebApis = createApi({
                 filterBySearch,
             }) => ({
                 url: `restaurants?searchTownship=${searchTownship}&sortBy=${sortBy}&filterByCuisine=${filterByCuisine}&filterByDietary=${filterByDietary}
-                    &filterByPrice=${filterByPrice}&filterByRating=${filterByRating}&filterBySearch=${filterBySearch}`,
+                &filterByPrice=${filterByPrice}&filterByRating=${filterByRating}&filterBySearch=${filterBySearch}`,
                 method: "GET",
             }),
         }),

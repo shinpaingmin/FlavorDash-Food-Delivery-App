@@ -16,15 +16,15 @@ class RestaurantController extends Controller
      */
     public function index(Request $request)
     {
-        $searchTownship = $request->input('searchTownship');
+
         $stores = Restaurant::with('restaurant_township', 'restaurant_type')
                             ->withCount('reviews')
                             ->withAvg('reviews', 'rating_star')
-                            ->whereHas('restaurant_township', function($query) use ($searchTownship) {
-                                $query->where('township', 'like', '%' . $searchTownship . '%');
+                            ->whereHas('restaurant_township', function($query) use($request) {
+                                $query->where('township', 'like', '%' . $request->searchTownship . '%');
                             });
 
-        if($request->has('sortBy')) {
+        if(!empty($request->sortBy)) {
             if($request->sortBy === "newest") {
                 $stores->latest();
             } elseif ($request->sortBy === "cheapest") {
@@ -32,32 +32,26 @@ class RestaurantController extends Controller
             }
         }
 
-        if($request->has('filterByCuisine')) {
+        if(!empty($request->filterByCuisine)) {
             if($request->filterByCuisine !== "all") {
 
-                $filterByCuisine = $request->input('filterByCuisine');
-
-                $stores->whereHas('restaurant_type', function($query) use ($filterByCuisine) {
-                    $query->where('type', $filterByCuisine);
+                $stores->whereHas('restaurant_type', function($query) use ($request) {
+                    $query->where('type', $request->filterByCuisine);
                 });
             }
         }
 
-        if($request->has('filterByDietary')) {
+        if(!empty($request->filterByDietary)) {
 
-            $filterByDietary = $request->input('filterByDietary');
-
-            $stores->whereHas('dietary', function($query) use ($filterByDietary) {
-                $query->where('name', $filterByDietary);
+            $stores->whereHas('dietary', function($query) use ($request) {
+                $query->where('name', $request->filterByDietary);
             });
 
         }
 
-        if($request->has('filterByPrice')) {
+        if(!empty($request->filterByPrice)) {
 
-            $filterByPrice =  $request->input('filterByPrice');
-
-            $stores->where('pricing', $filterByPrice);
+            $stores->where('pricing', $request->filterByPrice);
 
         }
 
@@ -68,12 +62,22 @@ class RestaurantController extends Controller
 
         // }
 
-        // if($request->has('filterBySearch')) {
-        //     $filterBySearch = $request->input('filterBySearch');
+        if(!empty($request->filterBySearch)) {
 
-        //     $stores
-        // }
+            $stores->where(function($query) use($request) {
+                $query->orWhere('name', 'like', '%' . $request->filterBySearch . '%')
+                ->whereHas('menu_items', function($subquery) use($request) {
+                    $subquery->orWhere('name', 'like', '%' . $request->filterBySearch . '%');
+                });
+            });
 
+            // $stores->where('name', 'like', '%' . $request->filterBySearch . '%');
+            // ->whereHas('menu_items', function($query) use ($request) {
+            //     $query->orWhere('name', 'like', '%' . $request->filterBySearch . '%');
+            // });
+        }
+
+        $stores = $stores->get();
 
         if(is_null($stores->first())) {
             return response()->json([

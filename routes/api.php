@@ -52,20 +52,26 @@ Route::controller(RestaurantTypeController::class)->group(function() {
 
 // Restaurant township routes
 Route::controller(RestaurantTownshipController::class)->group(function() {
+    Route::get('restaurantTownships', 'index');
     Route::post('restaurantTownship', 'store');
+});
 
+// dietaries
+Route::controller(DietaryController::class)->group(function() {
+    Route::get('dietaries', 'index');
+    Route::post('dietary', 'store');
 });
 
 
 
 // Public routes of product
-Route::middleware(['auth:api', 'scope:admin'])->group(function() {
-    Route::controller(MenuItemController::class)->group(function() {
-        Route::get('products', 'index');
-        Route::get('products/{id}', 'show');
-        Route::get('products/search/{name}', 'search');
-    });
-});
+// Route::middleware(['auth:api', 'scope:admin'])->group(function() {
+//     Route::controller(MenuItemController::class)->group(function() {
+//         Route::get('products', 'index');
+//         Route::get('products/{id}', 'show');
+//         Route::get('products/search/{name}', 'search');
+//     });
+// });
 
 
 // Protected routes of product and logout
@@ -77,14 +83,6 @@ Route::middleware(['auth:api', 'scope:user'])->group(function() {
         Route::get('email/resend', 'resend')->name('verification.resend');
     });
 
-    // restaurant townships
-    Route::get('restaurantTownships', [RestaurantTownshipController::class, 'index']);
-
-    // dietaries
-    Route::controller(DietaryController::class)->group(function() {
-        Route::get('dietaries', 'index');
-        Route::post('dietary', 'store');
-    });
 
     Route::controller(MenuItemController::class)->group(function() {
         Route::post('products', 'store');
@@ -97,4 +95,10 @@ Route::middleware(['auth:api', 'scope:user'])->group(function() {
 Route::controller(CategoryController::class)->group(function() {
     Route::get('categories', 'index');
     Route::post('category', 'store');
+});
+
+// Routes for menu item CRUD
+Route::controller(MenuItemController::class)->group(function() {
+    Route::get('menu', 'index');
+    Route::post('menu', 'store');
 });

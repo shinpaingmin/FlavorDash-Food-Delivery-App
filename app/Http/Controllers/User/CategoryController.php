@@ -45,7 +45,8 @@ class CategoryController extends Controller
         if($validate->fails()) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Validation Error'
+                'message' => 'Validation Error',
+                'data' => $validate->errors(),
             ], 422);
         }
 

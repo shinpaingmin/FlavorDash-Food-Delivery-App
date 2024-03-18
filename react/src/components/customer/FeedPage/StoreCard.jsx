@@ -28,7 +28,7 @@ const StoreCard = ({
         </div>
         <div className="w-full h-40 overflow-hidden">
             <img
-                src={image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLeIZ8lcZUns6_RvE2_3pLT3hqoXGw8hclg&usqp=CAU"} alt={name}
+                src={`http://localhost:8000/storage/${image}` ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLeIZ8lcZUns6_RvE2_3pLT3hqoXGw8hclg&usqp=CAU"} alt={name}
                 className={`w-full h-full object-cover object-center rounded-t-md transition-all duration-500 ${scale ? "scale-110" : ""}`} />
         </div>
         <div className="p-3">

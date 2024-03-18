@@ -38,10 +38,11 @@ export default function FeedPage() {
 
     const {
         data: stores = [],
-        isError,
-        error,
         isLoading,
     } = useGetAllRestaurantsQuery(searchValue);
+
+    console.log(stores)
+    console.log(searchValue)
 
     const sortByHandler = (e) => {
         setSearchValue(prev => ({
@@ -89,16 +90,8 @@ export default function FeedPage() {
             filterByRating: "",
             filterBySearch: "",
         }));
+        setInputValue("")
     }
-
-    useEffect(() => {
-        if (isError) {
-            if (error?.status == 401 || error?.status == 403 || error?.status == 405) {
-                localStorage.clear();
-                return <Navigate to="/login" />;
-            }
-        }
-    }, [isError]);
 
     // success message box
     function successBox(text) {
@@ -160,7 +153,9 @@ export default function FeedPage() {
     // listen for enter key search bar
     const onEnter = (e) => {
         if (e.key === "Enter") {
-          //
+            setSearchValue(prev => ({
+                ...prev, filterBySearch: e.target.value,
+            }));
         }
     };
 
@@ -229,8 +224,8 @@ export default function FeedPage() {
                                 dietaries.data.map((dietary) => (
                                     <button type="button" key={dietary.id}
                                     className={`capitalize px-3 py-1 border border-gray-400 mr-3
-                                     hover:bg-orange rounded-full ${searchValue.filterByDietary === dietary.id ? "bg-orange text-white" : "bg-white text-black"}`}
-                                    onClick={() => filterByDietaryHandler(searchValue.filterByDietary === dietary.id ? "" : dietary.id)}
+                                     hover:bg-orange rounded-full ${searchValue.filterByDietary === dietary.name ? "bg-orange text-white" : "bg-white text-black"}`}
+                                    onClick={() => filterByDietaryHandler(searchValue.filterByDietary === dietary.name ? "" : dietary.name)}
 
                                 >{dietary.name}</button>
                                 ))
@@ -366,9 +361,13 @@ export default function FeedPage() {
                         <div className="text-center text-2xl font-semibold text-gray-500">Loading ...</div>
                     ) : (
                         stores?.data ? (
-                            stores.data.map((store, i) => (
-                                <StoreCard key={i} {...store} />
-                            ))
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-3 gap-y-8">
+                                {
+                                    stores.data.map((store, i) => (
+                                        <StoreCard key={i} {...store} />
+                                    ))
+                                }
+                            </div>
                         ) : (
                             <div className="w-72 h-72 overflow-hidden mx-auto">
                                 <img

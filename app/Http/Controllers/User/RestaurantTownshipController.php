@@ -20,7 +20,7 @@ class RestaurantTownshipController extends Controller
 
         if(is_null($townships->first())) {
             return response()->json([
-                'status' => 'failed',
+                'status' => 'success',
                 'message' => 'No township found!',
             ], 200);
         }
@@ -45,7 +45,8 @@ class RestaurantTownshipController extends Controller
         if($validate->fails()) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Validation Error'
+                'message' => 'Validation Error',
+                'data' => $validate->errors(),
             ], 422);
         }
 

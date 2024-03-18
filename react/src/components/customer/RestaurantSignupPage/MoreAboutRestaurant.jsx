@@ -1,7 +1,8 @@
-import { useGetRestaurantTypesQuery } from "../../../services";
+import { useGetDietariesQuery, useGetRestaurantTypesQuery } from "../../../services";
 
 const MoreAboutRestaurant = ({
     type,
+    dietary,
     pricing,
     opening_time,
     closing_time,
@@ -15,6 +16,11 @@ const MoreAboutRestaurant = ({
         data: typesData,
         isLoading,
     } = useGetRestaurantTypesQuery();
+
+    const {
+        data: dietaries,
+        isLoading: dietariesLoading,
+    } = useGetDietariesQuery();
 
     return (
         <div>
@@ -57,6 +63,47 @@ const MoreAboutRestaurant = ({
                         {storeError?.data?.data?.type && (
                             <div className="text-sm text-red-600 mt-2 text-justify">
                                 {storeError?.data?.data?.type}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="mb-5">
+                        <label htmlFor="type">
+                            Select your restaurant&apos;s dietary (optional)
+                        </label>
+                        <select
+                            id="dietary"
+                            name="dietary"
+                            className="border-2 rounded-md p-2.5 border-gray-300 mt-3
+                            focus:border-2 focus:border-black w-full block"
+                            value={dietary}
+                            onChange={(e) =>
+                                updateFields({ dietary: e.target.value })
+                            }
+                        >
+                            <option value="" selected disabled>
+                                {dietariesLoading ? "Loading data ..." : "--- Select your restaurant dietary ---"}
+                            </option>
+
+                            {
+                                dietaries ? (
+                                    dietaries?.data?.map((i) => (
+                                        <option value={i.id} key={i.id} className="capitalize">
+                                            {i.name}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option value="" disabled>No dietary available</option>
+                                )
+
+                            }
+
+
+                            <option value="">None</option>
+                        </select>
+                        {storeError?.data?.data?.dietary && (
+                            <div className="text-sm text-red-600 mt-2 text-justify">
+                                {storeError?.data?.data?.dietary}
                             </div>
                         )}
                     </div>
