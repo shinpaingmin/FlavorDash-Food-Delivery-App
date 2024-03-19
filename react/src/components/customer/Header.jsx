@@ -129,64 +129,68 @@ const Header = ({ open, setOpen }) => {
                         }
                     </div>
                 )}
-                {loggedIn ? (
-                    <ul className="hidden lg:flex items-center list-none">
-                        <li
-                            ref={menuDropdown}
-                            className="flex items-center relative cursor-pointer"
-                            onClick={() =>
-                                setIsDropdownMenuOpen(!isDropdownMenuOpen)
-                            }
-                        >
-                            <FaRegUser />
-                            <p className="ml-2 capitalize">
-                                {localStorage.getItem("name")}
-                            </p>
-                            <button type="button">
-                                <IoIosArrowDown />
-                            </button>
-                            {isDropdownMenuOpen && (
-                                <DropdownMenu logout={logout} />
-                            )}
-                        </li>
-                        <li className="ml-8 flex items-center">
-                            <FaGlobe size={20} className="" />
-                            <p className="ml-2">Eng</p>
-                        </li>
-                        <li className="ml-12">
-                            <FaRegHeart size={20} className="text-orange" />
-                        </li>
-                        <li
-                            className="ml-5 rounded-full p-2 cursor-pointer duration-300 hover:bg-[#ffd7b5]"
-                            onClick={handleOpenCart}
-                        >
-                            <IoCartOutline size={24} className="text-orange" />
-                        </li>
-                    </ul>
-                ) : (
-                    <ul className="hidden lg:flex list-none">
-                        <li className="">
-                            <Button
-                                bgColor="bg-orange"
-                                textColor="text-white"
-                                border="border-none"
-                                href="/login"
-                            >
-                                <FaUser className="mr-2" /> Log in
-                            </Button>
-                        </li>
-                        <li className="ml-5">
-                            <Button
-                                bgColor="bg-white"
-                                textColor="text-orange"
-                                border="border"
-                                href="/signup"
-                            >
-                                <FaPlus className="mr-2" /> Sign up
-                            </Button>
-                        </li>
-                    </ul>
-                )}
+                {
+                    pathname !== "/restaurant/admin/login" && (
+                        loggedIn ? (
+                            <ul className="hidden lg:flex items-center list-none">
+                                <li
+                                    ref={menuDropdown}
+                                    className="flex items-center relative cursor-pointer"
+                                    onClick={() =>
+                                        setIsDropdownMenuOpen(!isDropdownMenuOpen)
+                                    }
+                                >
+                                    <FaRegUser />
+                                    <p className="ml-2 capitalize">
+                                        {localStorage.getItem("name")}
+                                    </p>
+                                    <button type="button">
+                                        <IoIosArrowDown />
+                                    </button>
+                                    {isDropdownMenuOpen && (
+                                        <DropdownMenu logout={logout} />
+                                    )}
+                                </li>
+                                <li className="ml-8 flex items-center">
+                                    <FaGlobe size={20} className="" />
+                                    <p className="ml-2">Eng</p>
+                                </li>
+                                <li className="ml-12">
+                                    <FaRegHeart size={20} className="text-orange" />
+                                </li>
+                                <li
+                                    className="ml-5 rounded-full p-2 cursor-pointer duration-300 hover:bg-[#ffd7b5]"
+                                    onClick={handleOpenCart}
+                                >
+                                    <IoCartOutline size={24} className="text-orange" />
+                                </li>
+                            </ul>
+                        ) : (
+                            <ul className="hidden lg:flex list-none">
+                                <li className="">
+                                    <Button
+                                        bgColor="bg-orange"
+                                        textColor="text-white"
+                                        border="border-none"
+                                        href="/login"
+                                    >
+                                        <FaUser className="mr-2" /> Log in
+                                    </Button>
+                                </li>
+                                <li className="ml-5">
+                                    <Button
+                                        bgColor="bg-white"
+                                        textColor="text-orange"
+                                        border="border"
+                                        href="/signup"
+                                    >
+                                        <FaPlus className="mr-2" /> Sign up
+                                    </Button>
+                                </li>
+                            </ul>
+                        )
+                    )
+                }
             </header>
 
             <HamburgerMenu open={open} setOpen={setOpen} />

@@ -30,6 +30,7 @@ export const foodDeliveryWebApis = createApi({
         "RestaurantTypes",
         "RestaurantTownships",
         "Categories",
+        "Products",
     ],
     endpoints: (builder) => ({
         addUser: builder.mutation({
@@ -116,6 +117,20 @@ export const foodDeliveryWebApis = createApi({
                 body,
             }),
         }),
+
+        getAllProducts: builder.query({
+            query: () => "products",
+            providesTags: ["Products"],
+        }),
+
+        addNewProduct: builder.mutation({
+            query: (body) => ({
+                url: "product",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["Products"]
+        }),
     }),
 });
 
@@ -133,4 +148,6 @@ export const {
     useGetCategoriesQuery,
     useGetDietariesQuery,
     useAddNewDietaryMutation,
+    useGetAllProductsQuery,
+    useAddNewProductMutation,
 } = foodDeliveryWebApis;

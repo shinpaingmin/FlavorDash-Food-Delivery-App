@@ -64,17 +64,15 @@ Route::controller(DietaryController::class)->group(function() {
 
 
 
-// Public routes of product
-// Route::middleware(['auth:api', 'scope:admin'])->group(function() {
-//     Route::controller(MenuItemController::class)->group(function() {
-//         Route::get('products', 'index');
-//         Route::get('products/{id}', 'show');
-//         Route::get('products/search/{name}', 'search');
-//     });
-// });
+// Protect routes for admin privileges
+Route::middleware(['auth:api', 'scope:admin'])->group(function() {
+    Route::controller(MenuItemController::class)->group(function() {
+        Route::post('product', 'store');
+    });
+});
 
 
-// Protected routes of product and logout
+// Protected routes for normal user privileges
 Route::middleware(['auth:api', 'scope:user'])->group(function() {
     Route::post('logout', [UserAuthController::class, 'logout']);
 
@@ -84,11 +82,11 @@ Route::middleware(['auth:api', 'scope:user'])->group(function() {
     });
 
 
-    Route::controller(MenuItemController::class)->group(function() {
-        Route::post('products', 'store');
-        Route::post('products/{id}', 'update');
-        Route::delete('products/{id}', 'destroy');
-    });
+    // Route::controller(MenuItemController::class)->group(function() {
+    //     Route::post('products', 'store');
+    //     Route::post('products/{id}', 'update');
+    //     Route::delete('products/{id}', 'destroy');
+    // });
 });
 
 // Routes for category CRUD
@@ -99,6 +97,5 @@ Route::controller(CategoryController::class)->group(function() {
 
 // Routes for menu item CRUD
 Route::controller(MenuItemController::class)->group(function() {
-    Route::get('menu', 'index');
-    Route::post('menu', 'store');
+    Route::get('products', 'index');
 });

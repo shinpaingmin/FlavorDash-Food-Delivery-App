@@ -13,6 +13,7 @@ import RestaurantSignUpPage from './pages/customer/RestaurantSignUpPage';
 
 import RestaurantDashboard from './pages/restaurant/HomePage';
 import ProductsPage from './pages/restaurant/ProductsPage';
+import CreateProductsPage from './pages/restaurant/CreateProductsPage';
 import CustomersPage from './pages/restaurant/CustomersPage';
 // import TransactionsPage from './pages/restaurant/TransactionsPage';
 import GeographyPage from './pages/restaurant/GeographyPage';
@@ -29,6 +30,7 @@ import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
 import CategoryPage from './pages/restaurant/CategoryPage';
 import GuestLayout from './layouts/GuestLayout';
+
 
 
 
@@ -50,7 +52,8 @@ function App() {
                         {/* Only for guests  */}
                         <Route element={<GuestLayout />}>
                             <Route path="/" element={ <HomePage /> } />
-                            <Route path="/login" element={ <LoginPage /> } />
+                            <Route path="/login" element={ <LoginPage role="customer" /> } />
+                            <Route path="/restaurant/admin/login" element={ <LoginPage role="admin" /> } />
                             <Route path="/signup" element={ <SignUpPage /> } />
                             <Route path="/feed/new" element={ <FeedPage /> } />
                             <Route path="/restaurant/signup" element={<RestaurantSignUpPage />} />
@@ -69,6 +72,7 @@ function App() {
                         <Route element={<RestaurantLayout />}>
                             <Route path="/dashboard" element={ <RestaurantDashboard /> } />
                             <Route path="/products" element={ <ProductsPage /> } />
+                            <Route path="/products/create" element={ <CreateProductsPage /> } />
                             <Route path="/categories" element={ <CategoryPage /> } />
                             <Route path="/categories/create" element={ <CategoryPage /> } />
                             <Route path="/customers" element={ <CustomersPage /> } />

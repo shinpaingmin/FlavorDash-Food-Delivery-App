@@ -12,7 +12,7 @@ const INIT_DATA = {
     password: "",
 };
 
-const LoginPage = () => {
+const LoginPage = ({ role }) => {
     const [data, setData] = useState(INIT_DATA);
     const [loginAuth, { data:resData, isSuccess, isError, error }] = useLoginAuthMutation();
     const navigate = useNavigate();
@@ -52,10 +52,16 @@ const LoginPage = () => {
             localStorage.setItem("token", resData?.data?.token);    // store token in local storage
 
             for(const prop in resData?.data?.user) {
-                localStorage.setItem(`${prop}`, resData.data.user[prop]);
+                if(resData.data.user[prop]) {
+                    localStorage.setItem(`${prop}`, resData.data.user[prop]);
+                }
             }
 
-            navigate('/feed?status=loggedIn');
+            if(role === "customer") {
+                navigate('/feed?status=loggedIn');
+            } else if (role === "admin") {
+                navigate('/dashboard');
+            }
 
         }
     }, [isError, isSuccess]);

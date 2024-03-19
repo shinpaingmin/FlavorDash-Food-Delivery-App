@@ -10,7 +10,7 @@ import {
 import FlexBetween from "./FlexBetween";
 import { useDispatch } from "react-redux";
 import { setMode } from "../../state";
-import { profileImg } from "../../assets/images";
+import { profile } from "../../assets/images";
 import {
     AppBar,
     Box,
@@ -32,6 +32,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     const isOpen = Boolean(anchorEl);
     const handleClick = (event) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
+    const [image] = useState(localStorage.getItem("image"));
 
     return (
         <AppBar
@@ -87,15 +88,17 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                 gap: "1rem",
                             }}
                         >
+
                             <Box
                                 component="img"
                                 alt="profile"
-                                src={profileImg}
+                                src={image ? `http://localhost:8000/storage/${image}` : profile}
                                 height="32px"
                                 width="32px"
                                 borderRadius="50%"
                                 sx={{ objectFit: "cover" }}
                             />
+
 
                             <Box textAlign="left">
                                 <Typography
@@ -105,7 +108,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                         color: theme.palette.secondary[100],
                                     }}
                                 >
-                                    Shin
+                                    {localStorage.getItem("name")}
                                 </Typography>
 
                                 <Typography

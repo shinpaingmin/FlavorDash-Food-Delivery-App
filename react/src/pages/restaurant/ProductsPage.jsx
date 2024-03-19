@@ -1,103 +1,151 @@
-import { useState } from "react";
-import {
-    Box,
-    Card,
-    CardActions,
-    CardContent,
-    Collapse,
-    Button,
-    Typography,
-    Rating,
-    useTheme,
-    useMediaQuery,
-} from "@mui/material";
+import { useMemo } from "react";
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, useTheme, Button } from "@mui/material";
 import Header from "../../components/restaurant/Header";
+import { useGetAllProductsQuery } from "../../services";
+import FlexBetween from "../../components/restaurant/FlexBetween";
+import { useNavigate } from "react-router-dom";
 
 const ProductsPage = () => {
-    const isNonMobile = useMediaQuery("(min-width: 1000px)");
+    // const isNonMobile = useMediaQuery("(min-width: 1000px)");
     const theme = useTheme();
-    const [isExpanded, setIsExpanded] = useState(false);
+    const navigate = useNavigate();
+
+    const {
+        data: products = [],
+        isLoading,
+        isError,
+        error,
+    } = useGetAllProductsQuery();
+
+    const columns = useMemo(() => ([
+        {
+            field: "id",
+            headerName: "ID",
+            type: "number",
+            flex: 0.5,
+        },
+        {
+            field: "image",
+            headerName: "Image",
+            type: "string",
+            flex: 1,
+        },
+        {
+            field: "name",
+            headerName: "Name",
+            type: "sting",
+            flex: 1,
+        },
+        {
+            field: "category_id",
+            headerName: "Category",
+            type: "string",
+            flex: 1,
+        },
+        {
+            field: "price",
+            headerName: "Price",
+            type: "number",
+            flex: 1,
+        },
+        {
+            field: "quantity",
+            headerName: "Quantity",
+            type: "number",
+            flex: 1,
+        },
+        {
+            field: "menu_size_id",
+            headerName: "Size",
+            type: "number",
+            flex: 1,
+        },
+        {
+            field: "actions",
+            headerName: "Actions",
+            flex: 1,
+            getActions: (params) => [
+                <GridActionsCellItem
+                    key={1}
+                    icons={<EditIcon />}
+                    label="Edit"
+                    onClick={() => {}}
+                />,
+                <GridActionsCellItem
+                    key={1}
+                    icons={<DeleteIcon />}
+                    label="Delete"
+                    onClick={() => {}}
+                />,
+            ],
+            sortable: false,
+            filterable: false,
+        },
+    ]), [])
 
     return (
         <Box m="1.5rem 2.5rem">
-            <Header title="PRODUCTS" subtitle="See your list of products." />
+            <FlexBetween>
+                <Header title="PRODUCTS" subtitle="See your list of products." />
+                <Box>
+                    <Button
+                        sx={{
+                            "&:hover": {
+                                backgroundColor: theme.palette.secondary[500],
+                            },
+                            backgroundColor: theme.palette.secondary[400],
+                            color: theme.palette.background.alt,
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "10px 20px"
+                        }}
+                        onClick={() => navigate("/products/create")}
+                    >
+                        <AddIcon />
+                        Add Products
+                    </Button>
+                </Box>
+            </FlexBetween>
 
-            {/* loading condition here  */}
             <Box
-                mt="20px"
-                display="grid"
-                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                justifyContent="space-between"
-                rowGap="20px"
-                columnGap="1.33%"
+                mt="40px"
+                height="75vh"
                 sx={{
-                    "& > div": { gridColumn: isNonMobile ? undefined : "span 4" }
+                    "& .MuiDataGrid-root": {
+                        border: "none"
+                    },
+                    "& .MuiDataGrid-cell": {
+                        borderBottom: "none"
+                    },
+                    "& .MuiDataGrid-columnHeaders": {
+                        backgroundColor: theme.palette.background.alt,
+                        color: theme.palette.secondary[100],
+                        borderBottom: "none"
+                    },
+                    "& .MuiDataGrid-virtualScroller": {
+                        backgroundColor: theme.palette.primary.light,
+                    },
+                    "& .MuiDataGrid-footerContainer": {
+                        backgroundColor: theme.palette.background.alt,
+                        color: theme.palette.secondary[100],
+                        borderTop: "none"
+                    },
+                    "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                        color: `${theme.palette.secondary[200]} !important`
+                    }
                 }}
             >
-                {/* products data map here  */}
-                {
-                    [...Array(5)].map((_, i) => (
-                        <Card
-                            key={i}
-                            sx={{
-                                backgroundImage: "none",
-                                backgroundColor: theme.palette.background.alt,
-                                borderRadius: "0.55rem"
-                            }}
-                        >
-                            <CardContent>
-                                <Typography
-                                    sx={{
-                                        fontSize: 14
-                                    }}
-                                    color={theme.palette.secondary[700]}
-                                    gutterBottom
-                                >
-                                    Chicken
-                                </Typography>
-                                <Typography
-                                >
-                                    KFC Chicken
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        mb: "1.5rem"
-                                    }}
-                                    color={theme.palette.secondary[700]}
-                                >
-                                    $30
-                                </Typography>
-                                <Rating value="4" readOnly />
+                <DataGrid
+                    loading={isLoading}
+                    getRowId={(row) => row.id}
+                    columns={columns}
+                    rows={products?.data || []}
 
-                                <Typography variant="body2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officia ut, sint odit culpa enim.</Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button
-                                    variant="primary"
-                                    size="small"
-                                    onClick={() => setIsExpanded(!isExpanded)}
-                                >
-                                    See More
-                                </Button>
-                            </CardActions>
-                            <Collapse
-                                in={isExpanded}
-                                timeout="auto"
-                                unmountOnExit
-                                sx={{
-                                    color: theme.palette.neutral[300]
-                                }}
-                            >
-                                <CardContent>
-                                    <Typography>id: 123423</Typography>
-                                    <Typography>Supply Left: 12</Typography>
-                                    <Typography>Yearly Sales This Year: 123423</Typography>
-                                    <Typography>Yearly Units Sold This Year: 1223423</Typography>
-                                </CardContent>
-                            </Collapse>
-                        </Card>
-                    ))
-                }
+                />
             </Box>
         </Box>
     );

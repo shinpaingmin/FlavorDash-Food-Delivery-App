@@ -45,12 +45,16 @@ class MenuItemController extends Controller
             'restaurant_id' => 'required',
             'category_id' => 'required',
             'name' => 'required|string',
-            'price' => 'required|integer',
+            'normal_price' => 'required|integer',
             'image' => ['required', File::image()->max(2048)],
         ]);
 
         if($request->quantity) {
-            $validate['quantity'] = 'required|integer';
+            $validate['quantity'] = 'integer';
+        }
+
+        if($request->discount_price) {
+            $validate['discount_price'] = 'integer';
         }
 
         if($validate->fails()) {
