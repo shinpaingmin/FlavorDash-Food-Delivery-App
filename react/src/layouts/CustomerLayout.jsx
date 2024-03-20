@@ -22,6 +22,7 @@ const CustomerLayout = () => {
 
     if (
         !localStorage.getItem("token") ||
+        localStorage.getItem("token") == "null" ||
         localStorage.getItem("role") !== "user"
     ) {
         localStorage.clear();

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\MenuItem;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
@@ -13,4 +14,8 @@ class Category extends Model
         'name',
         'updated_at'
     ];
+
+    public function menu_items() {
+        return $this->hasMany(MenuItem::class);
+    }
 }

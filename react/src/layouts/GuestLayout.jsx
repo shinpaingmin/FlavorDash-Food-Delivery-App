@@ -6,8 +6,18 @@ import Footer from "../components/customer/Footer";
 const GuestLayout = () => {
     const [open, setOpen] = useState(false);
 
-    if (localStorage.getItem("token")) {
-        return <Navigate to="/feed" />
+    if (
+        localStorage.getItem("token") &&
+        localStorage.getItem("token") != "null" &&
+        localStorage.getItem("role") === "user"
+    ) {
+        return <Navigate to="/feed" />;
+    } else if (
+        localStorage.getItem("token") &&
+        localStorage.getItem("token") != "null" &&
+        localStorage.getItem("role") === "admin"
+    ) {
+        return <Navigate to="/dashboard" />;
     }
 
     useEffect(() => {

@@ -105,7 +105,11 @@ class UserAuthController extends Controller
     // return response data fn
     private function resData($user, $request, $type='login') {
         // Store token and user in data array
-        $data['token'] = $user->createToken($request->email, ["user"])->accessToken;
+        if($request->role === "admin") {
+            $data['token'] = $user->createToken($request->email, ["admin"])->accessToken;
+        } else {
+            $data['token'] = $user->createToken($request->email, ["user"])->accessToken;
+        }
         $data['user'] = $user;
 
         // response array

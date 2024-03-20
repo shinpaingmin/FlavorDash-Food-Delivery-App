@@ -6,9 +6,6 @@ import Navbar from "../components/restaurant/Navbar";
 import Sidebar from "../components/restaurant/Sidebar";
 import { CssBaseline } from "@mui/material";
 
-const data = {
-    name: "shin",
-};
 
 const RestaurantLayout = () => {
     const isNonMobile = useMediaQuery("(min-width: 600px)"); // return true to desktop screen
@@ -17,7 +14,9 @@ const RestaurantLayout = () => {
 
     if (
         !localStorage.getItem("token") ||
+        localStorage.getItem("token") == "null" ||
         localStorage.getItem("role") !== "admin"
+
     ) {
         localStorage.clear();
         return <Navigate to="/restaurant/admin/login" />;
@@ -30,7 +29,6 @@ const RestaurantLayout = () => {
         >
             <CssBaseline />
             <Sidebar
-                user={data || {}}
                 isNonMobile={isNonMobile}
                 drawerWidth="250px"
                 isSidebarOpen={isSidebarOpen}
@@ -38,7 +36,7 @@ const RestaurantLayout = () => {
             />
             <Box flexGrow={1}>
                 <Navbar
-                    user={data || {}}
+
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
                 />

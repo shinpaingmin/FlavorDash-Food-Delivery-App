@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Message;
+use App\Models\Restaurant;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\SendVerificationEmail;
@@ -63,6 +64,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationNotification() {
         $this->notify(new SendVerificationEmail);
+    }
+
+    public function restaurant() {
+        return $this->hasOne(Restaurant::class);
     }
 
 }

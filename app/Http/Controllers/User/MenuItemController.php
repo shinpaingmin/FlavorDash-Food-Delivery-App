@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use Storage;
 use Carbon\Carbon;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
@@ -17,7 +18,10 @@ class MenuItemController extends Controller
     public function index()
     {
         // get data by latest date
-        $menu_items = MenuItem::latest()->get();
+        $menu_items = MenuItem::select('menu_items.*', 'categories.name as category_name')
+                                ->leftJoin('categories', 'menu_items.category_id', 'categories.id')
+                                ->latest()
+                                ->get();
 
         if(is_null($menu_items->first())) {
             return response()->json([
@@ -40,22 +44,9 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
+        // logger($request->user()->restaurant->id);
         // input validation
-        $validate = Validator::make($request->all(), [
-            'restaurant_id' => 'required',
-            'category_id' => 'required',
-            'name' => 'required|string',
-            'normal_price' => 'required|integer',
-            'image' => ['required', File::image()->max(2048)],
-        ]);
-
-        if($request->quantity) {
-            $validate['quantity'] = 'integer';
-        }
-
-        if($request->discount_price) {
-            $validate['discount_price'] = 'integer';
-        }
+        $validate = $this->validation($request);
 
         if($validate->fails()) {
             return response()->json([
@@ -65,7 +56,15 @@ class MenuItemController extends Controller
             ], 422);
         }
 
-        $menu_item = MenuItem::create($request->all());
+        $request->restaurant_id = $request->user()->restaurant->id;
+
+        $fileName = uniqid() . $request->image->getClientOriginalName();
+
+        $request->image->storeAs('public', $fileName);
+
+        $data = $this->resData($request, $fileName);
+
+        $menu_item = MenuItem::create($data);
 
         $response = [
             'status' => 'success',
@@ -105,11 +104,7 @@ class MenuItemController extends Controller
     public function update(Request $request, $id)
     {
         // field input validation
-        $validate = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'price' => 'required|integer',
-            'quantity' => 'required|integer',
-        ]);
+        $validate = $this->validation();
 
         if($validate->fails()) {
             return response()->json([
@@ -148,6 +143,7 @@ class MenuItemController extends Controller
     {
         $menu_item = MenuItem::find($id);
 
+
         if(is_null($menu_item)) {
             return response()->json([
                 'status' => 'failed',
@@ -155,6 +151,7 @@ class MenuItemController extends Controller
             ], 200);
         }
 
+        Storage::delete('public/' . $menu_item->image);
         MenuItem::destroy($id);
 
         return response()->json([
@@ -163,28 +160,48 @@ class MenuItemController extends Controller
         ], 200);
     }
 
-    /**
-     * Search by a item name
-     * @param str $name
-     * @return \Illuminate\Http\Response
-     */
-    public function search($name) {
-        $products = MenuItem::where('name', 'like', '%'.$name.'%')
-                            ->latest()->get();
-
-        if(is_null($products->first())) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'No item found'
-            ], 200);
-        }
-
-        $response = [
-            'status' => 'success',
-            'message' => 'Items are retrieved successfully.',
-            'data' => $products
+    // private validation function
+    private function validation($request) {
+        $rules = [
+            'category_id' => 'required',
+            'name' => 'required|string',
+            'normal_price' => 'required|integer',
+            'image' => ['required', File::image()->max(2048)],
         ];
 
-        return response()->json($response, 200);
+        if($request->quantity) {
+            $validate['quantity'] = 'integer';
+        }
+
+        if($request->discount_price) {
+            $validate['discount_price'] = 'integer';
+        }
+
+        return $validate = Validator::make($request->all(), $rules);
+    }
+
+    // resData private function
+    private function resData($request, $fileName) {
+        $data = [
+            'restaurant_id' => $request->user()->restaurant->id,
+            'category_id' => (int) $request->category_id,
+            'name' => $request->name,
+            'normal_price' => (int) $request->normal_price,
+            'image' => $fileName
+        ];
+
+        if($request->menu_size_id) {
+            $data['menu_size_id'] = (int) $request->menu_size_id;
+        }
+
+        if($request->discount_price) {
+            $data['discount_price'] = (int) $request->discount_price;
+        }
+
+        if($request->quantity) {
+            $data['quantity'] = (int) $request->quantity;
+        }
+
+        return $data;
     }
 }

@@ -182,7 +182,7 @@ const CategoryPage = () => {
                     <Button
                         sx={{
                             "&:hover": {
-                                backgroundColor: theme.palette.secondary.light,
+                                backgroundColor: theme.palette.secondary[300],
                             },
                             backgroundColor: theme.palette.secondary.light,
                             color: theme.palette.background.alt,

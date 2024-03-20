@@ -1,6 +1,6 @@
 import { MdAlternateEmail } from "react-icons/md";
 import { GoKey } from "react-icons/go";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import SocialMedia from "../../components/customer/SocialMedia";
 import { FaGoogle, FaFacebookF, FaGithub } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -16,12 +16,17 @@ const LoginPage = ({ role }) => {
     const [data, setData] = useState(INIT_DATA);
     const [loginAuth, { data:resData, isSuccess, isError, error }] = useLoginAuthMutation();
     const navigate = useNavigate();
+    const[queryParams, setQueryParams] = useSearchParams();
 
 
     const onSubmit = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
+
+        if(role === "admin") {
+            formData.append("role", "admin");
+        }
 
         for(const prop in data) {
             formData.append(`${prop}`, data[prop]);
@@ -38,6 +43,20 @@ const LoginPage = ({ role }) => {
     };
 
     useEffect(() => {
+        if(queryParams.get('status') === 'loggedOut') {
+            toast.success("Logged out successfully!", {
+                position: "bottom-right",
+                style: {
+                    padding: "10px",
+                    backgroundColor: "#bbf7d0",
+                }
+            })
+
+            setQueryParams({
+                status: ""
+            })
+        }
+
         if(isError) {
             toast.error(error?.data?.message || error?.status, {
                 position: "bottom-right",
@@ -68,10 +87,10 @@ const LoginPage = ({ role }) => {
 
     return (
         <div className="px-8 pt-12 border-t border-t-gray-200 ">
-            {
-                isError && <Toaster />
-            }
-            <h1 className="font-bold text-3xl text-center">Log In</h1>
+
+                 <Toaster />
+
+            <h1 className="font-bold text-3xl text-center">{role === "admin" ? "Admin Login" : "Log In"}</h1>
 
                 <div className="font-semibold text-center text-red-500 mt-3">
                     {error?.status == "401" && "Invalid Credentials"}

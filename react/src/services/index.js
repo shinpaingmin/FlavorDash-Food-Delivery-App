@@ -131,6 +131,21 @@ export const foodDeliveryWebApis = createApi({
             }),
             invalidatesTags: ["Products"]
         }),
+
+        destoryProduct: builder.mutation({
+            query: (id) => ({
+                url: `product/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Products"],
+        }),
+
+        adminLogout: builder.mutation({
+            query: () => ({
+                url: "admin/logout",
+                method: "POST"
+            })
+        })
     }),
 });
 
@@ -150,4 +165,6 @@ export const {
     useAddNewDietaryMutation,
     useGetAllProductsQuery,
     useAddNewProductMutation,
+    useDestoryProductMutation,
+    useAdminLogoutMutation,
 } = foodDeliveryWebApis;

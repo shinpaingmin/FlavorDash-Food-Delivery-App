@@ -27,7 +27,7 @@ use App\Http\Controllers\User\RestaurantTownshipController;
 // Public routes of user authentication
 Route::controller(UserAuthController::class)->group(function() {
     Route::post('signup', 'signup');
-    Route::post('login', 'login')->name('login');
+    Route::post('login', 'login');
 });
 
 // Email verification routes
@@ -66,8 +66,12 @@ Route::controller(DietaryController::class)->group(function() {
 
 // Protect routes for admin privileges
 Route::middleware(['auth:api', 'scope:admin'])->group(function() {
+    Route::post('admin/logout', [AdminAuthController::class, 'logout']);
+
     Route::controller(MenuItemController::class)->group(function() {
         Route::post('product', 'store');
+        Route::post('product/{id}', 'update');
+        Route::delete('product/{id}', 'destroy');
     });
 });
 

@@ -53,7 +53,7 @@ class AdminAuthController extends Controller
 
         $fileName = uniqid() . $request->image->getClientOriginalName();
 
-        $image = $request->image->storeAs('public', $fileName);
+        $request->image->storeAs('public', $fileName);
 
         $storeData = [
             'user_id' => $userId,
@@ -109,6 +109,19 @@ class AdminAuthController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    // logout
+    public function logout(Request $request) {
+        // delete tokens associated with logged in user
+        $user = $request->user();
+        $user->tokens()->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User is logged out successfully.'
+        ], 200); // 200 = request success
     }
 
     /* private functions */

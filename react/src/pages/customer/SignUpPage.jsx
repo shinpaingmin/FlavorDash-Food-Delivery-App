@@ -56,7 +56,9 @@ const SignUpPage = () => {
             localStorage.setItem("token", resData?.data?.token);    // store token in local storage
 
             for(const prop in resData?.data?.user) {
-                localStorage.setItem(`${prop}`, resData.data.user[prop]);
+                if(resData.data.user[prop]) {
+                    localStorage.setItem(`${prop}`, resData.data.user[prop]);
+                }
             }
 
             navigate('/feed?status=signUp');

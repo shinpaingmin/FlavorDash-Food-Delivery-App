@@ -32,7 +32,7 @@ const Header = ({ open, setOpen }) => {
 
     if (isSuccess) {
         localStorage.clear();
-        return <Navigate to="/login" />;
+        return <Navigate to="/login?status=loggedOut" />;
     }
 
 

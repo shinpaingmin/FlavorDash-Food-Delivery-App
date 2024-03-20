@@ -23,16 +23,24 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
+import { useAdminLogoutMutation } from "../../services";
+import { Navigate } from "react-router-dom";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     const dispatch = useDispatch();
     const theme = useTheme();
+    const [adminLogout, {isSuccess}] = useAdminLogoutMutation();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
     const handleClick = (event) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
     const [image] = useState(localStorage.getItem("image"));
+
+    if(isSuccess) {
+        localStorage.clear();
+        return <Navigate to="/restaurant/admin/login?status=loggedOut" />
+    }
 
     return (
         <AppBar
@@ -137,7 +145,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                 horizontal: "center",
                             }}
                         >
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            <MenuItem onClick={adminLogout}>Logout</MenuItem>
                         </Menu>
                     </FlexBetween>
                 </FlexBetween>
