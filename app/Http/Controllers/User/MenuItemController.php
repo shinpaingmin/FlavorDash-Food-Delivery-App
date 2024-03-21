@@ -15,11 +15,12 @@ class MenuItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        // get data by latest date
+
         $menu_items = MenuItem::select('menu_items.*', 'categories.name as category_name')
                                 ->leftJoin('categories', 'menu_items.category_id', 'categories.id')
+                                ->where('menu_items.restaurant_id', $id)
                                 ->latest()
                                 ->get();
 
@@ -39,6 +40,7 @@ class MenuItemController extends Controller
         return response()->json($response, 200);
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
@@ -56,13 +58,12 @@ class MenuItemController extends Controller
             ], 422);
         }
 
-        $request->restaurant_id = $request->user()->restaurant->id;
-
         $fileName = uniqid() . $request->image->getClientOriginalName();
 
         $request->image->storeAs('public', $fileName);
 
-        $data = $this->resData($request, $fileName);
+        $data = $this->resData($request);
+        $data['image'] = $fileName;
 
         $menu_item = MenuItem::create($data);
 
@@ -104,16 +105,28 @@ class MenuItemController extends Controller
     public function update(Request $request, $id)
     {
         // field input validation
-        $validate = $this->validation();
+
+        $validate = $this->validation($request, "update");
 
         if($validate->fails()) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Validation Error!',
+                'data' => $validate->errors()
             ], 422);
         }
 
+
+
         $menu_item = MenuItem::find($id);
+
+        // The restaurant can only modify its own products, product owner validation
+        if(auth()->user()->restaurant->id != $menu_item->restaurant_id) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Invalid credentials'
+            ], 401);
+        }
 
         if(is_null($menu_item)) {
             return response()->json([
@@ -122,7 +135,21 @@ class MenuItemController extends Controller
             ], 200);
         }
 
-        $data = $request->all();
+        $data = $this->resData($request);
+
+        if($request->image) {
+            // delete old image
+            Storage::delete('public/' . $menu_item->image);
+
+            // generate new image
+            $fileName = uniqid() . $request->image->getClientOriginalName();
+
+            $request->image->storeAs('public', $fileName);
+
+
+            $data['image'] = $fileName;
+        }
+
         $data['updated_at'] = Carbon::now();
 
         $menu_item->update($data);
@@ -161,13 +188,17 @@ class MenuItemController extends Controller
     }
 
     // private validation function
-    private function validation($request) {
+    private function validation($request, $action="create") {
         $rules = [
             'category_id' => 'required',
             'name' => 'required|string',
             'normal_price' => 'required|integer',
-            'image' => ['required', File::image()->max(2048)],
+
         ];
+
+        if($action === "create") {
+            $rules['image'] = ['required', File::image()->max(2048)];
+        }
 
         if($request->quantity) {
             $validate['quantity'] = 'integer';
@@ -181,27 +212,18 @@ class MenuItemController extends Controller
     }
 
     // resData private function
-    private function resData($request, $fileName) {
+    private function resData($request) {
         $data = [
             'restaurant_id' => $request->user()->restaurant->id,
-            'category_id' => (int) $request->category_id,
+            'category_id' => $request->category_id,
+            'menu_size_id' => $request->menu_size_id,
             'name' => $request->name,
-            'normal_price' => (int) $request->normal_price,
-            'image' => $fileName
+            'normal_price' => $request->normal_price,
+            'discount_price' => $request->discount_price,
+            'quantity' => $request->quantity,
         ];
-
-        if($request->menu_size_id) {
-            $data['menu_size_id'] = (int) $request->menu_size_id;
-        }
-
-        if($request->discount_price) {
-            $data['discount_price'] = (int) $request->discount_price;
-        }
-
-        if($request->quantity) {
-            $data['quantity'] = (int) $request->quantity;
-        }
 
         return $data;
     }
+
 }

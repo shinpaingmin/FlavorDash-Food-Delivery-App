@@ -31,6 +31,7 @@ export const foodDeliveryWebApis = createApi({
         "RestaurantTownships",
         "Categories",
         "Products",
+        "Product"
     ],
     endpoints: (builder) => ({
         addUser: builder.mutation({
@@ -54,6 +55,11 @@ export const foodDeliveryWebApis = createApi({
                 method: "POST",
             }),
         }),
+
+        getAdminRestaurant: builder.query({
+            query: () => "admin/restaurant",
+        }),
+
         checkEmailVerify: builder.query({
             query: () => ({
                 url: "email/check",
@@ -119,8 +125,16 @@ export const foodDeliveryWebApis = createApi({
         }),
 
         getAllProducts: builder.query({
-            query: () => "products",
+            query: (id) => `products/restaurant/${id}`,
             providesTags: ["Products"],
+        }),
+
+        getTheProduct: builder.query({
+            query: (id) => ({
+                url: `product/${id}`,
+                method: "GET"
+            }),
+            providesTags: ["Product"],
         }),
 
         addNewProduct: builder.mutation({
@@ -129,7 +143,16 @@ export const foodDeliveryWebApis = createApi({
                 method: "POST",
                 body
             }),
-            invalidatesTags: ["Products"]
+            invalidatesTags: ["Products", "Product"]
+        }),
+
+        updateProduct: builder.mutation({
+            query: (body) => ({
+                url: `product/${body.get("id")}`,
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["Products", "Product"],
         }),
 
         destoryProduct: builder.mutation({
@@ -137,7 +160,7 @@ export const foodDeliveryWebApis = createApi({
                 url: `product/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["Products"],
+            invalidatesTags: ["Products", "Product"],
         }),
 
         adminLogout: builder.mutation({
@@ -154,6 +177,7 @@ export const {
     useLoginAuthMutation,
     useAddUserMutation,
     useLogoutMutation,
+    useGetAdminRestaurantQuery,
     useCheckEmailVerifyQuery,
     useGetRegenerateEmailVerifyQuery,
     useAddNewRestaurantMutation,
@@ -164,7 +188,9 @@ export const {
     useGetDietariesQuery,
     useAddNewDietaryMutation,
     useGetAllProductsQuery,
+    useGetTheProductQuery,
     useAddNewProductMutation,
+    useUpdateProductMutation,
     useDestoryProductMutation,
     useAdminLogoutMutation,
 } = foodDeliveryWebApis;

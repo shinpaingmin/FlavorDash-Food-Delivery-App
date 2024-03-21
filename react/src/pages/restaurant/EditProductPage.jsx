@@ -1,3 +1,6 @@
+import { useParams } from "react-router-dom";
+import { useGetTheProductQuery, useUpdateProductMutation } from "../../services";
+import { useState, useEffect } from "react";
 import {
     Box,
     Button,
@@ -6,36 +9,45 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import {
-    useAddNewProductMutation,
-    useGetCategoriesQuery,
-} from "../../services";
-import { useEffect, useState } from "react";
+import { useGetCategoriesQuery } from "../../services";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 
 const INIT_DATA = {
     //restaurant_id,
-    category_id: "", // int
-    menu_size_id: "", //int
+    category_id: "",
+    menu_size_id: "",
     name: "",
-    normal_price: "", // int
-    discount_price: "", // int
-    quantity: "", // int
+    normal_price: "",
+    discount_price: "",
+    quantity: "",
     image: "",
 };
 
-const CreateProductsPage = () => {
-    const [data, setData] = useState(INIT_DATA);
-    const { data: categories, isLoading: categoriesLoading } =
-        useGetCategoriesQuery();
-    const [addNewProduct, { isSuccess, isError, error }] =
-        useAddNewProductMutation();
+const EditProductPage = () => {
+    const { id } = useParams();
+    const { data: oldData, isSuccess: oldDataReceived } = useGetTheProductQuery(id);
+    const [newData, setNewData] = useState(INIT_DATA);
+    const { data: categories, isLoading: categoriesLoading } = useGetCategoriesQuery();
+    const [updateProduct, {isSuccess, isError, error}] = useUpdateProductMutation();
     const theme = useTheme();
     const navigate = useNavigate();
 
     useEffect(() => {
+        if(oldDataReceived) {
+            setNewData({
+                id: oldData.data.id,
+                restaurant_id: oldData.data.restaurant_id,
+                category_id: oldData.data.category_id,
+                menu_size_id: oldData.data.menu_size_id || "",
+                name: oldData.data.name,
+                normal_price: oldData.data.normal_price,
+                discount_price: oldData.data.discount_price || "",
+                quantity: oldData.data.quantity || "",
+                image: "",
+            });
+        }
         if (isError) {
             toast.error(error?.data?.message || error?.status, {
                 position: "bottom-right",
@@ -45,29 +57,27 @@ const CreateProductsPage = () => {
                 },
             });
         } else if (isSuccess) {
-            navigate("/products?status=createSuccess");
+            navigate("/products?status=updateSuccess");
         }
-    }, [isError, isSuccess]);
+    }, [isError, isSuccess, oldDataReceived]);
+
+    console.log(newData)
 
     const updateFields = (fields) => {
-        setData((prev) => ({
-            ...prev,
-            ...fields,
-        }));
+        setNewData((prev) => ({ ...prev, ...fields }));
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (confirm("Are you sure to add a new product?")) {
+        if (confirm("Are you sure to update this product?")) {
             const formData = new FormData();
 
-            for (const prop in data) {
-                formData.append(`${prop}`, data[prop]);
+            for(const prop in newData) {
+                formData.append(`${prop}`, newData[prop]);
             }
 
-            addNewProduct(formData);
-            // setData(INIT_DATA);
+            updateProduct(formData);
         }
     };
 
@@ -86,7 +96,7 @@ const CreateProductsPage = () => {
                 color={theme.palette.secondary[500]}
                 fontWeight="bold"
             >
-                Add a new product
+                Modify your product
             </Typography>
 
             {error?.status == 422 && (
@@ -110,7 +120,7 @@ const CreateProductsPage = () => {
                     Name (*)
                 </Typography>
                 <TextField
-                    value={data.name}
+                    value={newData.name}
                     placeholder="Enter the product name"
                     sx={{
                         backgroundColor: theme.palette.primary.light,
@@ -133,7 +143,7 @@ const CreateProductsPage = () => {
                     Category name (*)
                 </Typography>
                 <TextField
-                    value={data.category_id}
+                    value={newData.category_id}
                     sx={{
                         backgroundColor: theme.palette.primary.light,
                         color: theme.palette.secondary[500],
@@ -171,7 +181,7 @@ const CreateProductsPage = () => {
                     Normal price (*)
                 </Typography>
                 <TextField
-                    value={data.normal_price}
+                    value={newData.normal_price}
                     type="number"
                     placeholder="The original price of the product"
                     sx={{
@@ -197,7 +207,7 @@ const CreateProductsPage = () => {
                     Discount price (optional)
                 </Typography>
                 <TextField
-                    value={data.discount_price}
+                    value={newData.discount_price}
                     type="number"
                     placeholder="The discount price of the product"
                     sx={{
@@ -224,7 +234,7 @@ const CreateProductsPage = () => {
                     Quantity (optional)
                 </Typography>
                 <TextField
-                    value={data.quantity}
+                    value={newData.quantity}
                     type="number"
                     placeholder="The quantity of the product"
                     sx={{
@@ -232,9 +242,7 @@ const CreateProductsPage = () => {
                         color: theme.palette.secondary[500],
                         width: "100%",
                     }}
-                    onChange={(e) =>
-                        updateFields({ quantity: e.target.value })
-                    }
+                    onChange={(e) => updateFields({ quantity: e.target.value })}
                 />
                 <Typography variant="caption" color="error">
                     {error?.data?.data?.quantity}
@@ -249,7 +257,7 @@ const CreateProductsPage = () => {
                     Size (optional)
                 </Typography>
                 <TextField
-                    value={data.menu_size_id}
+                    value={newData.menu_size_id}
                     placeholder="The size of the product"
                     sx={{
                         backgroundColor: theme.palette.primary.light,
@@ -281,7 +289,7 @@ const CreateProductsPage = () => {
                         width: "100%",
                     }}
                     onChange={(e) => updateFields({ image: e.target.files[0] })}
-                    required
+
                 />
                 <Typography variant="caption" color="error">
                     {error?.data?.data?.image}
@@ -307,7 +315,7 @@ const CreateProductsPage = () => {
                             padding: "10px 20px",
                         }}
                     >
-                        Add the product
+                        Update the product
                     </Button>
                 </Box>
             </Box>
@@ -315,4 +323,4 @@ const CreateProductsPage = () => {
     );
 };
 
-export default CreateProductsPage;
+export default EditProductPage;

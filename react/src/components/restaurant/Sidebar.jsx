@@ -144,7 +144,7 @@ const Sidebar = ({
                                     gap="0.5rem"
                                 >
                                     <Typography variant="h4" fontWeight="bold">
-                                        KFC
+                                        {localStorage.getItem("restaurant_name")}
                                     </Typography>
                                 </Box>
                                 {!isNonMobile && (

@@ -1,11 +1,11 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, useTheme, Button } from "@mui/material";
 import Header from "../../components/restaurant/Header";
-import { useDestoryProductMutation, useGetAllProductsQuery } from "../../services";
+import { useDestoryProductMutation, useGetAllProductsQuery, useGetCategoriesQuery } from "../../services";
 import FlexBetween from "../../components/restaurant/FlexBetween";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -16,37 +16,42 @@ const ProductsPage = () => {
     const theme = useTheme();
     const navigate = useNavigate();
     const [queryParams, setQueryParams] = useSearchParams();
+    const [restaurantId, setRestaurantId] = useState(localStorage.getItem("restaurant_id"));
     const {
         data: products = [],
         isLoading,
         isError,
         error,
-    } = useGetAllProductsQuery();
+    } = useGetAllProductsQuery(restaurantId);
     const [destroyProduct, {isSuccess}] = useDestoryProductMutation();
+    const { data: categories} = useGetCategoriesQuery();
+
+    const successToastMessage = (message) => {
+        toast.success(message, {
+            position: "bottom-right",
+            style: {
+                padding: "10px",
+                backgroundColor: "#bbf7d0",
+            },
+        });
+
+    }
 
     useEffect(() => {
-        if (queryParams.get("status") === "success") {
-            toast.success("Added the product successfully!", {
-                position: "bottom-right",
-                style: {
-                    padding: "10px",
-                    backgroundColor: "#bbf7d0",
-                },
+        if (queryParams.get("status") === "createSuccess") {
+            successToastMessage("Added the product successfully!")
+            setQueryParams({
+                status: "",
             });
-
+        } else if(queryParams.get("status") === "updateSuccess") {
+            successToastMessage("Updated the product successfully!")
             setQueryParams({
                 status: "",
             });
         }
 
         if(isSuccess) {
-            toast.success("Deleted the product successfully!", {
-                position: "bottom-right",
-                style: {
-                    padding: "10px",
-                    backgroundColor: "#bbf7d0",
-                },
-            })
+            successToastMessage("Deleted the product successfully!");
         }
     }, [isSuccess]);
 
@@ -82,8 +87,15 @@ const ProductsPage = () => {
             {
                 field: "category_name",
                 headerName: "Category",
-                type: "string",
+                type: "singleSelect",
                 flex: 1,
+                valueOptions: () => {
+                    let category_name = categories?.data.map((c) => (
+                        c.name
+                    ))
+
+                    return category_name;
+                }
             },
             {
                 field: "normal_price",
@@ -121,10 +133,10 @@ const ProductsPage = () => {
                         key={1}
                         icon={<EditIcon />}
                         label="Edit"
-                        onClick={() => {}}
+                        onClick={() => navigate(`/product/edit/${params.row.id}`)}
                     />,
                     <GridActionsCellItem
-                        key={1}
+                        key={2}
                         icon={<DeleteIcon />}
                         label="Delete"
                         onClick={() => removeProduct(params.row.id)}
@@ -157,7 +169,7 @@ const ProductsPage = () => {
                             fontWeight: "bold",
                             padding: "10px 20px",
                         }}
-                        onClick={() => navigate("/products/create")}
+                        onClick={() => navigate("/product/create")}
                     >
                         <AddIcon />
                         Add Products

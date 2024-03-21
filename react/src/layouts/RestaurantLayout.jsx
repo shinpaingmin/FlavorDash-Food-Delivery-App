@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Navbar from "../components/restaurant/Navbar";
 import Sidebar from "../components/restaurant/Sidebar";
 import { CssBaseline } from "@mui/material";
+import { useGetAdminRestaurantQuery } from "../services";
 
 
 const RestaurantLayout = () => {
     const isNonMobile = useMediaQuery("(min-width: 600px)"); // return true to desktop screen
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const { data: resData } = useGetAdminRestaurantQuery();
     // Fetch User Info here with RTK
 
     if (
@@ -21,6 +23,13 @@ const RestaurantLayout = () => {
         localStorage.clear();
         return <Navigate to="/restaurant/admin/login" />;
     }
+
+    useEffect(() => {
+        localStorage.setItem("restaurant_id", resData?.data?.id);
+        localStorage.setItem("restaurant_name", resData?.data?.name);
+    }, [resData]);
+
+
     return (
         <Box
             display={isNonMobile ? "flex" : "block"}

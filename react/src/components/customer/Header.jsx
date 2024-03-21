@@ -105,7 +105,7 @@ const Header = ({ open, setOpen }) => {
                                 value={selectedTownship}
                                 className="border-none focus:border-none focus:outline-none cursor-pointer"
                             >
-                                <option value="" selected disabled>
+                                <option value="null" selected disabled>
                                     {isLoading
                                         ? "Loading..."
                                         : "Please select your township"}

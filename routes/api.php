@@ -7,6 +7,7 @@ use App\Http\Controllers\DietaryController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\MenuItemController;
+use App\Http\Controllers\User\MenuSizeController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\User\RestaurantController;
 use App\Http\Controllers\Auth\VerificationController;
@@ -63,10 +64,24 @@ Route::controller(DietaryController::class)->group(function() {
 });
 
 
+// Routes for category CRUD
+Route::controller(CategoryController::class)->group(function() {
+    Route::get('categories', 'index');
+    Route::post('category', 'store');
+});
+
+// Routes for menu item CRUD
+Route::controller(MenuItemController::class)->group(function() {
+    Route::get('products/restaurant/{id}', 'index');
+    Route::get('product/{id}', 'show');
+});
 
 // Protect routes for admin privileges
 Route::middleware(['auth:api', 'scope:admin'])->group(function() {
     Route::post('admin/logout', [AdminAuthController::class, 'logout']);
+
+    // get the logged in user's restaurant
+    Route::get('admin/restaurant', [RestaurantController::class, 'adminRestaurant']);
 
     Route::controller(MenuItemController::class)->group(function() {
         Route::post('product', 'store');
@@ -93,13 +108,6 @@ Route::middleware(['auth:api', 'scope:user'])->group(function() {
     // });
 });
 
-// Routes for category CRUD
-Route::controller(CategoryController::class)->group(function() {
-    Route::get('categories', 'index');
-    Route::post('category', 'store');
-});
 
-// Routes for menu item CRUD
-Route::controller(MenuItemController::class)->group(function() {
-    Route::get('products', 'index');
-});
+Route::post('menuSize', [MenuSizeController::class, 'store']);
+Route::get('menuSizes', [MenuSizeController::class, 'index']);

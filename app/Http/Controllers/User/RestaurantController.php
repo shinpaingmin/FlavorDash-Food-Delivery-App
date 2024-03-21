@@ -226,6 +226,25 @@ class RestaurantController extends Controller
         return response()->json($response, 200);
     }
 
+    public function adminRestaurant(Request $request) {
+        $restaurant = Restaurant::select('id', 'name')
+                                    ->where('user_id', $request->user()->id)
+                                    ->first();
+
+        if(is_null($restaurant)) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'No data found'
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data retrieved',
+            'data' => $restaurant
+        ], 200);
+    }
+
     /* private functions */
     // validation function
     private function validation($request, $id=null) {

@@ -41,8 +41,6 @@ export default function FeedPage() {
         isLoading,
     } = useGetAllRestaurantsQuery(searchValue);
 
-    console.log(stores)
-    console.log(searchValue)
 
     const sortByHandler = (e) => {
         setSearchValue(prev => ({

@@ -14,6 +14,7 @@ import RestaurantSignUpPage from './pages/customer/RestaurantSignUpPage';
 import RestaurantDashboard from './pages/restaurant/HomePage';
 import ProductsPage from './pages/restaurant/ProductsPage';
 import CreateProductsPage from './pages/restaurant/CreateProductsPage';
+import EditProductPage from './pages/restaurant/EditProductPage';
 import CustomersPage from './pages/restaurant/CustomersPage';
 // import TransactionsPage from './pages/restaurant/TransactionsPage';
 import GeographyPage from './pages/restaurant/GeographyPage';
@@ -30,8 +31,6 @@ import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
 import CategoryPage from './pages/restaurant/CategoryPage';
 import GuestLayout from './layouts/GuestLayout';
-
-
 
 
 function App() {
@@ -72,7 +71,8 @@ function App() {
                         <Route element={<RestaurantLayout />}>
                             <Route path="/dashboard" element={ <RestaurantDashboard /> } />
                             <Route path="/products" element={ <ProductsPage /> } />
-                            <Route path="/products/create" element={ <CreateProductsPage /> } />
+                            <Route path="/product/create" element={ <CreateProductsPage /> } />
+                            <Route path="/product/edit/:id" element={ <EditProductPage /> } />
                             <Route path="/categories" element={ <CategoryPage /> } />
                             <Route path="/categories/create" element={ <CategoryPage /> } />
                             <Route path="/customers" element={ <CustomersPage /> } />
