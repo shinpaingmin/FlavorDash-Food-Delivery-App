@@ -31,7 +31,8 @@ export const foodDeliveryWebApis = createApi({
         "RestaurantTownships",
         "Categories",
         "Products",
-        "Product"
+        "Product",
+        "FavoriteRestaurants",
     ],
     endpoints: (builder) => ({
         addUser: builder.mutation({
@@ -173,6 +174,14 @@ export const foodDeliveryWebApis = createApi({
                 url: "admin/logout",
                 method: "POST"
             })
+        }),
+
+        addRestaurantToFavorite: builder.mutation({
+            query: (id) => ({
+                url: `favorite/restaurant/${id}`,
+                method: "POST",
+            }),
+            invalidatesTags: ["FavoriteRestaurants"],
         })
     }),
 });
@@ -199,4 +208,5 @@ export const {
     useUpdateProductMutation,
     useDestoryProductMutation,
     useAdminLogoutMutation,
+    useAddRestaurantToFavoriteMutation,
 } = foodDeliveryWebApis;

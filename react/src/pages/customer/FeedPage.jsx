@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+    useAddRestaurantToFavoriteMutation,
     useGetAllRestaurantsQuery, useGetDietariesQuery, useGetRestaurantTypesQuery,
 } from "../../services";
 
@@ -35,12 +36,18 @@ export default function FeedPage() {
     });
     const [inputValue, setInputValue] = useState("");
 
-
     const {
         data: stores = [],
         isLoading,
     } = useGetAllRestaurantsQuery(searchValue);
+// console.log(stores?.data)
 
+    const [addRestaurantToFavorite, {isSuccess, isError, error}] = useAddRestaurantToFavoriteMutation();
+
+    const addToFavorite = (id) => {
+        console.log(id)
+        addRestaurantToFavorite(id);
+    }
 
     const sortByHandler = (e) => {
         setSearchValue(prev => ({
@@ -100,7 +107,19 @@ export default function FeedPage() {
                 backgroundColor: "#bbf7d0",
             },
         });
+    }
 
+    function errorBox(text) {
+        toast.error(text, {
+            position: "bottom-right",
+            style: {
+                padding: "10px",
+                backgroundColor: "#fecaca",
+            },
+        });
+    }
+
+    function clearStatusParam() {
         setQueryParameters({
             status: "",
         }); // clear params
@@ -110,14 +129,17 @@ export default function FeedPage() {
         // return from email verification link
         if (queryParameters.get("status") === "emailVerified") {
             successBox("Email verified successfully!");
+            clearStatusParam();
         }
 
         if (queryParameters.get("status") === "loggedIn") {
             successBox("Logged in successfully!!");
+            clearStatusParam();
         }
 
         if (queryParameters.get("status") === "signUp") {
             successBox("User account created successfully!!");
+            clearStatusParam();
         }
 
         if (queryParameters.get("searchTownship")) {
@@ -136,7 +158,17 @@ export default function FeedPage() {
             }));
         }
 
+
     }, [queryParameters.get("searchTownship")]);
+
+    useEffect(() => {
+        if(isSuccess) {
+            successBox("Added the restaurant to your favorite list!");
+        } else if(isError) {
+            errorBox(error?.data?.message);
+        }
+
+    }, [isSuccess, isError]);
 
     const setIsToggleOptions = () => {
         if (isToggleOptions) {
@@ -362,7 +394,9 @@ export default function FeedPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-3 gap-y-8">
                                 {
                                     stores.data.map((store, i) => (
-                                        <StoreCard key={i} {...store} />
+                                        <StoreCard key={i} {...store}
+                                                addToFavorite={addToFavorite}
+                                        />
                                     ))
                                 }
                             </div>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('menu_size_id')->nullable();
             $table->string('name', 150);
+            $table->string('short_desc', 200)->nullable();
             $table->integer('normal_price');
             $table->integer('discount_price')->nullable();  // optional
             $table->integer('quantity')->nullable();    // optional

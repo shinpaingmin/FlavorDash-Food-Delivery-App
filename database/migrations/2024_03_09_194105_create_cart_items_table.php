@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('menu_item_id');
             $table->integer('total_price');
             $table->integer('total_quantity');
+            $table->string('instruction', 255)->nullable();
             $table->timestamps();
 
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');

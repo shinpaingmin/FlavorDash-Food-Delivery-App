@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\User\RestaurantController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\User\RestaurantTypeController;
+use App\Http\Controllers\User\FavoriteRestaurantController;
 use App\Http\Controllers\User\RestaurantTownshipController;
 
 /*
@@ -100,6 +101,10 @@ Route::middleware(['auth:api', 'scope:user'])->group(function() {
         Route::get('email/resend', 'resend')->name('verification.resend');
     });
 
+    // favorite restaurants CRUD
+    Route::controller(FavoriteRestaurantController::class)->group(function() {
+        Route::post('favorite/restaurant/{id}', 'store');
+    });
 
     // Route::controller(MenuItemController::class)->group(function() {
     //     Route::post('products', 'store');

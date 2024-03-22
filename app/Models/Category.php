@@ -11,6 +11,7 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
+        'restaurant_id',
         'name',
         'updated_at'
     ];

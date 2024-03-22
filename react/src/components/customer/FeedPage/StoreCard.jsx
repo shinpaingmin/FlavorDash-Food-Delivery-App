@@ -11,7 +11,8 @@ const StoreCard = ({
     reviews_avg_rating_star,
     reviews_count,
     restaurant_type: {type},
-    pricing
+    pricing,
+    addToFavorite
 }) => {
     const [scale, setScale] = useState(false);
     const navigate = useNavigate();
@@ -19,20 +20,19 @@ const StoreCard = ({
     <motion.div className="relative w-full md:w-80 min-h-64 border shadow rounded-md cursor-pointer"
                                 onMouseEnter={() => setScale(true)}
                                 onMouseLeave={() => setScale(false)}
-                onClick={() => navigate(`/menu/restaurant/${id}`)}
     >
         <div className="absolute top-2 right-2
             w-8 h-8 rounded-full bg-white z-20 grid place-items-center hover:scale-110 transition-all"
-
+            onClick={() => addToFavorite(id)}
         >
                 <FaRegHeart className="text-orange" />
         </div>
-        <div className="w-full h-40 overflow-hidden">
+        <div className="w-full h-40 overflow-hidden" onClick={() => navigate(`/menu/restaurant/${id}`)}>
             <img
                 src={`http://localhost:8000/storage/${image}` ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLeIZ8lcZUns6_RvE2_3pLT3hqoXGw8hclg&usqp=CAU"} alt={name}
                 className={`w-full h-full object-cover object-center rounded-t-md transition-all duration-500 ${scale ? "scale-110" : ""}`} />
         </div>
-        <div className="p-3">
+        <div className="p-3" onClick={() => navigate(`/menu/restaurant/${id}`)}>
             <div className="flex items-center justify-between">
                 <h3>{name}</h3>
                 <div className="flex items-center">

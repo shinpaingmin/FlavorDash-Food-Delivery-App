@@ -16,6 +16,7 @@ class MenuItem extends Model
         'category_id',
         'menu_size_id',
         'name',
+        'short_desc',
         'normal_price',
         'discount_price',   // optional
         'quantity', // optional

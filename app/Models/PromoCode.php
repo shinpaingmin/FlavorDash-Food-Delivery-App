@@ -13,7 +13,6 @@ class PromoCode extends Model
         'user_id',
         'promo_code',
         'type',
-        'status',
         'updated_at'
     ];
 }

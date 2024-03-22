@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cart extends Model
+class CartAddOn extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'restaurant_id',
-
+        'cart_id',
+        'add_on_id',
+        'total_price',
+        'total_quantity',
         'updated_at'
     ];
 }

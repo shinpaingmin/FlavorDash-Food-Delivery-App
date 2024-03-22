@@ -10,7 +10,7 @@ const DropdownMenu = ({ logout }) => {
                 <CiReceipt className="text-gray-700" size={22} />
                 <Link
                     className="font-semibold ml-2 hover:text-gray-700"
-                    to="/ordered items"
+                    to="/ordered/items"
                 >
                     Order & reordering
                 </Link>

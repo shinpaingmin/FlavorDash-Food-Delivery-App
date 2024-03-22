@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_township_id');
             $table->unsignedBigInteger('dietary_id')->nullable();
             $table->string('name', 150)->unique();
-            $table->longText('address')->unique();
+            $table->varchar('address', 255)->unique();
             $table->float('lat', 6, 4)->unique()->nullable(); // need rounded data
             $table->float('long', 6, 4)->unique()->nullable(); // need rounded data
             $table->string('phone', 15)->unique();

@@ -61,10 +61,10 @@ function App() {
                         {/* Only for cusomers  */}
                         <Route element={<CustomerLayout />}>
                             <Route path="/feed" element={ <FeedPage /> } />
-                            <Route path="/email/verify" element={ <EmailVerifyPage /> } />
+                            {/* <Route path="/email/verify" element={ <EmailVerifyPage /> } /> */}
                             <Route path="/menu/restaurant/:id" element={ <MenuPage /> } />
                             <Route path="/checkout" element={ <CheckoutPage /> } />
-                            <Route path="/ordered items" element={ <OrderedPage /> } />
+                            <Route path="/ordered/items" element={ <OrderedPage /> } />
                         </Route>
 
                         {/* Only for restaurant owners/admins  */}

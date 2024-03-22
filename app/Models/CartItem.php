@@ -14,6 +14,7 @@ class CartItem extends Model
         'menu_item_id',
         'total_price',
         'total_quantity',
+        'instruction',
         'updated_at'
     ];
 }
