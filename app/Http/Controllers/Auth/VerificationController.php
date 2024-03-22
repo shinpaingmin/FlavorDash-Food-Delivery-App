@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\PromoCode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,6 +22,11 @@ class VerificationController extends Controller
 
         if(!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
+
+            PromoCode::create([
+                'user_id' => $user->id,
+                'promo_code' => 'FDnewbie' . uniqid(),
+            ]);
         }
 
         return redirect()->to('http://localhost:3000/feed?status=emailVerified');
