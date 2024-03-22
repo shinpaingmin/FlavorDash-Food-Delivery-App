@@ -62,7 +62,7 @@ function App() {
                         <Route element={<CustomerLayout />}>
                             <Route path="/feed" element={ <FeedPage /> } />
                             <Route path="/email/verify" element={ <EmailVerifyPage /> } />
-                            <Route path="/menu" element={ <MenuPage /> } />
+                            <Route path="/menu/restaurant/:id" element={ <MenuPage /> } />
                             <Route path="/checkout" element={ <CheckoutPage /> } />
                             <Route path="/ordered items" element={ <OrderedPage /> } />
                         </Route>

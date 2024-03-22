@@ -15,7 +15,7 @@ class MenuItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    public function index($id, Request $request)
     {
 
         $menu_items = MenuItem::select('menu_items.*', 'categories.name as category_name')
@@ -23,6 +23,10 @@ class MenuItemController extends Controller
                                 ->where('menu_items.restaurant_id', $id)
                                 ->latest()
                                 ->get();
+
+        if($request->groupBy === 'categories') {
+            $menu_items = $menu_items->groupBy('category_name');
+        }
 
         if(is_null($menu_items->first())) {
             return response()->json([

@@ -129,6 +129,11 @@ export const foodDeliveryWebApis = createApi({
             providesTags: ["Products"],
         }),
 
+        getProductsByCategories: builder.query({
+            query: (id) => `products/restaurant/${id}?groupBy=categories`,
+            providesTags: ["Products"],
+        }),
+
         getTheProduct: builder.query({
             query: (id) => ({
                 url: `product/${id}`,
@@ -188,6 +193,7 @@ export const {
     useGetDietariesQuery,
     useAddNewDietaryMutation,
     useGetAllProductsQuery,
+    useGetProductsByCategoriesQuery,
     useGetTheProductQuery,
     useAddNewProductMutation,
     useUpdateProductMutation,

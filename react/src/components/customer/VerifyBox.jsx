@@ -20,7 +20,7 @@ const VerifyBox = ({  setIsCloseVerifyBox, onClick }) => {
             </svg>
             <span className="sr-only">Info</span>
             <div className="ms-3 text-sm font-medium text-blue-800">
-                Please verify your email address to access ordering and other features. &nbsp;
+                Please verify your email address to earn the promo code and other advanced features. &nbsp;
 
                 <a onClick={onClick} className="font-semibold underline cursor-pointer visited:text-purple-300 active:text-red-500">
                     Resend email verification

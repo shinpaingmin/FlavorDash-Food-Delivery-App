@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from "react-router-dom";
 
 const StoreCard = ({
+    id,
     image,
     name,
     reviews_avg_rating_star,
@@ -18,7 +19,7 @@ const StoreCard = ({
     <motion.div className="relative w-full md:w-80 min-h-64 border shadow rounded-md cursor-pointer"
                                 onMouseEnter={() => setScale(true)}
                                 onMouseLeave={() => setScale(false)}
-                onClick={() => navigate("/menu")}
+                onClick={() => navigate(`/menu/restaurant/${id}`)}
     >
         <div className="absolute top-2 right-2
             w-8 h-8 rounded-full bg-white z-20 grid place-items-center hover:scale-110 transition-all"

@@ -4,7 +4,7 @@ const MenuCard = ({ imgSrc, imgName, title, price, Icon, setIsMenuBoxOpen }) => 
         onClick={setIsMenuBoxOpen}
     >
         <div className='w-full h-48 overflow-hidden relative'>
-            <img src={imgSrc} alt={imgName}
+            <img src={`http://localhost:8000/storage/${imgSrc}`} alt={imgName}
             className='w-full h-full object-cover object-center rounded-t-md bg-gray-300' />
             <div className="absolute top-2 right-2  cursor-pointer
                 w-8 h-8 rounded-full bg-white z-[1] grid place-items-center hover:scale-110 transition-all"
