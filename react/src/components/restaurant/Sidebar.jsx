@@ -14,7 +14,6 @@ import {
 import {
     SettingsOutlined,
     ChevronLeft,
-    ChevronRight,
     HomeOutlined,
     ShoppingCartOutlined,
     Groups2Outlined,
@@ -29,10 +28,11 @@ import {
     ChevronRightOutlined,
     CategoryOutlined,
 } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import { profileImg } from "../../assets/images";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const navItems = [
     {
@@ -50,6 +50,10 @@ const navItems = [
     {
         text: "Categories",
         icon: <CategoryOutlined />,
+    },
+    {
+        text: "Add-ons",
+        icon: <AddShoppingCartIcon />,
     },
     {
         text: "Client Facing",
@@ -112,6 +116,10 @@ const Sidebar = ({
     const navigate = useNavigate();
     const theme = useTheme();
 
+    const restaurantName = useMemo(() => (
+        localStorage.getItem("restaurant_name")
+    ), []);
+
     useEffect(() => {
         setActive(pathname.substring(1));
     }, [pathname]);
@@ -144,7 +152,7 @@ const Sidebar = ({
                                     gap="0.5rem"
                                 >
                                     <Typography variant="h4" fontWeight="bold">
-                                        {localStorage.getItem("restaurant_name")}
+                                        {restaurantName}
                                     </Typography>
                                 </Box>
                                 {!isNonMobile && (

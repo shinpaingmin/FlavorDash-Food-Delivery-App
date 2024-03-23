@@ -13,6 +13,8 @@ class AddOn extends Model
         'restaurant_id',
         'name',
         'price',
+        'quantity',
+        'image',
         'updated_at'
     ];
 }

@@ -31,6 +31,11 @@ import CustomerLayout from './layouts/CustomerLayout';
 import RestaurantLayout from './layouts/RestaurantLayout';
 import CategoryPage from './pages/restaurant/CategoryPage';
 import GuestLayout from './layouts/GuestLayout';
+import CreateCategoryPage from './pages/restaurant/CreateCategoryPage';
+import EditCategoryPage from './pages/restaurant/EditCategoryPage';
+import AddonsPage from './pages/restaurant/AddonsPage';
+import EditAddOnPage from './pages/restaurant/EditAddOnPage';
+import CreateAddOnPage from './pages/restaurant/CreateAddOnPage';
 
 
 function App() {
@@ -74,7 +79,11 @@ function App() {
                             <Route path="/product/create" element={ <CreateProductsPage /> } />
                             <Route path="/product/edit/:id" element={ <EditProductPage /> } />
                             <Route path="/categories" element={ <CategoryPage /> } />
-                            <Route path="/categories/create" element={ <CategoryPage /> } />
+                            <Route path="/category/create" element={ <CreateCategoryPage /> } />
+                            <Route path="/category/edit/:id" element={ <EditCategoryPage /> } />
+                            <Route path="/add-ons" element={ <AddonsPage /> } />
+                            <Route path="/addon/create" element={ <CreateAddOnPage /> } />
+                            <Route path="/addon/edit/:id" element={ <EditAddOnPage /> } />
                             <Route path="/customers" element={ <CustomersPage /> } />
                             {/* <Route path="/transactions" element={ <TransactionsPage /> } /> */}
                             <Route path="/geography" element={ <GeographyPage /> } />

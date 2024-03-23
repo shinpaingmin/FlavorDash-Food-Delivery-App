@@ -1,23 +1,32 @@
 import { Box, Button, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Header from "../../components/restaurant/Header";
-import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import { useDeleteCategoryMutation, useGetRestaurantCategoriesQuery } from "../../services";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import {
+    useDestoryAddOnMutation,
+    useGetAllRestaurantAddOnsQuery,
+} from "../../services";
 import FlexBetween from "../../components/restaurant/FlexBetween";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import moment from "moment";
+import ImageContainer from "../../components/restaurant/ImageContainer";
 
-const CategoryPage = () => {
+const AddonsPage = () => {
     const theme = useTheme();
     const [queryParams, setQueryParams] = useSearchParams();
     const [restaurantId, setRestaurantId] = useState(localStorage.getItem("restaurant_id"));
-    const { data: categories, isLoading, isError, error } = useGetRestaurantCategoriesQuery(restaurantId);
+    const {
+        data: addons,
+        isLoading,
+        isError,
+        error,
+    } = useGetAllRestaurantAddOnsQuery(restaurantId);
     const navigate = useNavigate();
-    const [deleteCategory, {isSuccess}] = useDeleteCategoryMutation();
+    const [deleteAddOn, { isSuccess }] = useDestoryAddOnMutation();
 
     const successToastMessage = (message) => {
         toast.success(message, {
@@ -29,29 +38,28 @@ const CategoryPage = () => {
         });
 
     }
-    // console.log(categories)
 
     useEffect(() => {
         if (queryParams.get("status") === "createSuccess") {
-            successToastMessage("Added the category successfully!")
+            successToastMessage("Added the add-on successfully!")
             setQueryParams({
                 status: "",
             });
         } else if(queryParams.get("status") === "updateSuccess") {
-            successToastMessage("Updated the category successfully!")
+            successToastMessage("Updated the add-on successfully!")
             setQueryParams({
                 status: "",
             });
         }
 
         if(isSuccess) {
-            successToastMessage("Deleted the category successfully!");
+            successToastMessage("Deleted the add-on successfully!");
         }
     }, [isSuccess]);
 
-    const removeCategory = (id) => {
-        if(confirm("Are you sure to delete this category?")) {
-            deleteCategory(id);
+    const removeAddOn = (id) => {
+        if(confirm("Are you sure to delete this add-on?")) {
+            deleteAddOn(id);
         }
     }
 
@@ -59,12 +67,35 @@ const CategoryPage = () => {
         {
             field: "id",
             headerName: "ID",
-            flex: 1,
+            flex: 0.5,
+        },
+        {
+            field: "image",
+            headerName: "Image",
+            flex: 0.8,
+            sortable: false,
+            filterable: false,
+            renderCell: ImageContainer,
         },
         {
             field: "name",
-            headerName: "Category name",
+            headerName: "Add-on/Topping name",
             flex: 1,
+        },
+        {
+            field: "price",
+            headerName: "Price",
+            type: "number",
+            flex: 0.5,
+            valueFormatter: (params) => (
+                `${params.value.toLocaleString()} MMK`
+            )
+        },
+        {
+            field: "quantity",
+            headerName: "Quantity",
+            type: "number",
+            flex: 0.5,
         },
         {
             field: "created_at",
@@ -95,27 +126,26 @@ const CategoryPage = () => {
                     key={1}
                     icon={<EditIcon />}
                     label="Edit"
-                    onClick={() => navigate(`/category/edit/${params.row.id}`)}
+                    onClick={() => navigate(`/addon/edit/${params.row.id}`)}
                 />,
                 <GridActionsCellItem
                     key={2}
                     icon={<DeleteIcon />}
                     label="Delete"
-                    onClick={() => removeCategory(params.row.id)}
+                    onClick={() => removeAddOn(params.row.id)}
                 />,
             ]),
             sortable: false,
             filterable: false,
         },
     ], []) ;
-
     return (
         <Box m="1.5rem 2.5rem">
             <Toaster />
             <FlexBetween>
                 <Header
-                    title="CATEGORIES"
-                    subtitle="Manage your category list on your own!"
+                    title="Add-ons/Toppings"
+                    subtitle="Manage your add-on list on your own!"
                 />
                 <Box>
                     <Button
@@ -129,10 +159,10 @@ const CategoryPage = () => {
                             fontWeight: "bold",
                             padding: "10px 20px",
                         }}
-                        onClick={() => navigate("/category/create")}
+                        onClick={() => navigate("/addon/create")}
                     >
                         <AddIcon />
-                        Create Categories
+                        Create Add-ons
                     </Button>
                 </Box>
             </FlexBetween>
@@ -167,8 +197,9 @@ const CategoryPage = () => {
                 <DataGrid
                     loading={isLoading}
                     getRowId={(row) => row.id}
-                    rows={categories?.data || []}
+                    rows={addons?.data || []}
                     columns={columns}
+                    rowHeight={60}
                     initialState={{
                         pagination: { paginationModel: { pageSize: 10 } },
                     }}
@@ -179,4 +210,4 @@ const CategoryPage = () => {
     );
 };
 
-export default CategoryPage;
+export default AddonsPage;

@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, useTheme, Button } from "@mui/material";
 import Header from "../../components/restaurant/Header";
-import { useDestoryProductMutation, useGetAllProductsQuery, useGetCategoriesQuery } from "../../services";
+import { useDestoryProductMutation, useGetAllProductsQuery, useGetRestaurantCategoriesQuery } from "../../services";
 import FlexBetween from "../../components/restaurant/FlexBetween";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -24,7 +24,7 @@ const ProductsPage = () => {
         error,
     } = useGetAllProductsQuery(restaurantId);
     const [destroyProduct, {isSuccess}] = useDestoryProductMutation();
-    const { data: categories} = useGetCategoriesQuery();
+    const { data: categories} = useGetRestaurantCategoriesQuery(restaurantId);
 
     const successToastMessage = (message) => {
         toast.success(message, {
@@ -90,7 +90,7 @@ const ProductsPage = () => {
                 type: "singleSelect",
                 flex: 1,
                 valueOptions: () => {
-                    let category_name = categories?.data.map((c) => (
+                    let category_name = categories?.data?.map((c) => (
                         c.name
                     ))
 
@@ -110,18 +110,26 @@ const ProductsPage = () => {
                 headerName: "Discount price",
                 type: "number",
                 flex: 1,
+                valueFormatter: (params) => `${params.value.toLocaleString()} MMK`
             },
             {
                 field: "quantity",
                 headerName: "Quantity",
                 type: "number",
-                flex: 1,
+                flex: 0.5,
             },
             {
                 field: "menu_size_id",
                 headerName: "Size",
                 type: "string",
-                flex: 1,
+                flex: 0.5,
+            },
+
+            {
+                field: "short_desc",
+                headerName: "Short description",
+                type: "string",
+                flex: 1.5,
             },
             {
                 field: "actions",
@@ -146,7 +154,7 @@ const ProductsPage = () => {
                 filterable: false,
             },
         ],
-        []
+        [categories]
     );
 
     return (

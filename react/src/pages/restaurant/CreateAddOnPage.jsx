@@ -1,14 +1,12 @@
 import {
     Box,
     Button,
-    MenuItem,
     TextField,
     Typography,
     useTheme,
 } from "@mui/material";
 import {
-    useAddNewProductMutation,
-    useGetRestaurantCategoriesQuery,
+    useAddNewAddOnMutation,
 } from "../../services";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -16,25 +14,15 @@ import { Link, useNavigate } from "react-router-dom";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 
 const INIT_DATA = {
-    //restaurant_id,
-    category_id: "", // int
-    menu_size_id: "", //int
     name: "",
-    normal_price: "", // int
-    discount_price: "", // int
-    quantity: "", // int
-    short_desc: "",
+    price: "",
+    quantity: "",
     image: "",
+}
 
-};
-
-const CreateProductsPage = () => {
+const CreateAddOnPage = () => {
     const [data, setData] = useState(INIT_DATA);
-    const [restaurantId, setRestaurantId] = useState(localStorage.getItem("restaurant_id"));
-
-    const { data: categories, isLoading: categoriesLoading } = useGetRestaurantCategoriesQuery(restaurantId);
-    const [addNewProduct, { isSuccess, isError, error }] =
-        useAddNewProductMutation();
+    const [addNewAddOn, {isSuccess, isError, error}] = useAddNewAddOnMutation();
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -48,7 +36,7 @@ const CreateProductsPage = () => {
                 },
             });
         } else if (isSuccess) {
-            navigate("/products?status=createSuccess");
+            navigate("/add-ons?status=createSuccess");
         }
     }, [isError, isSuccess]);
 
@@ -62,15 +50,14 @@ const CreateProductsPage = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (confirm("Are you sure to add a new product?")) {
+        if (confirm("Are you sure to add a new add-on?")) {
             const formData = new FormData();
 
             for (const prop in data) {
                 formData.append(`${prop}`, data[prop]);
             }
 
-            addNewProduct(formData);
-            // setData(INIT_DATA);
+            addNewAddOn(formData);
         }
     };
 
@@ -89,7 +76,7 @@ const CreateProductsPage = () => {
                 color={theme.palette.secondary[500]}
                 fontWeight="bold"
             >
-                Add a new product
+                Add a new add-on
             </Typography>
 
             {error?.status == 422 && (
@@ -107,6 +94,7 @@ const CreateProductsPage = () => {
             <Box width={450} m="0 auto" component="form" onSubmit={onSubmit}>
                 <Typography
                     marginBottom={1}
+                    marginTop={2}
                     color={theme.palette.secondary[500]}
                     fontWeight="bold"
                 >
@@ -114,7 +102,7 @@ const CreateProductsPage = () => {
                 </Typography>
                 <TextField
                     value={data.name}
-                    placeholder="Enter the product name"
+                    placeholder="Enter the add-on name"
                     sx={{
                         backgroundColor: theme.palette.primary.light,
                         color: theme.palette.secondary[500],
@@ -129,167 +117,49 @@ const CreateProductsPage = () => {
 
                 <Typography
                     marginBottom={1}
-                    color={theme.palette.secondary[500]}
-                    fontWeight="bold"
                     marginTop={2}
-                >
-                    Category name (*)
-                </Typography>
-                <TextField
-                    value={data.category_id}
-                    sx={{
-                        backgroundColor: theme.palette.primary.light,
-                        color: theme.palette.secondary[500],
-                        width: "100%",
-                    }}
-                    select
-                    onChange={(e) =>
-                        updateFields({ category_id: e.target.value })
-                    }
-                    required
-                >
-                    {categoriesLoading ? (
-                        <div>Loading ....</div>
-                    ) : categories?.data ? (
-                        categories.data.map((category) => (
-                            <MenuItem key={category.id} value={category.id}>
-                                {category.name}
-                            </MenuItem>
-                        ))
-                    ) : (
-                        <div>No category found</div>
-                    )}
-                    {/* <MenuItem value="">None</MenuItem> */}
-                </TextField>
-                <Typography variant="caption" color="error">
-                    {error?.data?.data?.category_id}
-                </Typography>
-
-                <Typography
-                    marginBottom={1}
-                    marginTop={3}
                     color={theme.palette.secondary[500]}
                     fontWeight="bold"
                 >
-                    Short description (optional)
+                    Price (*)
                 </Typography>
                 <TextField
-                    value={data.short_desc}
-                    placeholder="Enter the short desc about your product"
-                    sx={{
-                        backgroundColor: theme.palette.primary.light,
-                        color: theme.palette.secondary[500],
-                        width: "100%",
-                    }}
-                    onChange={(e) => updateFields({ short_desc: e.target.value })}
-                    multiline
-                    rows={4}
-                />
-                <Typography variant="caption" color="error">
-                    {error?.data?.data?.short_desc}
-                </Typography>
-
-                <Typography
-                    marginBottom={1}
-                    color={theme.palette.secondary[500]}
-                    fontWeight="bold"
-                    marginTop={2}
-                >
-                    Normal price (*)
-                </Typography>
-                <TextField
-                    value={data.normal_price}
+                    value={data.price}
+                    placeholder="Enter the add-on price"
                     type="number"
-                    placeholder="The original price of the product"
                     sx={{
                         backgroundColor: theme.palette.primary.light,
                         color: theme.palette.secondary[500],
                         width: "100%",
                     }}
-                    onChange={(e) =>
-                        updateFields({ normal_price: e.target.value })
-                    }
+                    onChange={(e) => updateFields({ price: e.target.value })}
                     required
                 />
                 <Typography variant="caption" color="error">
-                    {error?.data?.data?.normal_price}
+                    {error?.data?.data?.price}
                 </Typography>
 
                 <Typography
                     marginBottom={1}
+                    marginTop={2}
                     color={theme.palette.secondary[500]}
                     fontWeight="bold"
-                    marginTop={2}
-                >
-                    Discount price (optional)
-                </Typography>
-                <TextField
-                    value={data.discount_price}
-                    type="number"
-                    placeholder="The discount price of the product"
-                    sx={{
-                        backgroundColor: theme.palette.primary.light,
-                        color: theme.palette.secondary[500],
-                        width: "100%",
-                    }}
-                    onChange={(e) =>
-                        updateFields({
-                            discount_price: e.target.value,
-                        })
-                    }
-                />
-                <Typography variant="caption" color="error">
-                    {error?.data?.data?.discount_price}
-                </Typography>
-
-                <Typography
-                    marginBottom={1}
-                    color={theme.palette.secondary[500]}
-                    fontWeight="bold"
-                    marginTop={2}
                 >
                     Quantity (optional)
                 </Typography>
                 <TextField
                     value={data.quantity}
+                    placeholder="Enter the add-on quantity"
                     type="number"
-                    placeholder="The quantity of the product"
                     sx={{
                         backgroundColor: theme.palette.primary.light,
                         color: theme.palette.secondary[500],
                         width: "100%",
                     }}
-                    onChange={(e) =>
-                        updateFields({ quantity: e.target.value })
-                    }
+                    onChange={(e) => updateFields({ quantity: e.target.value })}
                 />
                 <Typography variant="caption" color="error">
                     {error?.data?.data?.quantity}
-                </Typography>
-
-                <Typography
-                    marginBottom={1}
-                    color={theme.palette.secondary[500]}
-                    fontWeight="bold"
-                    marginTop={2}
-                >
-                    Size (optional)
-                </Typography>
-                <TextField
-                    value={data.menu_size_id}
-                    placeholder="The size of the product"
-                    sx={{
-                        backgroundColor: theme.palette.primary.light,
-                        color: theme.palette.secondary[500],
-                        width: "100%",
-                    }}
-                    select
-                    onChange={(e) =>
-                        updateFields({ menu_size_id: e.target.value })
-                    }
-                />
-                <Typography variant="caption" color="error">
-                    {error?.data?.data?.menu_size_id}
                 </Typography>
 
                 <Typography
@@ -334,12 +204,12 @@ const CreateProductsPage = () => {
                             padding: "10px 20px",
                         }}
                     >
-                        Add the product
+                        Add the add-on
                     </Button>
                 </Box>
             </Box>
         </Box>
-    );
-};
+    )
+}
 
-export default CreateProductsPage;
+export default CreateAddOnPage

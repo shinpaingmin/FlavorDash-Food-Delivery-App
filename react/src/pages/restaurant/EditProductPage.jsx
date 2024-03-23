@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetTheProductQuery, useUpdateProductMutation } from "../../services";
+import { useGetRestaurantCategoriesQuery, useGetTheProductQuery, useUpdateProductMutation } from "../../services";
 import { useState, useEffect } from "react";
 import {
     Box,
@@ -9,7 +9,6 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import { useGetCategoriesQuery } from "../../services";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -23,13 +22,15 @@ const INIT_DATA = {
     discount_price: "",
     quantity: "",
     image: "",
+    short_desc: "",
 };
 
 const EditProductPage = () => {
     const { id } = useParams();
     const { data: oldData, isSuccess: oldDataReceived } = useGetTheProductQuery(id);
     const [newData, setNewData] = useState(INIT_DATA);
-    const { data: categories, isLoading: categoriesLoading } = useGetCategoriesQuery();
+    const [restaurantId, setRestaurantId] = useState(localStorage.getItem("restaurant_id"));
+    const { data: categories, isLoading: categoriesLoading } = useGetRestaurantCategoriesQuery(restaurantId);
     const [updateProduct, {isSuccess, isError, error}] = useUpdateProductMutation();
     const theme = useTheme();
     const navigate = useNavigate();
@@ -46,6 +47,7 @@ const EditProductPage = () => {
                 discount_price: oldData.data.discount_price || "",
                 quantity: oldData.data.quantity || "",
                 image: "",
+                short_desc: oldData.data.short_desc || "",
             });
         }
         if (isError) {
@@ -61,7 +63,7 @@ const EditProductPage = () => {
         }
     }, [isError, isSuccess, oldDataReceived]);
 
-    console.log(newData)
+
 
     const updateFields = (fields) => {
         setNewData((prev) => ({ ...prev, ...fields }));
@@ -174,6 +176,30 @@ const EditProductPage = () => {
 
                 <Typography
                     marginBottom={1}
+                    marginTop={3}
+                    color={theme.palette.secondary[500]}
+                    fontWeight="bold"
+                >
+                    Short description (optional)
+                </Typography>
+                <TextField
+                    value={newData.short_desc}
+                    placeholder="Enter the short desc about your product"
+                    sx={{
+                        backgroundColor: theme.palette.primary.light,
+                        color: theme.palette.secondary[500],
+                        width: "100%",
+                    }}
+                    onChange={(e) => updateFields({ short_desc: e.target.value })}
+                    multiline
+                    rows={4}
+                />
+                <Typography variant="caption" color="error">
+                    {error?.data?.data?.short_desc}
+                </Typography>
+
+                <Typography
+                    marginBottom={1}
                     color={theme.palette.secondary[500]}
                     fontWeight="bold"
                     marginTop={2}
@@ -279,7 +305,7 @@ const EditProductPage = () => {
                     fontWeight="bold"
                     marginTop={2}
                 >
-                    Image (*)
+                    Image
                 </Typography>
                 <TextField
                     type="file"

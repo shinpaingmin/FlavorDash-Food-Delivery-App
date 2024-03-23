@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AddOnController;
 use App\Http\Controllers\DietaryController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\User\CategoryController;
@@ -65,16 +66,16 @@ Route::controller(DietaryController::class)->group(function() {
 });
 
 
-// Routes for category CRUD
-Route::controller(CategoryController::class)->group(function() {
-    Route::get('categories', 'index');
-    Route::post('category', 'store');
-});
-
-// Routes for menu item CRUD
+// Routes for menu item
 Route::controller(MenuItemController::class)->group(function() {
     Route::get('products/restaurant/{id}', 'index');
     Route::get('product/{id}', 'show');
+});
+
+// Public routes for
+Route::controller(AddOnController::class)->group(function() {
+    Route::get('addons/restaurant/{id}', 'index');
+
 });
 
 // Protect routes for admin privileges
@@ -88,6 +89,21 @@ Route::middleware(['auth:api', 'scope:admin'])->group(function() {
         Route::post('product', 'store');
         Route::post('product/{id}', 'update');
         Route::delete('product/{id}', 'destroy');
+    });
+
+    Route::controller(CategoryController::class)->group(function() {
+        Route::get('categories/restaurant/{id}', 'index');
+        Route::get('category/{id}', 'show');
+        Route::post('category', 'store');
+        Route::post('category/{id}', 'update');
+        Route::delete('category/{id}', 'destroy');
+    });
+
+    Route::controller(AddOnController::class)->group(function() {
+        Route::get('addon/{id}', 'show');
+        Route::post('addon', 'store');
+        Route::post('addon/{id}', 'update');
+        Route::delete('addon/{id}', 'destroy');
     });
 });
 

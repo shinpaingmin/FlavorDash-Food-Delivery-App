@@ -62,6 +62,7 @@ class MenuItemController extends Controller
             ], 422);
         }
 
+
         $fileName = uniqid() . $request->image->getClientOriginalName();
 
         $request->image->storeAs('public', $fileName);
@@ -121,22 +122,17 @@ class MenuItemController extends Controller
         }
 
 
+        // check the restaurant is valid to modify the item
+        $menu_item = MenuItem::where('id', $id)
+                                ->where('restaurant_id', auth()->user()->restaurant->id)
+                                ->first();
 
-        $menu_item = MenuItem::find($id);
-
-        // The restaurant can only modify its own products, product owner validation
-        if(auth()->user()->restaurant->id != $menu_item->restaurant_id) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Invalid credentials'
-            ], 401);
-        }
 
         if(is_null($menu_item)) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'No item found'
-            ], 200);
+            ], 409);
         }
 
         $data = $this->resData($request);
@@ -202,6 +198,8 @@ class MenuItemController extends Controller
 
         if($action === "create") {
             $rules['image'] = ['required', File::image()->max(2048)];
+        } else if($action === "update" && $request->image) {
+            $rules['image'] = [File::image()->max(2048)];
         }
 
         if($request->quantity) {
@@ -210,6 +208,10 @@ class MenuItemController extends Controller
 
         if($request->discount_price) {
             $validate['discount_price'] = 'integer';
+        }
+
+        if($request->short_desc) {
+            $validate['discount_price'] = 'string|min:4|max:200';
         }
 
         return $validate = Validator::make($request->all(), $rules);
@@ -225,6 +227,7 @@ class MenuItemController extends Controller
             'normal_price' => $request->normal_price,
             'discount_price' => $request->discount_price,
             'quantity' => $request->quantity,
+            'short_desc' => $request->short_desc,
         ];
 
         return $data;

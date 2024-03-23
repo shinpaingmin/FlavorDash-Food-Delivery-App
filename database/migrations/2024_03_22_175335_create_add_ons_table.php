@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id');
             $table->string('name');
             $table->integer('price');
+            $table->integer('quantity')->nullable();
+            $table->string('image');
             $table->timestamps();
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');

@@ -30,9 +30,13 @@ export const foodDeliveryWebApis = createApi({
         "RestaurantTypes",
         "RestaurantTownships",
         "Categories",
+        "Category",
+        "RestaurantCategories",
         "Products",
         "Product",
         "FavoriteRestaurants",
+        "Add-ons",
+        "Add-on",
     ],
     endpoints: (builder) => ({
         addUser: builder.mutation({
@@ -108,9 +112,45 @@ export const foodDeliveryWebApis = createApi({
             providesTags: ["RestaurantTownships"],
         }),
 
-        getCategories: builder.query({
-            query: () => "categories",
-            providesTags: ["Categories"],
+        // getCategories: builder.query({
+        //     query: () => "categories",
+        //     providesTags: ["Categories"],
+        // }),
+
+        getTheCategory: builder.query({
+            query: (id) => `category/${id}`,
+            providesTags: ["Category"]
+        }),
+
+        getRestaurantCategories: builder.query({
+            query: (id) => `categories/restaurant/${id}`,
+            providesTags: ["RestaurantCategories"],
+        }),
+
+        addCategories: builder.mutation({
+            query: (body) => ({
+                url: "category",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["RestaurantCategories", "Category"],
+        }),
+
+        updateCategory: builder.mutation({
+            query: (body) => ({
+                url: `category/${body.get("id")}`,
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["RestaurantCategories", "Category"],
+        }),
+
+        deleteCategory: builder.mutation({
+            query: (id) => ({
+                url: `category/${id}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["RestaurantCategories", "Category"]
         }),
 
         getDietaries: builder.query({
@@ -169,6 +209,45 @@ export const foodDeliveryWebApis = createApi({
             invalidatesTags: ["Products", "Product"],
         }),
 
+        getAllRestaurantAddOns: builder.query({
+            query: (id) => `addons/restaurant/${id}`,
+            providesTags: ["AddOns"],
+        }),
+
+        getTheAddOn: builder.query({
+            query: (id) => ({
+                url: `addon/${id}`,
+                method: "GET"
+            }),
+            providesTags: ["AddOn"],
+        }),
+
+        addNewAddOn: builder.mutation({
+            query: (body) => ({
+                url: "addon",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["AddOns", "AddOn"]
+        }),
+
+        updateAddOn: builder.mutation({
+            query: (body) => ({
+                url: `addon/${body.get("id")}`,
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["AddOns", "AddOn"],
+        }),
+
+        destoryAddOn: builder.mutation({
+            query: (id) => ({
+                url: `addon/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["AddOns", "AddOn"],
+        }),
+
         adminLogout: builder.mutation({
             query: () => ({
                 url: "admin/logout",
@@ -187,7 +266,6 @@ export const foodDeliveryWebApis = createApi({
 });
 
 export const {
-    useGetRestaurantsByOrderedQuery,
     useLoginAuthMutation,
     useAddUserMutation,
     useLogoutMutation,
@@ -198,7 +276,11 @@ export const {
     useGetAllRestaurantsQuery,
     useGetRestaurantTypesQuery,
     useGetRestaurantTownshipsQuery,
-    useGetCategoriesQuery,
+    useGetTheCategoryQuery,
+    useGetRestaurantCategoriesQuery,
+    useAddCategoriesMutation,
+    useUpdateCategoryMutation,
+    useDeleteCategoryMutation,
     useGetDietariesQuery,
     useAddNewDietaryMutation,
     useGetAllProductsQuery,
@@ -207,6 +289,11 @@ export const {
     useAddNewProductMutation,
     useUpdateProductMutation,
     useDestoryProductMutation,
+    useGetAllRestaurantAddOnsQuery,
+    useGetTheAddOnQuery,
+    useAddNewAddOnMutation,
+    useUpdateAddOnMutation,
+    useDestoryAddOnMutation,
     useAdminLogoutMutation,
     useAddRestaurantToFavoriteMutation,
 } = foodDeliveryWebApis;
