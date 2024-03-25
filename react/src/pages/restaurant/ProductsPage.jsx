@@ -110,7 +110,7 @@ const ProductsPage = () => {
                 headerName: "Discount price",
                 type: "number",
                 flex: 1,
-                valueFormatter: (params) => `${params.value.toLocaleString()} MMK`
+                valueFormatter: (params) => params.value && `${params.value.toLocaleString()} MMK`
             },
             {
                 field: "quantity",

@@ -20,7 +20,9 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // store the cart items and add on items
+
+        logger($request->all());
     }
 
     /**

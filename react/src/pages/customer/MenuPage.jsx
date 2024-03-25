@@ -20,26 +20,60 @@ import MenuDetailModalBox from "../../components/customer/MenuPage/MenuDetailMod
 import MoreDetailsDropdown from "../../components/customer/MenuPage/MoreDetailsDropdown";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewsModalBox from "../../components/customer/MenuPage/ReviewsModalBox";
-import { useGetProductsByCategoriesQuery } from "../../services";
+import { useAddItemsToCartMutation, useGetProductsByCategoriesQuery, useGetTheProductQuery, useGetTheRestaurantQuery } from "../../services";
+import StoreInfoModalBox from "../../components/customer/StoreInfoModalBox";
+
+const INIT_DATA = {
+    cart_item: {
+        user_id: "",
+        restaurant_id: "",
+        menu_item_id: "",
+        total_price: "",
+        total_quantity: "",
+        instruction: "",
+        if_unavailable: "",
+    },
+    add_on_items: {
+        add_on_id: "",
+        total_price: "",
+        total_quantity: "",
+    }
+}
 
 const MenuPage = () => {
     const {id} = useParams();
-    const {data: products, isLoading, isError, error} = useGetProductsByCategoriesQuery(id);
-    const [isMenuBoxOpen, _setIsMenuBoxOpen] = useState(false);
+    const {data: products, isLoading} = useGetProductsByCategoriesQuery(id);
+    const {data: restaurant} = useGetTheRestaurantQuery(id);
+    const [addItemsToCart, {isSuccess, isError, error}] = useAddItemsToCartMutation();
+    const [ifUnavailable, setIfUnavailable] = useState('contact');
+    const [isMenuBoxOpen, _setIsMenuBoxOpen] = useState(null);  // if the box is open, the id will be set
+    const {data: product} = useGetTheProductQuery(isMenuBoxOpen, {
+        skip: isMenuBoxOpen === null
+    });
     const [isMoreDetailsOpen, setIsMoreDetailsOpen] = useState(false);
     const [isReviewModalOpen, _setIsReviewModalOpen] = useState(false);
+    const [isStoreInfoModalOpen, _setIsStoreInfoModalOpen] = useState(false);
     const [activeArr, setActiveArr] = useState(null);
     const linkList = useRef(null);
     const rightArr = useRef(null);
     const leftArr = useRef(null);
     const navigate = useNavigate();
+    const dropdown = useRef();
+// console.log(products);
+console.log(restaurant);
 
-    const setIsMenuBoxOpen = () => {
+    const addToCart = (e) => {
+        e.preventDefault();
+
+        addItemsToCart();
+    }
+
+    const setIsMenuBoxOpen = (id="") => {
         if (isMenuBoxOpen) {
-            _setIsMenuBoxOpen(!isMenuBoxOpen);
+            _setIsMenuBoxOpen(null);
             document.body.classList.remove("stop-scrolling");
         } else {
-            _setIsMenuBoxOpen(!isMenuBoxOpen);
+            _setIsMenuBoxOpen(id);
             document.body.classList.add("stop-scrolling");
         }
     };
@@ -53,6 +87,16 @@ const MenuPage = () => {
             document.body.classList.remove("stop-scrolling");
         }
     }
+
+    const setIsStoreInfoModalOpen = () => {
+        if (!isStoreInfoModalOpen) {
+            _setIsStoreInfoModalOpen(!isStoreInfoModalOpen);
+            document.body.classList.add("stop-scrolling");
+        } else {
+            _setIsStoreInfoModalOpen(!isStoreInfoModalOpen);
+            document.body.classList.remove("stop-scrolling");
+        }
+    };
 
     const directToCheckout = () => {
         navigate("/checkout");
@@ -111,15 +155,21 @@ const MenuPage = () => {
         return formattedCategories;
     }, [products])
 
-
+    window.addEventListener("click", function(e) {
+        if(isMoreDetailsOpen) {
+            if(!dropdown?.current.contains(e.target)) {
+                setIsMoreDetailsOpen(false);
+            }
+        }
+    })
 
     return (
         <div className="flex justify-between px-4 lg:px-8 pt-8 border-t border-t-gray-200 max-w-[1519.2px]">
             <div className="w-full xl:w-3/4 mr-4">
-                <div className="w-full h-80 mb-4 relative">
+                <div className="w-full h-80 mb-4 relative overflow-hidden">
                     <img
-                        src="https://kfc.com.mm/wp-content/uploads/2023/06/Brand-Focus_5_Update.jpg"
-                        alt="hero image"
+                        src={`http://localhost:8000/storage/${restaurant?.data.image}`}
+                        alt={restaurant?.data.name}
                         className="w-full h-full object-cover object-center rounded-md bg-gray-300"
                     />
                     <div
@@ -132,38 +182,46 @@ const MenuPage = () => {
                         className="absolute top-2 right-2 cursor-pointer
                     w-8 h-8 rounded-full bg-white z-[1] grid place-items-center hover:scale-110 transition-all"
                         onClick={() => setIsMoreDetailsOpen(!isMoreDetailsOpen)}
+                        ref={dropdown}
                     >
                         <HiOutlineDotsHorizontal className="text-orange" />
                     </div>
 
                     {/* More details dropdown  */}
+
                     {isMoreDetailsOpen && (
                         <MoreDetailsDropdown
-
+                            setIsStoreInfoModalOpen={setIsStoreInfoModalOpen}
                             setIsReviewModalOpen={setIsReviewModalOpen}
                         />
                     )}
+
 
                     {/* Review modal box  */}
                     {
                         isReviewModalOpen && <ReviewsModalBox setIsReviewModalOpen={setIsReviewModalOpen} />
                     }
+
+                    {/* Store info modal box  */}
+                    {
+                        isStoreInfoModalOpen && <StoreInfoModalBox {...restaurant?.data} setIsStoreInfoModalOpen={setIsStoreInfoModalOpen} />
+                    }
                 </div>
                 <div className="flex items-center mb-3">
-                    <h1 className="text-2xl font-bold mr-4">KFC Myanmar</h1>
-                    <div className="flex items-center">
+                    <h1 className="text-2xl font-bold mr-4">{restaurant?.data.name}</h1>
+                    <div className="flex items-center mr-1">
                         <FaStar color="#ff9529" size={22} className="mr-1" />
-                        <FaStar color="#ff9529" size={22} className="mr-1" />
-                        <FaStar color="#ff9529" size={22} className="mr-1" />
-                        <FaStar color="#ff9529" size={22} className="mr-1" />
+                        <h1 className="text-base">{
+                            restaurant?.data.reviews_avg_rating_star ?? "No rating yet"
+                        }</h1>
                     </div>
-                    <div>(200+)</div>
+                    <div className="text-base">({restaurant?.data.reviews_count})</div>
                 </div>
                 <div className="flex items-center mb-3">
                     <FaClock />
-                    <p className="mr-3 ml-1">40 mins</p>
+                    <p className="mr-3 ml-1">35 mins</p>
                     <FaLocationDot />
-                    <p className="ml-1 mr-3">4 kms</p>
+                    <p className="ml-1 mr-3">2 km</p>
                     <FaShippingFast />
                     <p className="ml-1">1000MMK</p>
                 </div>
@@ -241,10 +299,12 @@ const MenuPage = () => {
 
                                                     <MenuCard
                                                         key={product.id}
+                                                        id={product.id}
                                                         imgSrc={product.image}
                                                         imgName={product.name}
                                                         title={product.name}
-                                                        price={product.normal_price}
+                                                        normal_price={product.normal_price}
+                                                        discount_price={product.discount_price}
                                                         Icon={FaShoppingCart}
                                                         setIsMenuBoxOpen={setIsMenuBoxOpen}
                                                     />
@@ -256,6 +316,9 @@ const MenuPage = () => {
                                     </div>
                                     {isMenuBoxOpen && (
                                         <MenuDetailModalBox
+                                            {...product?.data}
+                                            ifUnavailable={ifUnavailable}
+                                            setIfUnavailable={setIfUnavailable}
                                             setIsMenuBoxOpen={setIsMenuBoxOpen}
                                         />
                                     )}

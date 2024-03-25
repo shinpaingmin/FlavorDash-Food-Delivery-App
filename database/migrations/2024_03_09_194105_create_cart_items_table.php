@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('total_price');
             $table->integer('total_quantity');
             $table->string('instruction', 255)->nullable();
+            $table->string('if_unavailable', 20)->nullable();
             $table->timestamps();
 
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');

@@ -15,6 +15,7 @@ class CartItem extends Model
         'total_price',
         'total_quantity',
         'instruction',
+        'if_unavailable',
         'updated_at'
     ];
 }

@@ -1,7 +1,7 @@
-const MenuCard = ({ imgSrc, imgName, title, price, Icon, setIsMenuBoxOpen }) => {
+const MenuCard = ({ id, imgSrc, imgName, title, normal_price, discount_price, Icon, setIsMenuBoxOpen }) => {
   return (
     <div className='w-full md:w-80 hover:shadow-lg rounded-md cursor-pointer border border-slate-300'
-        onClick={setIsMenuBoxOpen}
+        onClick={() => setIsMenuBoxOpen(id)}
     >
         <div className='w-full h-48 overflow-hidden relative'>
             <img src={`http://localhost:8000/storage/${imgSrc}`} alt={imgName}
@@ -15,7 +15,14 @@ const MenuCard = ({ imgSrc, imgName, title, price, Icon, setIsMenuBoxOpen }) => 
         </div>
         <div className='p-4'>
             <h2 className='font-semibold text-nowrap text-ellipsis  w-full overflow-hidden'>{title}</h2>
-            <p className='text-gray-700 font-semibold text-sm mt-2'>{price}</p>
+            <div className="flex items-center  mt-2">
+                {
+                    discount_price && (
+                        <del className="text-gray-700 font-semibold text-sm mr-3">{discount_price.toLocaleString()} MMK</del>
+                    )
+                }
+                <p className='text-gray-700 font-semibold text-sm'>{normal_price.toLocaleString()} MMK</p>
+            </div>
         </div>
     </div>
   )

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AddOnController;
 use App\Http\Controllers\DietaryController;
+use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\MenuItemController;
@@ -41,9 +42,10 @@ Route::controller(VerificationController::class)->group(function() {
 // Sign up route for restaurant owners
 Route::post('restaurant/signup', [AdminAuthController::class, 'store']);
 
-// Restaurants routes for both public and private routes
+// Restaurants routes for both public
 Route::controller(RestaurantController::class)->group(function() {
     Route::get('restaurants', 'index');
+    Route::get('restaurant/{id}', 'show');
 });
 
 
@@ -104,6 +106,11 @@ Route::middleware(['auth:api', 'scope:admin'])->group(function() {
         Route::post('addon', 'store');
         Route::post('addon/{id}', 'update');
         Route::delete('addon/{id}', 'destroy');
+    });
+
+    // Cart routes
+    Route::controller(CartController::class)->group(function() {
+        Route::post('cart', 'store');
     });
 });
 

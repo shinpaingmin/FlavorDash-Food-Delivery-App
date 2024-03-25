@@ -1,7 +1,13 @@
 import { IoTimeOutline } from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
+import moment from "moment";
 
-const StoreInfoModalBox = ({ setIsStoreInfoModalOpen }) => {
+const StoreInfoModalBox = ({ name, opening_time, closing_time, from_day, to_day, address,  setIsStoreInfoModalOpen }) => {
+    function getDayName(day) {
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+
+        return days[day];
+    }
     return (
         <div
             className="fixed top-0 left-0 w-full h-full z-[9999]
@@ -22,23 +28,23 @@ const StoreInfoModalBox = ({ setIsStoreInfoModalOpen }) => {
                 <div className="flex items-center">
                     <IoTimeOutline className="mr-2 text-gray-600" size={22} />
                     <p className="text-gray-600 font-semibold text-lg">
-                        Now open until 8:00 PM
+                        Now open until {moment(closing_time, "HH:mm:ss").format("hh:mm A")}
                     </p>
                 </div>
 
                 <div className="flex mt-1 ml-7">
                     <p className="text-gray-600 font-semibold mr-12">
-                        Sun - Sat
+                        {getDayName(from_day)} - {getDayName(to_day)}
                     </p>
                     <p className="text-gray-600 font-semibold">
-                        9:00 AM - 8:00 PM
+                        {moment(opening_time, "HH:mm:ss").format("hh:mm A")} - {moment(closing_time, "HH:mm:ss").format("hh:mm A")}
                     </p>
                 </div>
 
                 <div className="flex items-center mt-6">
                     <SlLocationPin className="mr-2 text-gray-600" size={22} />
                     <p className="text-gray-600 font-semibold text-lg">
-                        Sein Gay Har, Parami Housing, Parami Rd.
+                        {address}
                     </p>
                 </div>
 

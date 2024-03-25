@@ -37,6 +37,7 @@ export const foodDeliveryWebApis = createApi({
         "FavoriteRestaurants",
         "Add-ons",
         "Add-on",
+        "Cart",
     ],
     endpoints: (builder) => ({
         addUser: builder.mutation({
@@ -100,6 +101,10 @@ export const foodDeliveryWebApis = createApi({
                 &filterByPrice=${filterByPrice}&filterByRating=${filterByRating}&filterBySearch=${filterBySearch}`,
                 method: "GET",
             }),
+        }),
+
+        getTheRestaurant: builder.query({
+            query: (id) => `restaurant/${id}`
         }),
 
         getRestaurantTypes: builder.query({
@@ -261,6 +266,15 @@ export const foodDeliveryWebApis = createApi({
                 method: "POST",
             }),
             invalidatesTags: ["FavoriteRestaurants"],
+        }),
+
+        addItemsToCart: builder.mutation({
+            query: (body) => ({
+                url: "cart",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["Cart"],
         })
     }),
 });
@@ -274,6 +288,7 @@ export const {
     useGetRegenerateEmailVerifyQuery,
     useAddNewRestaurantMutation,
     useGetAllRestaurantsQuery,
+    useGetTheRestaurantQuery,
     useGetRestaurantTypesQuery,
     useGetRestaurantTownshipsQuery,
     useGetTheCategoryQuery,
@@ -296,4 +311,5 @@ export const {
     useDestoryAddOnMutation,
     useAdminLogoutMutation,
     useAddRestaurantToFavoriteMutation,
+    useAddItemsToCartMutation,
 } = foodDeliveryWebApis;

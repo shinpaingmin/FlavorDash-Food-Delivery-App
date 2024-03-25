@@ -127,7 +127,9 @@ class RestaurantController extends Controller
     public function show(int $id)
     {
         // Display specific store
-        $store = Restaurant::find($id);
+        $store = Restaurant::withCount('reviews')
+                ->withAvg('reviews', 'rating_star')
+                ->find($id);
 
         if(is_null($store)) {
             return response()->json([
