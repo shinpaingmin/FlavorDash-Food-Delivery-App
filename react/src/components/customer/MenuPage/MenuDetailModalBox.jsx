@@ -1,6 +1,22 @@
+import { useEffect } from "react";
 import { useState } from "react";
 
-const MenuDetailModalBox = ({ image, name, short_desc, normal_price, discount_price, ifUnavailable, setIfUnavailable, setIsMenuBoxOpen }) => {
+const MenuDetailModalBox = ({
+    id,
+    restaurant_id,
+    image,
+    name,
+    short_desc,
+    normal_price,
+    discount_price,
+    isMenuBoxOpen,
+    setIsMenuBoxOpen,
+    updateCartFields,
+    addToCart,
+    formData,
+    increaseQty,
+    decreaseQty
+}) => {
 
     return (
         <div
@@ -22,36 +38,39 @@ const MenuDetailModalBox = ({ image, name, short_desc, normal_price, discount_pr
                     </span>
                 </div>
 
-                <div className="px-6 py-4">
-                    <h1 className="text-gray-700 text-2xl font-bold">
-                        {name}
-                    </h1>
+                <form onSubmit={addToCart}
+                className="px-6 py-4"
+                >
+                    <h1 className="text-gray-700 text-2xl font-bold">{name}</h1>
                     <p className="my-2 text-gray-600">
                         {short_desc && short_desc}
                     </p>
-                   <div className="flex mt-2">
-                   {
-                        discount_price && (
-                            <del className="text-gray-700 text-lg font-semibold mr-3">{discount_price.toLocaleString()} MMK</del>
-                        )
-                    }
-                    <p className='text-gray-700 text-lg font-semibold '>{normal_price.toLocaleString()} MMK</p>
-                   </div>
+                    <div className="flex mt-2">
+                        {discount_price && (
+                            <del className="text-gray-700 text-lg font-semibold mr-3">
+                                {discount_price?.toLocaleString()} MMK
+                            </del>
+                        )}
+                        <p className="text-gray-700 text-lg font-semibold ">
+                            {normal_price?.toLocaleString()} MMK
+                        </p>
+                    </div>
                     <hr className="my-3" />
-
-
 
                     <div className="mt-3">
                         <h1 className="text-gray-800 text-lg font-bold mb-2">
                             Special instructions
                         </h1>
                         <p className="mb-3 text-gray-600">
-                            Any special preferences? Let the restaurant know. (optional)
+                            Any special preferences? Let the restaurant know.
+                            (optional)
                         </p>
                         <textarea
                             cols="30"
                             rows="10"
                             className="w-full p-2 border border-gray-300 rounded-xl"
+                            onChange={(e) => updateCartFields({ instruction: e.target.value })}
+                            value={formData.cart_item.instruction}
                         ></textarea>
                     </div>
 
@@ -59,11 +78,17 @@ const MenuDetailModalBox = ({ image, name, short_desc, normal_price, discount_pr
                         <h1 className="text-gray-800 text-lg font-bold mb-2">
                             If this item is not avaibable
                         </h1>
-                        <select className="w-full border p-2 rounded-xl border-gray-300" value={ifUnavailable}
-                            onChange={() => setIfUnavailable(e.target.value)}
+                        <select
+                            className="w-full border p-2 rounded-xl border-gray-300"
+                            value={formData.cart_item.if_unavailable}
+                            onChange={(e) => updateCartFields({ if_unavailable: e.target.value })}
                         >
-                            <option value="contact">Contact me (default)</option>
-                            <option value="remove">Remove it from my order</option>
+                            <option value="contact">
+                                Contact me (default)
+                            </option>
+                            <option value="remove">
+                                Remove it from my order
+                            </option>
                         </select>
                     </div>
 
@@ -72,13 +97,17 @@ const MenuDetailModalBox = ({ image, name, short_desc, normal_price, discount_pr
                             <button
                                 className=" flex items-center justify-center font-bold flex-1
                                     bg-orange hover:opacity-90 text-white px-2 rounded-full w-8 h-8"
+                                    onClick={decreaseQty}
+                                    type="button"
                             >
                                 &#8211;
                             </button>
-                            <p className="mx-2  font-bold">3</p>
+                            <p className="mx-2  font-bold">{formData.cart_item.total_quantity}</p>
                             <button
                                 className=" flex items-center justify-center font-bold flex-1
                                     bg-orange hover:opacity-90 text-white px-2 rounded-full w-8 h-8"
+                                    onClick={increaseQty}
+                                    type="button"
                             >
                                 &#43;
                             </button>
@@ -91,7 +120,7 @@ const MenuDetailModalBox = ({ image, name, short_desc, normal_price, discount_pr
                             Add to cart
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     );

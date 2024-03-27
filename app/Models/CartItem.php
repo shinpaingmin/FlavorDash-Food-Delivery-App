@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\MenuItem;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CartItem extends Model
 {
@@ -18,4 +19,8 @@ class CartItem extends Model
         'if_unavailable',
         'updated_at'
     ];
+
+    public function menu_item() {
+        return $this->belongsTo(MenuItem::class);
+    }
 }

@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AddOnController;
 use App\Http\Controllers\DietaryController;
 use App\Http\Controllers\User\CartController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\MenuItemController;
 use App\Http\Controllers\User\MenuSizeController;
 use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controllers\User\PromoCodeController;
 use App\Http\Controllers\User\RestaurantController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\User\RestaurantTypeController;
@@ -108,10 +110,7 @@ Route::middleware(['auth:api', 'scope:admin'])->group(function() {
         Route::delete('addon/{id}', 'destroy');
     });
 
-    // Cart routes
-    Route::controller(CartController::class)->group(function() {
-        Route::post('cart', 'store');
-    });
+
 });
 
 
@@ -127,6 +126,16 @@ Route::middleware(['auth:api', 'scope:user'])->group(function() {
     // favorite restaurants CRUD
     Route::controller(FavoriteRestaurantController::class)->group(function() {
         Route::post('favorite/restaurant/{id}', 'store');
+    });
+
+    // Cart routes
+    Route::controller(CartController::class)->group(function() {
+        Route::post('cart', 'store');
+        Route::get('cart/items', 'index');
+    });
+
+    Route::controller(PromoCodeController::class)->group(function() {
+        Route::get('promo/codes', 'index');
     });
 
     // Route::controller(MenuItemController::class)->group(function() {

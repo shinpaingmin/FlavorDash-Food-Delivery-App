@@ -37,7 +37,7 @@ export const foodDeliveryWebApis = createApi({
         "FavoriteRestaurants",
         "Add-ons",
         "Add-on",
-        "Cart",
+        "CartItems",
     ],
     endpoints: (builder) => ({
         addUser: builder.mutation({
@@ -274,8 +274,18 @@ export const foodDeliveryWebApis = createApi({
                 method: "POST",
                 body
             }),
-            invalidatesTags: ["Cart"],
-        })
+            invalidatesTags: ["CartItems"],
+        }),
+
+        getCartItems: builder.query({
+            query: () => "cart/items",
+            providesTags: ["CartItems"]
+        }),
+
+        getPromoCodes: builder.query({
+            query: () => "promo/codes",
+
+        }),
     }),
 });
 
@@ -312,4 +322,6 @@ export const {
     useAdminLogoutMutation,
     useAddRestaurantToFavoriteMutation,
     useAddItemsToCartMutation,
+    useGetCartItemsQuery,
+    useGetPromoCodesQuery,
 } = foodDeliveryWebApis;

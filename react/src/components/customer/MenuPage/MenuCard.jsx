@@ -1,7 +1,7 @@
-const MenuCard = ({ id, imgSrc, imgName, title, normal_price, discount_price, Icon, setIsMenuBoxOpen }) => {
+const MenuCard = ({ id, restaurant_id, imgSrc, imgName, title, normal_price, discount_price, Icon, setIsMenuBoxOpen }) => {
   return (
     <div className='w-full md:w-80 hover:shadow-lg rounded-md cursor-pointer border border-slate-300'
-        onClick={() => setIsMenuBoxOpen(id)}
+        onClick={() => setIsMenuBoxOpen(id, normal_price, discount_price, restaurant_id)}
     >
         <div className='w-full h-48 overflow-hidden relative'>
             <img src={`http://localhost:8000/storage/${imgSrc}`} alt={imgName}

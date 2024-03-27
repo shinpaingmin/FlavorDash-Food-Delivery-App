@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Models\PromoCode;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PromoCodeController extends Controller
 {
@@ -12,7 +13,21 @@ class PromoCodeController extends Controller
      */
     public function index()
     {
-        //
+        // Retreiving all promo codes related to users
+        $promo = PromoCode::where('user_id', auth()->user()->id)->get();
+
+        if(is_null($promo)) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'No promo codes found',
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Retrieved promo codes successfully',
+            'data' => $promo,
+        ], 200);
     }
 
     /**
