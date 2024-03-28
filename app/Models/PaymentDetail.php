@@ -11,7 +11,6 @@ class PaymentDetail extends Model
 
     protected $fillable = [
         'type',
-        'status',
         'updated_at'
     ];
 }

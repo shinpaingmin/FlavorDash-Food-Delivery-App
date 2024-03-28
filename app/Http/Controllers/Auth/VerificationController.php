@@ -26,6 +26,7 @@ class VerificationController extends Controller
             PromoCode::create([
                 'user_id' => $user->id,
                 'promo_code' => 'FDnewbie' . uniqid(),
+                'discount_price' => 3000,
             ]);
         }
 

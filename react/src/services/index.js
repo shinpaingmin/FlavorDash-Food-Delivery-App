@@ -38,6 +38,8 @@ export const foodDeliveryWebApis = createApi({
         "Add-ons",
         "Add-on",
         "CartItems",
+        "UserDetails",
+        "OrderItems"
     ],
     endpoints: (builder) => ({
         addUser: builder.mutation({
@@ -286,6 +288,41 @@ export const foodDeliveryWebApis = createApi({
             query: () => "promo/codes",
 
         }),
+
+        destroyCartItem: builder.mutation({
+            query: (id) => ({
+                url: `cart/item/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["CartItems"]
+        }),
+
+        updateUserDetail: builder.mutation({
+            query: (body) => ({
+                url: "user/details",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["UserDetails"]
+        }),
+
+        getUserDetails: builder.query({
+            query: () => "user/details",
+            providesTags: ["UserDetails"],
+        }),
+
+        getPaymentDetails: builder.query({
+            query: () => "payment/details",
+        }),
+
+        addOrderItems: builder.mutation({
+            query: (body) => ({
+                url: "order/items",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ["OrderItems"]
+        })
     }),
 });
 
@@ -324,4 +361,9 @@ export const {
     useAddItemsToCartMutation,
     useGetCartItemsQuery,
     useGetPromoCodesQuery,
+    useDestroyCartItemMutation,
+    useUpdateUserDetailMutation,
+    useGetUserDetailsQuery,
+    useGetPaymentDetailsQuery,
+    useAddOrderItemsMutation,
 } = foodDeliveryWebApis;

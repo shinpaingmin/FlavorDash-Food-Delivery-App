@@ -10,6 +10,7 @@ import profileImg from './profile.jpg';
 import emailSentImg from './email_sent.jpg';
 import noStoreFound from './no-restaurant-found.png';
 import profile from './no-profile.jpg';
+import noCartItem from './noCartItem.png';
 
 export {
     hero1,
@@ -23,5 +24,6 @@ export {
     profileImg,
     emailSentImg,
     noStoreFound,
-    profile
+    profile,
+    noCartItem,
 }

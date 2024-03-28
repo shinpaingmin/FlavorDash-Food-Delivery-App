@@ -24,22 +24,40 @@ import {
     useTheme,
 } from "@mui/material";
 import { useAdminLogoutMutation } from "../../services";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     const dispatch = useDispatch();
     const theme = useTheme();
-    const [adminLogout, {isSuccess}] = useAdminLogoutMutation();
+    const [adminLogout, {isSuccess, isError}] = useAdminLogoutMutation();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
     const handleClick = (event) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
     const [image] = useState(localStorage.getItem("image"));
+    const [searchValue, setSearchValue] = useState("");
+    const navigate = useNavigate();
 
-    if(isSuccess) {
+    if(isSuccess || isError) {
         localStorage.clear();
         return <Navigate to="/restaurant/admin/login?status=loggedOut" />
+    }
+
+    function searchPage(e) {
+        if(e.key === "Enter") {
+            if("products".includes(searchValue)) {
+                navigate("/products");
+
+            } else if("orders".includes(searchValue)) {
+                navigate("/orders");
+
+            } else if("categories".includes(searchValue)) {
+                navigate("/categories");
+
+            }
+            setSearchValue("");
+        }
     }
 
     return (
@@ -64,7 +82,10 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                         gap="3rem"
                         p="0.1rem 1.5rem"
                     >
-                        <InputBase placeholder="Search ..." />
+                        <InputBase placeholder="Search for page ..." value={searchValue}
+                            onKeyDown={searchPage}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                        />
                         <IconButton>
                             <Search />
                         </IconButton>

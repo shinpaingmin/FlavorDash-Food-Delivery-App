@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\PaymentDetail;
+use App\Http\Controllers\Controller;
 
 class PaymentDetailController extends Controller
 {
@@ -12,7 +13,21 @@ class PaymentDetailController extends Controller
      */
     public function index()
     {
-        //
+        // retrieving payment details
+        $details = PaymentDetail::get();
+
+        if(is_null($details->first())) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'No data found'
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Retrieved successfully!',
+            'data' => $details,
+        ], 200);
     }
 
     /**

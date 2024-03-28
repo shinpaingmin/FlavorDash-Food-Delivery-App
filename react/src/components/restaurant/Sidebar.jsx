@@ -56,6 +56,14 @@ const navItems = [
         icon: <AddShoppingCartIcon />,
     },
     {
+        text: "Orders",
+        icon: null,
+    },
+    {
+        text: "Orders",
+        icon: <ShoppingCartOutlined />,
+    },
+    {
         text: "Client Facing",
         icon: null,
     },

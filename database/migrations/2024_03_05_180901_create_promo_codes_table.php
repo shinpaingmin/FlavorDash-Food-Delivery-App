@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('promo_code')->unique();
             $table->string('type', 50)->default('newbie');
+            $table->integer('discount_price');
+            $table->enum('status', ['active', 'expired'])->default('active');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -11,6 +11,7 @@
         "laravel/passport": "^11.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "srmklive/paypal": "~3.0",
         "symfony/http-client": "^7.0",
         "symfony/mailgun-mailer": "^7.0"
     },

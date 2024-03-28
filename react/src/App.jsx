@@ -36,6 +36,8 @@ import EditCategoryPage from './pages/restaurant/EditCategoryPage';
 import AddonsPage from './pages/restaurant/AddonsPage';
 import EditAddOnPage from './pages/restaurant/EditAddOnPage';
 import CreateAddOnPage from './pages/restaurant/CreateAddOnPage';
+import UserDetailsPage from './pages/customer/UserDetailsPage';
+import OrdersPage from './pages/restaurant/OrdersPage';
 
 
 function App() {
@@ -70,6 +72,7 @@ function App() {
                             <Route path="/menu/restaurant/:id" element={ <MenuPage /> } />
                             <Route path="/checkout" element={ <CheckoutPage /> } />
                             <Route path="/ordered/items" element={ <OrderedPage /> } />
+                            <Route path="/user/details" element={ <UserDetailsPage /> } />
                         </Route>
 
                         {/* Only for restaurant owners/admins  */}
@@ -84,6 +87,7 @@ function App() {
                             <Route path="/add-ons" element={ <AddonsPage /> } />
                             <Route path="/addon/create" element={ <CreateAddOnPage /> } />
                             <Route path="/addon/edit/:id" element={ <EditAddOnPage /> } />
+                            <Route path="/orders" element={ <OrdersPage /> } />
                             <Route path="/customers" element={ <CustomersPage /> } />
                             {/* <Route path="/transactions" element={ <TransactionsPage /> } /> */}
                             <Route path="/geography" element={ <GeographyPage /> } />

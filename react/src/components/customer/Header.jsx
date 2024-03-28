@@ -26,11 +26,11 @@ const Header = ({ open, setOpen }) => {
         queryParameters.get("searchTownship") ||
             localStorage.getItem("searchTownship")
     );
-    const [logout, { isSuccess }] = useLogoutMutation();
+    const [logout, { isSuccess, isError }] = useLogoutMutation();
     const {pathname} = useLocation();
     const navigate = useNavigate();
 
-    if (isSuccess) {
+    if (isSuccess || isError) {
         localStorage.clear();
         return <Navigate to="/login?status=loggedOut" />;
     }

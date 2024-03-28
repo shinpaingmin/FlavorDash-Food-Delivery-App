@@ -77,7 +77,7 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         //
     }
@@ -85,7 +85,7 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -93,8 +93,23 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        // destroy cart item
+        $item = CartItem::find($id);
+
+        if(is_null($item)) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'No such cart item found'
+            ], 200);
+        }
+
+        CartItem::destroy($id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cart item removed successfully',
+        ], 200);
     }
 }

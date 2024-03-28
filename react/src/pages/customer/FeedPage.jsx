@@ -142,6 +142,10 @@ export default function FeedPage() {
             clearStatusParam();
         }
 
+        if(queryParameters.get("status") === "orderSuccess") {
+            successBox("Placed order successfully!");
+            clearStatusParam();
+        }
         if (queryParameters.get("searchTownship")) {
             const modifiedValue = queryParameters.get("searchTownship").trim(); // same as replace("%20", " ")
             localStorage.setItem("searchTownship", modifiedValue);
@@ -165,7 +169,7 @@ export default function FeedPage() {
         if(isSuccess) {
             successBox("Added the restaurant to your favorite list!");
         } else if(isError) {
-            errorBox(error?.data?.message);
+            errorBox(error?.data?.message || "Login to add your favorite list");
         }
 
     }, [isSuccess, isError]);

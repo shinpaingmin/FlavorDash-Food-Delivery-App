@@ -21,15 +21,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import ReviewsModalBox from "../../components/customer/MenuPage/ReviewsModalBox";
 import {
     useAddItemsToCartMutation,
+    useDestroyCartItemMutation,
     useGetCartItemsQuery,
     useGetProductsByCategoriesQuery,
-    useGetPromoCodesQuery,
     useGetTheProductQuery,
     useGetTheRestaurantQuery,
+    useGetUserDetailsQuery,
 } from "../../services";
 import StoreInfoModalBox from "../../components/customer/StoreInfoModalBox";
 import toast, { Toaster } from "react-hot-toast";
 import CartItem from "../../components/customer/MenuPage/CartItem";
+import { noCartItem } from "../../assets/images";
 
 const INIT_DATA = {
     cart_item: {
@@ -53,8 +55,8 @@ const MenuPage = () => {
     const { data: products, isLoading } = useGetProductsByCategoriesQuery(id);
     const { data: restaurant } = useGetTheRestaurantQuery(id);
     const [formData, setFormData] = useState(INIT_DATA);
-    const [addItemsToCart, { isSuccess, isError, error }] =
-        useAddItemsToCartMutation();
+    const {data: userDetails} = useGetUserDetailsQuery();
+    const [addItemsToCart, { isSuccess, isError, error }] = useAddItemsToCartMutation();
     const [isMenuBoxOpen, _setIsMenuBoxOpen] = useState(null); // if the box is open, the id will be set
     const { data: product } = useGetTheProductQuery(isMenuBoxOpen, {
         skip: isMenuBoxOpen === null,
@@ -69,13 +71,24 @@ const MenuPage = () => {
     const leftArr = useRef();
     const navigate = useNavigate();
     const dropdown = useRef();
-    const {data: promoCodes} = useGetPromoCodesQuery();
-    const [discount, setDiscount] = useState("");
+    const [destroyCartItem, {isSuccess: destroyItemSuccess}] = useDestroyCartItemMutation();
 
-    // console.log(cart_items);
-    const total_price = useMemo(() => (
-        cart_items?.data[0].cart_items.reduce((acc, item) => acc + (item.total_price) , 0)
-    ), [cart_items]);
+    const subTotal = useMemo(() => {
+        if(cart_items?.data.length != 0) {
+            return cart_items?.data[0].cart_items?.reduce((acc, item) => acc + (item.total_price) , 0)
+        }
+        return 0;
+    }, [cart_items]);
+
+    function calculateTotal() {
+
+            if(subTotal ) {
+                return subTotal + 1000;
+            } else {
+                return 0;
+            }
+
+    }
 
     useEffect(() => {
         if (isSuccess) {
@@ -161,7 +174,7 @@ const MenuPage = () => {
     };
 
     const directToCheckout = () => {
-        navigate("/checkout");
+        navigate(`/checkout?goback=/menu/restaurant/${id}`);
     };
 
     const handleArrowsDisplay = () => {
@@ -364,7 +377,8 @@ const MenuPage = () => {
                                 </h1>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                     {products?.data[category].map((product) => (
-                                        <MenuCard
+                                        product.quantity != 0 && (
+                                            <MenuCard
                                             key={product.id}
                                             id={product.id}
                                             restaurant_id={id}
@@ -378,6 +392,7 @@ const MenuPage = () => {
                                             Icon={FaShoppingCart}
                                             setIsMenuBoxOpen={setIsMenuBoxOpen}
                                         />
+                                        )
                                     ))}
                                 </div>
                                 {isMenuBoxOpen && (
@@ -415,26 +430,30 @@ const MenuPage = () => {
                         Delivery address
                     </p>
                     <h1 className="text-lg font-bold mb-2 text-gray-700">
-                        1341 Marris Street
+                        {userDetails?.data.address}
                     </h1>
                     <div className="flex items-center">
                         <CiClock2 className="mr-1" />
                         <p className="text-sm mr-3">35 mins</p>
                         <CiLocationOn className="mr-1" />
-                        <p className="text-sm">4 kms</p>
+                        <p className="text-sm">2 kms</p>
                     </div>
                 </div>
 
                 {
-                    cart_items?.data ? (
-                        cart_items.data[0].cart_items.map((cart_item) => (
+                    cart_items?.data.length != 0 ? (
+                        cart_items?.data[0].cart_items.map((cart_item) => (
                             <CartItem
                                 key={cart_item.id}
                                 {...cart_item}
+                                destroyCartItem={destroyCartItem}
                             />
                         ))
                     ) : (
-                        <div className="text-center text-gray-700 text-semibold">No cart item</div>
+                        // <div className="text-center text-gray-700 text-semibold">No cart item</div>
+                        <div>
+                            <img src={noCartItem} alt="no-cart-item" />
+                        </div>
                     )
                 }
 
@@ -443,7 +462,7 @@ const MenuPage = () => {
                 <div className="my-3">
                     <div className="flex items-center justify-between">
                         <p className="text-gray-700 font-bold">Subtotal:</p>
-                        <p className="font-bold text-gray-700">{total_price?.toLocaleString()} MMK</p>
+                        <p className="font-bold text-gray-700">{subTotal?.toLocaleString()} MMK</p>
                     </div>
 
                     <div className="flex items-center justify-between mt-2">
@@ -451,36 +470,16 @@ const MenuPage = () => {
                         <p className="font-bold text-gray-700">1000 MMK</p>
                     </div>
 
-                    <div
-                        className="border-2 border-orange bg-[#f9ebd2] w-full h-20
-                        mt-3 p-3 rounded-xl flex items-center justify-between"
-                    >
-                        <p className="mr-2 text-sm">Save your money!</p>
-                        <select
-                            type="button"
-                            className="bg-orange rounded-xl text-white px-4 py-3 flex items-center border-none outline-none w-40"
-                            value={discount}
-                            onChange={(e) => setDiscount(e.target.value)}
-                        >
-                            <option value="">Apply coupon</option>
-                            {
-                                promoCodes?.data ? (
-                                    promoCodes.data.map((code) => (
-                                        <option value={code.id} key={code.id}>{code.promo_code}</option>
-                                    ))
-                                ) : (
-                                    <div>No promo codes</div>
-                                )
-                            }
-                        </select>
-                    </div>
+
+
+
                 </div>
 
                 <hr />
 
                 <div className="flex items-center justify-between py-3">
                     <p className="text-gray-700 font-bold">Total:</p>
-                    <p className="font-bold text-gray-700">{(total_price + 1000).toLocaleString()} MMK</p>
+                    <p className="font-bold text-gray-700">{calculateTotal().toLocaleString()} MMK</p>
                 </div>
 
                 <button
@@ -488,6 +487,7 @@ const MenuPage = () => {
                     className="w-full bg-orange rounded-xl text-white
                     py-3 flex items-center justify-center"
                     onClick={directToCheckout}
+                    disabled={cart_items?.data.length == 0  ? true : false}
                 >
                     Checkout
                 </button>

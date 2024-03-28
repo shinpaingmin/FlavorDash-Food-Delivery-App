@@ -14,7 +14,9 @@ class PromoCodeController extends Controller
     public function index()
     {
         // Retreiving all promo codes related to users
-        $promo = PromoCode::where('user_id', auth()->user()->id)->get();
+        $promo = PromoCode::where('user_id', auth()->user()->id)
+                            ->where('status', 'active')
+                            ->get();
 
         if(is_null($promo)) {
             return response()->json([

@@ -5,8 +5,10 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AddOnController;
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\DietaryController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\MenuItemController;
@@ -14,7 +16,9 @@ use App\Http\Controllers\User\MenuSizeController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\User\PromoCodeController;
 use App\Http\Controllers\User\RestaurantController;
+use App\Http\Controllers\User\UserDetailController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\User\PaymentDetailController;
 use App\Http\Controllers\User\RestaurantTypeController;
 use App\Http\Controllers\User\FavoriteRestaurantController;
 use App\Http\Controllers\User\RestaurantTownshipController;
@@ -110,7 +114,10 @@ Route::middleware(['auth:api', 'scope:admin'])->group(function() {
         Route::delete('addon/{id}', 'destroy');
     });
 
-
+    // Order routes
+    Route::controller(OrderController::class)->group(function() {
+        Route::get('order/items/restaurant/{id}', 'restaurantOrderItems');
+    });
 });
 
 
@@ -132,10 +139,35 @@ Route::middleware(['auth:api', 'scope:user'])->group(function() {
     Route::controller(CartController::class)->group(function() {
         Route::post('cart', 'store');
         Route::get('cart/items', 'index');
+        Route::delete('cart/item/{id}', 'destroy');
     });
 
     Route::controller(PromoCodeController::class)->group(function() {
         Route::get('promo/codes', 'index');
+    });
+
+    Route::controller(UserDetailController::class)->group(function() {
+        Route::get('user/details', 'index');
+        Route::post('user/details', 'createUpdate');    // create if user details doesn't exist/update the existing details
+    });
+
+    // Paypal routes
+    Route::controller(PayPalController::class)->group(function() {
+        // Route::get('create-transaction', 'createTransaction')->name('createTransaction');
+        Route::get('process-transaction', 'processTransaction')->name('processTransaction');
+        Route::get('success-transaction', 'successTransaction')->name('successTransaction');
+        Route::get('cancel-transaction', 'cancelTransaction')->name('cancelTransaction');
+    });
+
+    // Payment detail routes
+    Route::controller(PaymentDetailController::class)->group(function() {
+        Route::get('payment/details', 'index');
+    });
+
+
+    // Order routes
+    Route::controller(OrderController::class)->group(function() {
+        Route::post('order/items', 'store');
     });
 
     // Route::controller(MenuItemController::class)->group(function() {
